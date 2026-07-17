@@ -20,20 +20,18 @@ import '../../bottom_bar/model/customer_model.dart';
 import '../../bottom_bar/model/get_item_list.dart';
 import '../../customer/model/brand_list_model.dart';
 import '../../customer/model/get_catefory_brand_list_model.dart';
-import '../../item_list/controllers/item_list_controller.dart';
-import '../../quotation/controllers/quotation_controller.dart';
 import '../../quotation/model/new_serial_model.dart';
 import '../../quotation/model/quoation_list_model.dart';
 import '../../quotation/model/quotation_pdf_model.dart';
 import '../../quotation/model/save_quotation_model.dart';
 import '../model/sale_order_model.dart';
+import '../services/sales_order_cart_service.dart';
 import '../views/sales_order_form_ui.dart';
 
 class SalesOrderController extends GetxController {
   TextEditingController addDateController = TextEditingController();
   TextEditingController addSerialController = TextEditingController();
-  TextEditingController addInvoiceTypeController = TextEditingController(
-      text: "Bill of Supply");
+  TextEditingController addInvoiceTypeController = TextEditingController(text: "Bill of Supply");
   TextEditingController addCustomerNameController = TextEditingController();
   TextEditingController addGSTinController = TextEditingController();
   TextEditingController addCustomerNumberController = TextEditingController();
@@ -63,7 +61,6 @@ class SalesOrderController extends GetxController {
   TextEditingController itemNetAmountController = TextEditingController();
   TextEditingController itemGrossAmountController = TextEditingController();
   TextEditingController searchFieldController = TextEditingController();
-
   ///
   TextEditingController startDateController = TextEditingController();
   TextEditingController endDateController = TextEditingController();
@@ -231,7 +228,7 @@ class SalesOrderController extends GetxController {
   void toggleSelection(ItemData item) {
     if (selectedItems.contains(item)) {
       selectedItems.remove(item);
-      // itemQuantities.remove(item); // Remove quantity when deselected
+      // itemQuantities.remove(item);
     } else {
       selectedItems.add(item);
       // itemQuantities[item] = -1; // Default quantity to 1 when selected
@@ -323,12 +320,81 @@ class SalesOrderController extends GetxController {
           "setItemClick-----------------Item: ${item.itemName}, Qty: $quantity, Net Amount: $itemNetAmount, Taxable Price: $itemTaxablePrice");
     }
 
-    update(); // Notify UI
+    update();
   }
 
   void removeItem(int index) {
     itemList.removeAt(index);
-    update(); // Update UI using GetX
+    calculateGstAndDiscountForAllItems();
+  }
+
+  Future<void> persistSalesOrderCart() async {
+    calculateGstAndDiscountForAllItems();
+    await SalesOrderCartService.save(
+      items: itemList,
+      total: total,
+      discountTotal: discountTotal,
+      cGstTotal: cGstTotal,
+      sGstTotal: sGstTotal,
+      iGstTotal: iGstTotal,
+      totalItem: totalItem,
+      netTotal: netTotal,
+      orderNo: addSerialController.text,
+      customerId: customerId,
+      customerName: customerController.text,
+    );
+  }
+
+  void restoreCartFromLocal() {
+    final cart = SalesOrderCartService.loadLatest();
+    if (cart == null || cart.items.isEmpty) {
+      return;
+    }
+
+    itemList = List<SaleOrderDetails>.from(cart.items);
+    total = cart.total;
+    discountTotal = cart.discountTotal;
+    cGstTotal = cart.cGstTotal;
+    sGstTotal = cart.sGstTotal;
+    iGstTotal = cart.iGstTotal;
+    totalItem = cart.totalItem;
+    netTotal = cart.netTotal;
+
+    if (cart.customerId != null && cart.customerId! > 0) {
+      customerId = cart.customerId!;
+    }
+    if (cart.customerName != null && cart.customerName!.isNotEmpty) {
+      customerController.text = cart.customerName!;
+    }
+    update();
+  }
+
+  void resetNewSalesOrderForm() {
+    itemList.clear();
+    customerId = 0;
+    customerController.clear();
+    addCustomerNumberController.clear();
+    addShippingAddressController.clear();
+    addRemarkController.clear();
+    addPoNumberController.clear();
+    addPoDateController.clear();
+    addDeliveryDateController.clear();
+    total = "0.00";
+    discountTotal = "0.00";
+    cGstTotal = "0.00";
+    sGstTotal = "0.00";
+    iGstTotal = "0.00";
+    totalItem = "0";
+    netTotal = "0.00";
+    poDate = '';
+    deliveryDate = '';
+    selectedItems.clear();
+    itemQuantities.clear();
+    update();
+  }
+
+  void clearSalesOrderCart() {
+    SalesOrderCartService.clear();
   }
 
   void calculateGstAndDiscountForAllItems() {
@@ -773,7 +839,7 @@ class SalesOrderController extends GetxController {
           return Container(
             height: Get.height * 0.78,
             decoration: const BoxDecoration(
-              color: Color(0xFFF4F7F7),
+              color: SplashColors.scaffoldBg,
               borderRadius: BorderRadius.vertical(top: Radius.circular(24)),
             ),
             child: Column(
@@ -1007,6 +1073,7 @@ bool isData = false;
           itemList = element.saleOrderDetails ?? [];
         },
       );
+      persistSalesOrderCart();
       update();
     }
   }

@@ -1,14 +1,15 @@
 import 'package:cached_network_image/cached_network_image.dart';
-import 'package:get/get_state_manager/src/simple/get_view.dart';
-import 'package:gurukrupa/app/commons/get_storage_data.dart';
-import 'package:gurukrupa/app/modules/customer/controllers/customer_controller.dart';
-import 'package:gurukrupa/app/routes/app_pages.dart';
 import 'package:gap/gap.dart';
+import 'package:gurukrupa/app/commons/app_colors.dart';
+import 'package:gurukrupa/app/commons/get_storage_data.dart';
+import 'package:gurukrupa/app/modules/bottom_bar/views/bottom_bar_menu_widgets.dart';
+import 'package:gurukrupa/app/routes/app_pages.dart';
 import 'package:marquee/marquee.dart';
 
 import '../../../commons/all.dart';
 import '../controller/user_controller.dart';
-
+import '../../sales_order/services/sales_order_cart_service.dart';
+import '../../sales_order/views/sales_order_cart_button.dart';
 
 class UserMainHomeView extends GetView<UserMainController> {
   const UserMainHomeView({super.key});
@@ -17,430 +18,282 @@ class UserMainHomeView extends GetView<UserMainController> {
   Widget build(BuildContext context) {
     return GetBuilder<UserMainController>(
       builder: (controller) {
-        return SafeArea(
-          child: ListView(
-            padding:
-                EdgeInsets.fromLTRB(20, 30, 20, 20),
+        return ColoredBox(
+          color: SplashColors.scaffoldBg,
+          child: Column(
             children: [
-              Row(
-                children: [
-                  Expanded(
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text(
-                          AppString.hiWelcomeBack,
-                          style: TextStyle(
-                            color: Colors.black,
-                            fontSize: FontSize.s24,
-                            fontFamily: FontFamily.bold,
-                          ),
-                        ),
-                        // Text(
-                        //   AppString.salesAndPurchase,
-                        //   style: TextStyle(
-                        //     color: Color(0xFF78829A),
-                        //     fontSize: FontSize.s14,
-                        //     fontFamily: FontFamily.semiBold,
-                        //   ),
-                        // ),
-                      ],
-                    ),
-                  ),
-                  GestureDetector(
-                      onTap: () {
-                        showLogoutDialog(context);
-
-                      },
-                      child: Icon(
-                        Icons.login,
-                        size: 30,
-                        color: Colors.red,
-                      )),
-                ],
-              ),
-              Gap(20),
-              GestureDetector(
-                onTap: () {
-                  // Add your promotional banner click action here
+              _UserDashboardAppBar(
+                cartItemCount: SalesOrderCartService.itemCount(),
+                onCartTap: () async {
+                  await Get.toNamed(Routes.SALES_ORDER_CART);
+                  controller.update();
                 },
-                child: Constants.promoMessageModel.message != "No promotional message available." ? Container(
-                  margin: EdgeInsets.only(bottom: 20),  // Adjust spacing
-                  padding: EdgeInsets.all(10),
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(12),
-                    color: Colors.orange.shade300,  // Background color
-                  ),
-                  child: Row(
-                    children: [
-                      Icon(
-                        Icons.local_offer,
-                        color: Colors.white,
-                        size: 25,
-                      ),
-                      SizedBox(width: 10),
-                      Expanded(
-                        child: SizedBox(
-                          height: 25,
-                          child: Marquee(
-                            text: Constants.promoMessageModel.message.toString(),
-                            style: TextStyle(
-                                color: Colors.white,
-                                fontSize: 16,
-                                fontFamily: FontFamily.bold
-                            ),
-                            scrollAxis: Axis.horizontal,
-                            blankSpace: 50,
-                            velocity: 30,
-                            pauseAfterRound: Duration(seconds: 1),
-                          ),
-                        ),
-                      ),
-                    ],
-                  ),
-                ) : SizedBox(),  // If no message, hide the banner
+                onLogout: () => showLogoutDialog(context),
               ),
-              GestureDetector(
-                onTap: () {
-                  // Get.toNamed(Routes.ADD_SALE_ORDER_CUSTOMER);
-                  Get.toNamed(Routes.SALES_ORDER);
-                },
-                child: DecoratedBox(
-                  decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(12),
-                      gradient: LinearGradient(colors: [
-                        Color(0xFF306FEA),
-                        Color(0xFF7596F1),
-                      ])),
-                  child: Padding(
-                    padding: EdgeInsets.all(12),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text(
-                          AppString.salesOrder,
-                          style: TextStyle(
-                            color: Colors.white,
-                            fontSize: FontSize.s18,
-                            fontFamily: FontFamily.semiBold,
-                          ),
-                        ),
-                        // Gap(12),
-                        // Text(
-                        //   controller.todaySale,
-                        //   style: TextStyle(
-                        //     color: Colors.white,
-                        //     fontSize: FontSize.s18,
-                        //     fontFamily: FontFamily.semiBold,
-                        //   ),
-                        // ),
-                      ],
-                    ),
-                  ),
-                ),
-              ),
-              Gap(20),
-              GestureDetector(
-                onTap: () {
-                  Get.toNamed(Routes.ITEM_LIST);
-                },
-                child: DecoratedBox(
-                  decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(12),
-                      gradient: LinearGradient(colors: [
-                        Color(0xFFF84664),
-                        Color(0xFFF76980),
-                      ])),
-                  child: Padding(
-                    padding: EdgeInsets.all(12),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text(
-                          AppString.itemList,
-                          style: TextStyle(
-                            color: Colors.white,
-                            fontSize: FontSize.s18,
-                            fontFamily: FontFamily.semiBold,
-                          ),
-                        ),
-                        // Gap(12),
-                        // Text(
-                        //   controller.monthSale,
-                        //   style: TextStyle(
-                        //     color: Colors.white,
-                        //     fontSize: FontSize.s18,
-                        //     fontFamily: FontFamily.semiBold,
-                        //   ),
-                        // ),
-                      ],
-                    ),
-                  ),
-                ),
-              ),
-              Gap(20),
-              GestureDetector(
-                onTap: () {
-                  Get.toNamed(Routes.LEDGER_STATEMENT);
-                },
-                child: DecoratedBox(
-                  decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(12),
-                      gradient: LinearGradient(colors: [
-                        Color(0xFFFBBC0E),
-                        Color(0xFFFBBC0E),
-                      ],),),
-                  child: Padding(
-                    padding: EdgeInsets.all(12),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text(
-                          AppString.ledgerStatement,
-                          style: TextStyle(
-                            color: Colors.white,
-                            fontSize: FontSize.s18,
-                            fontFamily: FontFamily.semiBold,
-                          ),
-                        ),
-                        // Gap(12),
-                        // Text(
-                        //   controller.todayPurchase,
-                        //   style: TextStyle(
-                        //     color: Colors.white,
-                        //     fontSize: FontSize.s18,
-                        //     fontFamily: FontFamily.semiBold,
-                        //   ),
-                        // ),
-                      ],
-                    ),
-                  ),
-                ),
-              ),
-              Gap(20),
-              GestureDetector(
-                onTap: () {
-                  Get.toNamed(Routes.ORDER_FROM_IMAGE);
-                },
-                child: DecoratedBox(
-                  decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(12),
-                      gradient: LinearGradient(colors: [
-                        Color(0xFF6D1514),
-                        Color(0xFFC41B22),
-                      ],),),
-                  child: Padding(
-                    padding: EdgeInsets.all(12),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text(
-                          AppString.orderFromImage,
-                          style: TextStyle(
-                            color: Colors.white,
-                            fontSize: FontSize.s18,
-                            fontFamily: FontFamily.semiBold,
-                          ),
-                        ),
-                        // Gap(12),
-                        // Text(
-                        //   controller.todayPurchase,
-                        //   style: TextStyle(
-                        //     color: Colors.white,
-                        //     fontSize: FontSize.s18,
-                        //     fontFamily: FontFamily.semiBold,
-                        //   ),
-                        // ),
-                      ],
-                    ),
-                  ),
-                ),
-              ),
-              Gap(20),
-              GestureDetector(
-                onTap: () {
-                  Get.toNamed(Routes.SALE_PERSON_VISIT_FROM_IMAGE);
-                },
-                child: DecoratedBox(
-                  decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(12),
-                      gradient: LinearGradient(colors: [
-                        Color(0xFFDB4708),
-                        Color(0xFFF07039),
-                      ],),),
-                  child: Padding(
-                    padding: EdgeInsets.all(12),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text(
-                          AppString.salesVisitFromImage,
-                          style: TextStyle(
-                            color: Colors.white,
-                            fontSize: FontSize.s18,
-                            fontFamily: FontFamily.semiBold,
-                          ),
-                        ),
-                        // Gap(12),
-                        // Text(
-                        //   controller.todayPurchase,
-                        //   style: TextStyle(
-                        //     color: Colors.white,
-                        //     fontSize: FontSize.s18,
-                        //     fontFamily: FontFamily.semiBold,
-                        //   ),
-                        // ),
-                      ],
-                    ),
-                  ),
-                ),
-              ),
-              Gap(20),
-              GestureDetector(
-                onTap: () {
-                  Get.toNamed(Routes.RECEIPT);
-                },
-                child: DecoratedBox(
-                  decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(12),
-                      gradient: LinearGradient(colors: [
-                        Color(0xFF14186D),
-                        Color(0xFF1B4BC4),
-                      ],),),
-                  child: Padding(
-                    padding: EdgeInsets.all(12),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text(
-                          AppString.receipt,
-                          style: TextStyle(
-                            color: Colors.white,
-                            fontSize: FontSize.s18,
-                            fontFamily: FontFamily.semiBold,
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
-                ),
-              ),
-
-              Gap(20),
-
-              Obx(() {
-                print("Image URL: ${controller.offerImage.value}");
-                if (controller.offerImage.value.isEmpty) {
-                  return SizedBox();
-                }
-                return Container(
-                  margin: EdgeInsets.only(bottom: 20),
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(12),
-                  ),
-                  child: ClipRRect(
-                    borderRadius: BorderRadius.circular(12),
-                    child: CachedNetworkImage(
-                      imageUrl: controller.offerImage.value,
-                      placeholder: (context, url) => Center(child: CircularProgressIndicator()),
-                      errorWidget: (context, url, error) => Icon(Icons.error, color: Colors.red),
-                      fadeInDuration: Duration(milliseconds: 0),  // Instantly show the image
-                      fadeOutDuration: Duration(milliseconds: 0),
-                      fit: BoxFit.cover,
+              Expanded(
+                child: ListView(
+                  padding: const EdgeInsets.fromLTRB(20, 16, 20, 20),
+                  children: [
+                    Container(
                       width: double.infinity,
-                      height: 200,
+                      padding: const EdgeInsets.all(18),
+                      decoration: BoxDecoration(
+                        color: Colors.white,
+                        borderRadius: BorderRadius.circular(16),
+                        boxShadow: [
+                          BoxShadow(
+                            color: Colors.black.withOpacity(0.05),
+                            blurRadius: 12,
+                            offset: const Offset(0, 4),
+                          ),
+                        ],
+                      ),
+                      child: Text(
+                        AppString.hiWelcomeBack,
+                        style: TextStyle(
+                          fontFamily: FontFamily.PlayfairDisplayBold,
+                          fontSize: FontSize.s20,
+                          color: SplashColors.primaryDark,
+                        ),
+                      ),
                     ),
-                  ),
-                );
-              }),
+                    const Gap(16),
+                    GestureDetector(
+                      onTap: () {
+                        // Add your promotional banner click action here
+                      },
+                      child: Constants.promoMessageModel.message !=
+                              "No promotional message available."
+                          ? Container(
+                              margin: const EdgeInsets.only(bottom: 16),
+                              padding: const EdgeInsets.symmetric(
+                                horizontal: 14,
+                                vertical: 12,
+                              ),
+                              decoration: BoxDecoration(
+                                color: Colors.white,
+                                borderRadius: BorderRadius.circular(16),
+                                border: Border.all(
+                                  color: SplashColors.primary.withOpacity(0.12),
+                                ),
+                                boxShadow: [
+                                  BoxShadow(
+                                    color: Colors.black.withOpacity(0.04),
+                                    blurRadius: 10,
+                                    offset: const Offset(0, 4),
+                                  ),
+                                ],
+                              ),
+                              child: Row(
+                                children: [
+                                  Container(
+                                    padding: const EdgeInsets.all(8),
+                                    decoration: BoxDecoration(
+                                      color:
+                                          SplashColors.primary.withOpacity(0.1),
+                                      borderRadius: BorderRadius.circular(10),
+                                    ),
+                                    child: const Icon(
+                                      Icons.local_offer_outlined,
+                                      color: SplashColors.primary,
+                                      size: 22,
+                                    ),
+                                  ),
+                                  const Gap(12),
+                                  Expanded(
+                                    child: SizedBox(
+                                      height: 22,
+                                      child: Marquee(
+                                        text: Constants.promoMessageModel.message
+                                            .toString(),
+                                        style: TextStyle(
+                                          color: SplashColors.primaryDark,
+                                          fontSize: FontSize.s14,
+                                          fontFamily: FontFamily.semiBold,
+                                        ),
+                                        scrollAxis: Axis.horizontal,
+                                        blankSpace: 50,
+                                        velocity: 30,
+                                        pauseAfterRound:
+                                            const Duration(seconds: 1),
+                                      ),
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            )
+                          : const SizedBox(),
+                    ),
+                    Text(
+                      'Quick Actions',
+                      style: TextStyle(
+                        fontFamily: FontFamily.semiBold,
+                        fontSize: FontSize.s16,
+                        color: SplashColors.primaryDark,
+                      ),
+                    ),
+                    const Gap(12),
+                    MenuTile(
+                      title: AppString.salesOrder,
+                      image: AppImages.salesOrder,
+                      onTap: () {
+                        // Get.toNamed(Routes.ADD_SALE_ORDER_CUSTOMER);
+                        Get.toNamed(Routes.SALES_ORDER);
+                      },
+                    ),
+                    MenuTile(
+                      title: AppString.itemList,
+                      image: AppImages.itemList,
+                      onTap: () => Get.toNamed(Routes.ITEM_LIST),
+                    ),
+                    MenuTile(
+                      title: AppString.ledgerStatement,
+                      image: AppImages.ledgerStatement,
+                      onTap: () => Get.toNamed(Routes.LEDGER_STATEMENT),
+                    ),
+                    MenuTile(
+                      title: AppString.orderFromImage,
+                      image: AppImages.invoice,
+                      onTap: () => Get.toNamed(Routes.ORDER_FROM_IMAGE),
+                    ),
+                    MenuTile(
+                      title: AppString.salesVisitFromImage,
+                      image: AppImages.feedback,
+                      onTap: () =>
+                          Get.toNamed(Routes.SALE_PERSON_VISIT_FROM_IMAGE),
+                    ),
+                    MenuTile(
+                      title: AppString.receipt,
+                      image: AppImages.recipt,
+                      onTap: () => Get.toNamed(Routes.RECEIPT),
+                    ),
+                    Obx(() {
+                      print("Image URL: ${controller.offerImage.value}");
+                      if (controller.offerImage.value.isEmpty) {
+                        return const SizedBox();
+                      }
+                      return Container(
+                        margin: const EdgeInsets.only(top: 8, bottom: 8),
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(16),
+                          boxShadow: [
+                            BoxShadow(
+                              color: Colors.black.withOpacity(0.06),
+                              blurRadius: 12,
+                              offset: const Offset(0, 4),
+                            ),
+                          ],
+                        ),
+                        child: ClipRRect(
+                          borderRadius: BorderRadius.circular(16),
+                          child: CachedNetworkImage(
+                            imageUrl: controller.offerImage.value,
+                            placeholder: (context, url) => const Center(
+                              child: CircularProgressIndicator(
+                                color: SplashColors.primary,
+                              ),
+                            ),
+                            errorWidget: (context, url, error) =>
+                                const Icon(Icons.error, color: Colors.red),
+                            fadeInDuration: Duration.zero,
+                            fadeOutDuration: Duration.zero,
+                            fit: BoxFit.cover,
+                            width: double.infinity,
+                            height: 200,
+                          ),
+                        ),
+                      );
+                    }),
 
-              // Gap(20),
-              // GestureDetector(
-              //   onTap: () {
-              //     Get.toNamed(Routes.SHOW_REPORT,arguments: AppString.monthlyPurchase);
-              //   },
-              //   child: DecoratedBox(
-              //     decoration: BoxDecoration(
-              //         borderRadius: BorderRadius.circular(12),
-              //         gradient: LinearGradient(colors: [
-              //           Color(0xFF0FA172),
-              //           Color(0xFF44D2A4),
-              //         ])),
-              //     child: Padding(
-              //       padding: EdgeInsets.all(12),
-              //       child: Column(
-              //         crossAxisAlignment: CrossAxisAlignment.start,
-              //         children: [
-              //           Text(
-              //             AppString.monthlyPurchase,
-              //             style: TextStyle(
-              //               color: Colors.white,
-              //               fontSize: FontSize.s14,
-              //               fontFamily: FontFamily.semiBold,
-              //             ),
-              //           ),
-              //           Gap(12),
-              //           Text(
-              //             controller.monthPurchase,
-              //             style: TextStyle(
-              //               color: Colors.white,
-              //               fontSize: FontSize.s18,
-              //               fontFamily: FontFamily.semiBold,
-              //             ),
-              //           ),
-              //         ],
-              //       ),
-              //     ),
-              //   ),
-              // ),
-              // if(controller.isAdmin)
-              // Gap(20),
-              // if(controller.isAdmin)
-              // GestureDetector(
-              //   onTap: () {
-              //     Get.toNamed(Routes.CUSTOMER_VIEW);
-              //   },
-              //   child: DecoratedBox(
-              //     decoration: BoxDecoration(
-              //         borderRadius: BorderRadius.circular(12),
-              //         gradient: LinearGradient(colors: [
-              //           Color(0xFF6D1514),
-              //           Color(0xFFC41B22),
-              //         ])),
-              //     child: Padding(
-              //       padding: EdgeInsets.all(12),
-              //       child: Column(
-              //         crossAxisAlignment: CrossAxisAlignment.start,
-              //         children: [
-              //           Text(
-              //             "Check Pending Customers and Read Customers Feedback.",
-              //             style: TextStyle(
-              //               color: Colors.white,
-              //               fontSize: FontSize.s16,
-              //               fontFamily: FontFamily.semiBold,
-              //             ),
-              //           ),
-              //           // Gap(12),
-              //           // Text(
-              //           //   "Check Pending Customers and Read Customers Feedback.",
-              //           //   style: TextStyle(
-              //           //     color: Colors.white,
-              //           //     fontSize: FontSize.s14,
-              //           //     fontFamily: FontFamily.semiBold,
-              //           //   ),
-              //           // ),
-              //         ],
-              //       ),
-              //     ),
-              //   ),
-              // ),
+                    // Gap(20),
+                    // GestureDetector(
+                    //   onTap: () {
+                    //     Get.toNamed(Routes.SHOW_REPORT,arguments: AppString.monthlyPurchase);
+                    //   },
+                    //   child: DecoratedBox(
+                    //     decoration: BoxDecoration(
+                    //         borderRadius: BorderRadius.circular(12),
+                    //         gradient: LinearGradient(colors: [
+                    //           Color(0xFF0FA172),
+                    //           Color(0xFF44D2A4),
+                    //         ])),
+                    //     child: Padding(
+                    //       padding: EdgeInsets.all(12),
+                    //       child: Column(
+                    //         crossAxisAlignment: CrossAxisAlignment.start,
+                    //         children: [
+                    //           Text(
+                    //             AppString.monthlyPurchase,
+                    //             style: TextStyle(
+                    //               color: Colors.white,
+                    //               fontSize: FontSize.s14,
+                    //               fontFamily: FontFamily.semiBold,
+                    //             ),
+                    //           ),
+                    //           Gap(12),
+                    //           Text(
+                    //             controller.monthPurchase,
+                    //             style: TextStyle(
+                    //               color: Colors.white,
+                    //               fontSize: FontSize.s18,
+                    //               fontFamily: FontFamily.semiBold,
+                    //             ),
+                    //           ),
+                    //         ],
+                    //       ),
+                    //     ),
+                    //   ),
+                    // ),
+                    // if(controller.isAdmin)
+                    // Gap(20),
+                    // if(controller.isAdmin)
+                    // GestureDetector(
+                    //   onTap: () {
+                    //     Get.toNamed(Routes.CUSTOMER_VIEW);
+                    //   },
+                    //   child: DecoratedBox(
+                    //     decoration: BoxDecoration(
+                    //         borderRadius: BorderRadius.circular(12),
+                    //         gradient: LinearGradient(colors: [
+                    //           Color(0xFF6D1514),
+                    //           Color(0xFFC41B22),
+                    //         ])),
+                    //     child: Padding(
+                    //       padding: EdgeInsets.all(12),
+                    //       child: Column(
+                    //         crossAxisAlignment: CrossAxisAlignment.start,
+                    //         children: [
+                    //           Text(
+                    //             "Check Pending Customers and Read Customers Feedback.",
+                    //             style: TextStyle(
+                    //               color: Colors.white,
+                    //               fontSize: FontSize.s16,
+                    //               fontFamily: FontFamily.semiBold,
+                    //             ),
+                    //           ),
+                    //           // Gap(12),
+                    //           // Text(
+                    //           //   "Check Pending Customers and Read Customers Feedback.",
+                    //           //   style: TextStyle(
+                    //           //     color: Colors.white,
+                    //           //     fontSize: FontSize.s14,
+                    //           //     fontFamily: FontFamily.semiBold,
+                    //           //   ),
+                    //           // ),
+                    //         ],
+                    //       ),
+                    //     ),
+                    //   ),
+                    // ),
+                  ],
+                ),
+              ),
             ],
           ),
         );
       },
     );
   }
-
 
   void showLogoutDialog(BuildContext context) {
     showDialog(
@@ -465,9 +318,9 @@ class UserMainHomeView extends GetView<UserMainController> {
             ElevatedButton(
               style: ElevatedButton.styleFrom(
                 backgroundColor: Colors.indigo,
-                  shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.all(Radius.circular(5))
-                  )
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.all(Radius.circular(5)),
+                ),
               ),
               onPressed: () {
                 GetStorageData.removeData(GetStorageData.token);
@@ -476,42 +329,167 @@ class UserMainHomeView extends GetView<UserMainController> {
                 GetStorageData.removeData(GetStorageData.isAdmin);
                 GetStorageData.removeData(GetStorageData.isCustomer);
                 GetStorageData.removeData(GetStorageData.isEmployee);
-                Get.offAllNamed(Routes.LOGIN,arguments: {
-                  'isEmployee': true, // Replace with the appropriate boolean value
+                Get.offAllNamed(Routes.LOGIN, arguments: {
+                  'isEmployee':
+                      true, // Replace with the appropriate boolean value
                 });
               },
-              child: Text("Logout",style: TextStyle(
-        color: Colors.white
-        ),),
+              child: Text(
+                "Logout",
+                style: TextStyle(
+                  color: Colors.white,
+                ),
+              ),
             ),
           ],
         );
       },
     );
   }
+}
 
+class _UserDashboardAppBar extends StatelessWidget {
+  const _UserDashboardAppBar({
+    required this.onLogout,
+    required this.onCartTap,
+    required this.cartItemCount,
+  });
 
-  Widget _buildGradientBox(String title, List<Color> colors) {
-    return DecoratedBox(
+  final VoidCallback onLogout;
+  final VoidCallback onCartTap;
+  final int cartItemCount;
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
       decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(12),
-        gradient: LinearGradient(colors: colors),
-      ),
-      child: Padding(
-        padding: EdgeInsets.all(12),
-        child: Text(
-          title,
-          style: TextStyle(
-            color: Colors.white,
-            fontSize: FontSize.s18,
-            fontFamily: FontFamily.semiBold,
-          ),
+        borderRadius: const BorderRadius.only(
+          bottomLeft: Radius.circular(24),
+          bottomRight: Radius.circular(24),
         ),
+        gradient: const LinearGradient(
+          begin: Alignment.topLeft,
+          end: Alignment.bottomRight,
+          colors: [
+            SplashColors.primaryDeep,
+            SplashColors.primary,
+            SplashColors.primaryDark,
+          ],
+        ),
+        boxShadow: [
+          BoxShadow(
+            color: SplashColors.primaryDeep.withOpacity(0.45),
+            blurRadius: 20,
+            offset: const Offset(0, 8),
+            spreadRadius: 1,
+          ),
+        ],
+      ),
+      child: Stack(
+        clipBehavior: Clip.none,
+        children: [
+          Positioned(
+            top: -20,
+            right: -10,
+            child: Container(
+              width: 90,
+              height: 90,
+              decoration: BoxDecoration(
+                shape: BoxShape.circle,
+                color: Colors.white.withOpacity(0.06),
+              ),
+            ),
+          ),
+          SafeArea(
+            bottom: false,
+            child: Padding(
+              padding: const EdgeInsets.fromLTRB(18, 18, 18, 20),
+              child: Row(
+                children: [
+                  Container(
+                    width: 48,
+                    height: 48,
+                    decoration: BoxDecoration(
+                      color: Colors.white,
+                      borderRadius: BorderRadius.circular(14),
+                      boxShadow: [
+                        BoxShadow(
+                          color: Colors.black.withOpacity(0.18),
+                          blurRadius: 12,
+                          offset: const Offset(0, 4),
+                        ),
+                      ],
+                    ),
+                    child: ClipRRect(
+                      borderRadius: BorderRadius.circular(14),
+                      child: Image.asset(
+                        AppImages.appIcon_g,
+                        fit: BoxFit.cover,
+                      ),
+                    ),
+                  ),
+                  const Gap(14),
+                  Expanded(
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                          AppString.appName,
+                          style: TextStyle(
+                            fontFamily: FontFamily.PlayfairDisplayBold,
+                            fontSize: FontSize.s20,
+                            color: SplashColors.text,
+                            letterSpacing: 0.5,
+                          ),
+                        ),
+                        const Gap(2),
+                        Text(
+                          'User Portal',
+                          style: TextStyle(
+                            fontFamily: FontFamily.medium,
+                            fontSize: FontSize.s12,
+                            color: SplashColors.subText.withOpacity(0.95),
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                  const Gap(10),
+                  SalesOrderCartActionButton(
+                    itemCount: cartItemCount,
+                    onTap: onCartTap,
+                  ),
+                  const Gap(10),
+                  GestureDetector(
+                    onTap: onLogout,
+                    child: Container(
+                      padding: const EdgeInsets.symmetric(
+                        horizontal: 12,
+                        vertical: 8,
+                      ),
+                      decoration: BoxDecoration(
+                        color: Colors.white.withOpacity(0.14),
+                        borderRadius: BorderRadius.circular(12),
+                        border: Border.all(
+                          color: Colors.white.withOpacity(0.25),
+                        ),
+                      ),
+                      child: const Icon(
+                        Icons.logout_rounded,
+                        color: Colors.white,
+                        size: 18,
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+            ),
+          ),
+        ],
       ),
     );
   }
 }
-
 
 class LineGraphPainter extends CustomPainter {
   @override

@@ -15,7 +15,7 @@ class MainHomeView extends GetView<BottomBarController> {
     return GetBuilder<BottomBarController>(
       builder: (controller) {
         return ColoredBox(
-          color: const Color(0xFFF4F7F7),
+          color: SplashColors.scaffoldBg,
           child: Column(
             children: [
               _DashboardAppBar(onLogout: () => showLogoutDialog(context)),

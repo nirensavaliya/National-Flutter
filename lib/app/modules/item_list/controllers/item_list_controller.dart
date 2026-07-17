@@ -35,7 +35,6 @@ class ItemListController extends GetxController {
   var itemSearchQuery = ''.obs;
   Rx<CategoryBrandData> selectedCategoryBrandData = Rx<CategoryBrandData>(CategoryBrandData());
   Rx<BranddData> selectedBrandData = Rx<BranddData>(BranddData());
-
   final ScrollController scrollController = ScrollController();
   final int pageSize = 15;
   int pageNumber = 1;
@@ -46,9 +45,7 @@ class ItemListController extends GetxController {
   RxList<ItemListData> selectedItems = <ItemListData>[].obs;
   bool showAppBarSearch = false;
 
-  bool get _usesPagingApi =>
-      selectedBrandData.value.brandID == null &&
-      selectedCategoryBrandData.value.categoryID == null;
+  bool get _usesPagingApi => selectedBrandData.value.brandID == null && selectedCategoryBrandData.value.categoryID == null;
 
   @override
   void onInit() {
@@ -79,8 +76,6 @@ class ItemListController extends GetxController {
     }
   }
 
-
-
   void selectCategory(CategoryBrandData category) {
     selectedCategoryBrandData.value = category;
   }
@@ -88,7 +83,6 @@ class ItemListController extends GetxController {
   void selectBrand(BranddData category) {
     selectedBrandData.value = category;
   }
-
 
   bool isSelected(ItemListData item) {
     return selectedItems.contains(item);
@@ -125,6 +119,7 @@ class ItemListController extends GetxController {
         (item.unitCode ?? '').toLowerCase().contains(q))
         .toList();
   }
+
   void clearItemSearch() {
     itemSearchController.clear();
     itemSearchQuery.value = '';

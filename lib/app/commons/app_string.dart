@@ -1,7 +1,7 @@
 import 'package:gurukrupa/app/commons/all.dart';
 
 class AppString {
-  static String appName = "National Enterprice";
+  static String appName = "National Mattress";
 
   // Company code
   static String enterYouClientCode = "Enter Your Client Code";

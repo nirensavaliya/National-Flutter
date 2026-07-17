@@ -4,6 +4,8 @@ import 'dart:math';
 
 import 'package:dio/dio.dart';
 import 'package:gap/gap.dart';
+import 'package:gurukrupa/app/commons/app_colors.dart';
+import 'package:gurukrupa/app/modules/sales_order/views/sales_order_form_ui.dart';
 import 'package:intl/intl.dart';
 import 'package:permission_handler/permission_handler.dart';
 
@@ -443,68 +445,137 @@ class SaleInvoiceController extends GetxController {
     searchController.clear();
 
     Get.bottomSheet(
+      isScrollControlled: true,
       GetBuilder<SaleInvoiceController>(
         builder: (controller) {
-          return DecoratedBox(
-            decoration: BoxDecoration(
-                color: Colors.white,
-                borderRadius: BorderRadius.vertical(top: Radius.circular(24))),
-            child: Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 15,vertical: 15),
-              child: Column(
-                children: [
-                  CommonTextField(
+          return Container(
+            height: Get.height * 0.78,
+            decoration: const BoxDecoration(
+              color: SplashColors.scaffoldBg,
+              borderRadius: BorderRadius.vertical(top: Radius.circular(24)),
+            ),
+            child: Column(
+              children: [
+                const SalesOrderSheetHeader(
+                  title: 'Select Customer',
+                  subtitle: 'Search and choose a customer',
+                ),
+                Padding(
+                  padding: const EdgeInsets.fromLTRB(20, 12, 20, 8),
+                  child: TextField(
                     controller: searchController,
-                    borderRadius: 12,
-                    prefix: Icon(Icons.search),
                     onChanged: (p0) {
-                      // filterItems(p0);
                       customerNameFilterItems(p0);
                     },
-                  ),
-                  SizedBox(height: 10),
-                  Expanded(
-                    child: ListView.builder(
-                      itemCount: filteredCustomer.length,
-                      shrinkWrap: true,
-                      padding: EdgeInsets.zero,
-                      itemBuilder: (context, index) {
-                        return Padding(
-                          padding: EdgeInsets.only(top: 10),
-                          child: GestureDetector(
-                            onTap: () {
-                              customerController.text =
-                              filteredCustomer[index].contactNo != null && filteredCustomer[index].contactNo!.isNotEmpty
-                                  ? "${filteredCustomer[index].customerName ?? ""} - ${filteredCustomer[index].contactNo}"
-                                  : "${filteredCustomer[index].customerName ?? ""}";
-
-                              customerId = filteredCustomer[index].customerID ?? 0;
-                              addCustomerNumberController.text = filteredCustomer[index].contactNo ?? "";
-                              addGSTinController.text = filteredCustomer[index].gstinNumber ?? "";
-                              if(addInvoiceTypeController.text != "Bill of Supply")
-                              addGstTypeController.text = filteredCustomer[index].gstType ?? "";
-                              apiCallGetItemForCustomer();
-                              Get.back();
-                              update();
-                            },
-                            child: DecoratedBox(
-                              decoration: BoxDecoration(
-                                  border: Border.all(),
-                                  borderRadius: BorderRadius.circular(7)
-                              ),
-                              child: commonTableText(
-                                  title:filteredCustomer[index].contactNo != null && filteredCustomer[index].contactNo!.isNotEmpty
-                                      ? "${filteredCustomer[index].customerName ?? ""} - ${filteredCustomer[index].contactNo}"
-                                      : "${filteredCustomer[index].customerName ?? ""}"),
-
-                            ),
-                          ),
-                        );
-                      },
+                    decoration: salesOrderSearchDecoration().copyWith(
+                      hintText: 'Search customer name...',
                     ),
                   ),
-                ],
-              ),
+                ),
+                Expanded(
+                  child: ListView.builder(
+                    itemCount: filteredCustomer.length,
+                    padding: const EdgeInsets.fromLTRB(20, 4, 20, 20),
+                    itemBuilder: (context, index) {
+                      final customer = filteredCustomer[index];
+                      final name = customer.customerName ?? '';
+                      final phone = customer.contactNo ?? '';
+                      final displayTitle = customer.contactNo != null &&
+                              customer.contactNo!.isNotEmpty
+                          ? "${customer.customerName ?? ""} - ${customer.contactNo}"
+                          : "${customer.customerName ?? ""}";
+                      return Padding(
+                        padding: const EdgeInsets.only(bottom: 10),
+                        child: GestureDetector(
+                          onTap: () {
+                            customerController.text = displayTitle;
+                            customerId = customer.customerID ?? 0;
+                            addCustomerNumberController.text =
+                                customer.contactNo ?? "";
+                            addGSTinController.text =
+                                customer.gstinNumber ?? "";
+                            if (addInvoiceTypeController.text !=
+                                "Bill of Supply") {
+                              addGstTypeController.text =
+                                  customer.gstType ?? "";
+                            }
+                            apiCallGetItemForCustomer();
+                            Get.back();
+                            update();
+                          },
+                          child: Container(
+                            padding: const EdgeInsets.all(14),
+                            decoration: BoxDecoration(
+                              color: Colors.white,
+                              borderRadius: BorderRadius.circular(14),
+                              border: Border.all(
+                                color: SplashColors.primary.withOpacity(0.1),
+                              ),
+                              boxShadow: [
+                                BoxShadow(
+                                  color: Colors.black.withOpacity(0.04),
+                                  blurRadius: 8,
+                                  offset: const Offset(0, 2),
+                                ),
+                              ],
+                            ),
+                            child: Row(
+                              children: [
+                                Container(
+                                  padding: const EdgeInsets.all(8),
+                                  decoration: BoxDecoration(
+                                    color:
+                                        SplashColors.primary.withOpacity(0.1),
+                                    borderRadius: BorderRadius.circular(10),
+                                  ),
+                                  child: const Icon(
+                                    Icons.person_outline_rounded,
+                                    color: SplashColors.primary,
+                                    size: 22,
+                                  ),
+                                ),
+                                const Gap(12),
+                                Expanded(
+                                  child: Column(
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                    children: [
+                                      Text(
+                                        name,
+                                        style: TextStyle(
+                                          fontFamily: FontFamily.semiBold,
+                                          fontSize: FontSize.s14,
+                                          color: SplashColors.primaryDark,
+                                        ),
+                                      ),
+                                      if (phone.isNotEmpty) ...[
+                                        const Gap(4),
+                                        Text(
+                                          phone,
+                                          style: TextStyle(
+                                            fontFamily: FontFamily.regular,
+                                            fontSize: FontSize.s12,
+                                            color: const Color(0xFF78829A),
+                                          ),
+                                        ),
+                                      ],
+                                    ],
+                                  ),
+                                ),
+                                const Icon(
+                                  Icons.arrow_forward_ios_rounded,
+                                  size: 14,
+                                  color: SplashColors.primary,
+                                ),
+                              ],
+                            ),
+                          ),
+                        ),
+                      );
+                    },
+                  ),
+                ),
+              ],
             ),
           );
         },

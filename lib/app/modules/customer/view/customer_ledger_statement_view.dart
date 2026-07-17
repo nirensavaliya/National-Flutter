@@ -18,7 +18,7 @@ class CustomerLedgerStatementView extends GetView<CusLedgerStatementController> 
         return CommonScreen(
           title: AppString.ledgerStatement,
           brandAppBar: true,
-          scaffoldColor: const Color(0xFFF4F7F7),
+          scaffoldColor: SplashColors.scaffoldBg,
           body: ListView(
             padding: const EdgeInsets.fromLTRB(16, 8, 16, 24),
             children: [

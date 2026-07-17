@@ -64,6 +64,8 @@ import '../modules/sale_order_register/bindings/sale_order_binding.dart';
 import '../modules/sale_register/bindings/sale_register_binding.dart';
 import '../modules/sale_register/views/sale_register_view.dart';
 import '../modules/sales_order/bindings/sales_order_binding.dart';
+import '../modules/sales_order/bindings/sales_order_cart_binding.dart';
+import '../modules/sales_order/views/sales_order_cart_view.dart';
 import '../modules/sales_order/views/sales_order_view.dart';
 import '../modules/show_report/bindings/report_feedback_binding.dart';
 import '../modules/show_report/bindings/show_report_binding.dart';
@@ -228,6 +230,11 @@ class AppPages {
       name: _Paths.SALES_ORDER,
       page: () => const SalesOrderView(),
       binding: SalesOrderBinding(),
+    ),
+    GetPage(
+      name: _Paths.SALES_ORDER_CART,
+      page: () => const SalesOrderCartView(),
+      binding: SalesOrderCartBinding(),
     ),
     GetPage(
       name: _Paths.SALE_INVOICE,

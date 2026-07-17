@@ -16,7 +16,7 @@ class BottomBarView extends GetView<BottomBarController> {
         final bottomPad = MediaQuery.of(context).padding.bottom;
 
         return Scaffold(
-          backgroundColor: const Color(0xFFF4F7F7),
+          backgroundColor: SplashColors.scaffoldBg,
           body: controller.screen[controller.indexCount.value],
           bottomNavigationBar: Container(
             margin: const EdgeInsets.fromLTRB(16, 0, 16, 12),

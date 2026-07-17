@@ -2,6 +2,7 @@ import 'dart:convert';
 import 'dart:io';
 
 import 'package:flutter/foundation.dart';
+import 'package:gurukrupa/app/commons/app_colors.dart';
 import 'package:intl/intl.dart';
 
 import '../../../api_common/api_function.dart';
@@ -11,6 +12,7 @@ import '../../../routes/app_pages.dart';
 import '../../item_list/controllers/item_list_controller.dart';
 import '../../quotation/model/quotation_pdf_model.dart';
 import '../model/sale_register_model.dart';
+import '../views/sale_register_form_ui.dart';
 
 class SaleRegisterController extends GetxController {
   TextEditingController fromDateController = TextEditingController();
@@ -65,52 +67,45 @@ class SaleRegisterController extends GetxController {
     Get.bottomSheet(
       GetBuilder<SaleRegisterController>(
         builder: (controller) {
-          return DecoratedBox(
-            decoration: BoxDecoration(
+          return SizedBox(
+            height: Get.height * 0.75,
+            child: DecoratedBox(
+              decoration: const BoxDecoration(
                 color: Colors.white,
-                borderRadius: BorderRadius.vertical(top: Radius.circular(24))),
-            child: Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 15,vertical: 15),
+                borderRadius: BorderRadius.vertical(top: Radius.circular(24)),
+              ),
               child: Column(
                 children: [
-                  CommonTextField(
-                    controller: searchFieldController,
-                    borderRadius: 12,
-                    prefix: Icon(Icons.search),
-                    onChanged: (p0) {
-                      filterItems(p0);
-                    },
+                  const SaleRegisterSheetHeader(title: 'Select Customer'),
+                  Padding(
+                    padding: const EdgeInsets.fromLTRB(16, 12, 16, 8),
+                    child: CommonTextField(
+                      controller: searchFieldController,
+                      borderRadius: 12,
+                      prefix: const Icon(Icons.search, color: SplashColors.primary),
+                      onChanged: (p0) {
+                        filterItems(p0);
+                      },
+                    ),
                   ),
                   Expanded(
                     child: ListView.builder(
                       itemCount: filteredCustomer.length,
-                      shrinkWrap: true,
-                      padding: EdgeInsets.zero,
+                      padding: const EdgeInsets.fromLTRB(16, 0, 16, 16),
                       itemBuilder: (context, index) {
-                        return Padding(
-                          padding: EdgeInsets.only(top: 10),
-                          child: GestureDetector(
-                            onTap: () {
-                              customerController.text =
-                              filteredCustomer[index].contactNo != null && filteredCustomer[index].contactNo!.isNotEmpty
-                                  ? "${filteredCustomer[index].customerName ?? ""} - ${filteredCustomer[index].contactNo}"
-                                  : "${filteredCustomer[index].customerName ?? ""}";
+                        final title = filteredCustomer[index].contactNo != null &&
+                                filteredCustomer[index].contactNo!.isNotEmpty
+                            ? "${filteredCustomer[index].customerName ?? ""} - ${filteredCustomer[index].contactNo}"
+                            : "${filteredCustomer[index].customerName ?? ""}";
 
-                              customerId = filteredCustomer[index].customerID ?? 0;
-                              saleRegisterListApi();
-                              Get.back();
-                            },
-                            child: DecoratedBox(
-                              decoration: BoxDecoration(
-                                  border: Border.all(),
-                                  borderRadius: BorderRadius.circular(7)),
-                              child: commonTableText(
-                                  title: filteredCustomer[index].contactNo != null && filteredCustomer[index].contactNo!.isNotEmpty
-                                      ? "${filteredCustomer[index].customerName ?? ""} - ${filteredCustomer[index].contactNo}"
-                                      : "${filteredCustomer[index].customerName ?? ""}"),
-
-                            ),
-                          ),
+                        return SaleRegisterSelectListTile(
+                          title: title,
+                          onTap: () {
+                            customerController.text = title;
+                            customerId = filteredCustomer[index].customerID ?? 0;
+                            saleRegisterListApi();
+                            Get.back();
+                          },
                         );
                       },
                     ),
@@ -143,47 +138,41 @@ class SaleRegisterController extends GetxController {
     Get.bottomSheet(
       GetBuilder<SaleRegisterController>(
         builder: (controller) {
-          return DecoratedBox(
-            decoration: BoxDecoration(
+          return SizedBox(
+            height: Get.height * 0.75,
+            child: DecoratedBox(
+              decoration: const BoxDecoration(
                 color: Colors.white,
-                borderRadius: BorderRadius.vertical(top: Radius.circular(24))),
-            child: Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 15,vertical: 15),
+                borderRadius: BorderRadius.vertical(top: Radius.circular(24)),
+              ),
               child: Column(
                 children: [
-                  CommonTextField(
-                    controller: searchFieldController,
-                    borderRadius: 12,
-                    prefix: Icon(Icons.search),
-                    onChanged: (p0) {
-                      filterBranch(p0);
-                    },
+                  const SaleRegisterSheetHeader(title: 'Select Branch'),
+                  Padding(
+                    padding: const EdgeInsets.fromLTRB(16, 12, 16, 8),
+                    child: CommonTextField(
+                      controller: searchFieldController,
+                      borderRadius: 12,
+                      prefix: const Icon(Icons.search, color: SplashColors.primary),
+                      onChanged: (p0) {
+                        filterBranch(p0);
+                      },
+                    ),
                   ),
                   Expanded(
                     child: ListView.builder(
                       itemCount: filteredBranch.length,
-                      shrinkWrap: true,
-                      padding: EdgeInsets.zero,
+                      padding: const EdgeInsets.fromLTRB(16, 0, 16, 16),
                       itemBuilder: (context, index) {
-                        return Padding(
-                          padding: EdgeInsets.only(top: 10),
-                          child: GestureDetector(
-                            onTap: () {
-                              branchController.text =
-                                  filteredBranch[index].branchName ?? "";
-                              branchId = filteredBranch[index].branchID ?? 0;
-                              saleRegisterListApi();
-                              Get.back();
-                            },
-                            child: DecoratedBox(
-                              decoration: BoxDecoration(
-                                  border: Border.all(),
-                                  borderRadius: BorderRadius.circular(7)),
-                              child: commonTableText(
-                                  title:
-                                      filteredBranch[index].branchName ?? ""),
-                            ),
-                          ),
+                        return SaleRegisterSelectListTile(
+                          title: filteredBranch[index].branchName,
+                          onTap: () {
+                            branchController.text =
+                                filteredBranch[index].branchName ?? "";
+                            branchId = filteredBranch[index].branchID ?? 0;
+                            saleRegisterListApi();
+                            Get.back();
+                          },
                         );
                       },
                     ),

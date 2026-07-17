@@ -1,6 +1,8 @@
 import 'package:flutter/gestures.dart';
 import 'package:gurukrupa/app/commons/all.dart';
+import 'package:gurukrupa/app/commons/app_colors.dart';
 import 'package:gurukrupa/app/data/common_widget/common_button.dart';
+import 'package:gurukrupa/app/modules/sales_order/views/sales_order_form_ui.dart';
 import 'package:gurukrupa/app/routes/app_pages.dart';
 import 'package:gap/gap.dart';
 
@@ -21,6 +23,8 @@ class ItemListView extends GetView<ItemListController> {
       builder: (itemController) {
         return CommonScreen(
           title: controller.showAppBarSearch ? null : AppString.itemList,
+          brandAppBar: true,
+          scaffoldColor: SplashColors.scaffoldBg,
             titleWidget: controller.showAppBarSearch
                 ? TextField(
               controller: controller.itemSearchController,
@@ -29,26 +33,11 @@ class ItemListView extends GetView<ItemListController> {
               style: TextStyle(
                 fontSize: FontSize.s16,
                 fontFamily: FontFamily.medium,
-                color: Colors.black,
+                color: SplashColors.primaryDark,
               ),
-              decoration: InputDecoration(
-                hintText: "Search item...",
-                hintStyle: TextStyle(color: Colors.grey, fontSize: 14),
-                isDense: true,
-                contentPadding: EdgeInsets.symmetric(vertical: 5, horizontal: 5),
-                border: OutlineInputBorder(
-                  borderRadius: BorderRadius.circular(5),
-                  // Rounded corners
-                  borderSide: BorderSide(color: Colors.grey),
-                ),
-                enabledBorder: OutlineInputBorder(
-                  borderRadius: BorderRadius.circular(5),
-                  borderSide: BorderSide(color: Colors.grey),
-                ),
-                focusedBorder: OutlineInputBorder(
-                  borderRadius: BorderRadius.circular(5),
-                  borderSide: BorderSide(color: Colors.blue),
-                ),
+              decoration: salesOrderSearchDecoration().copyWith(
+                hintText: 'Search item...',
+                fillColor: Colors.white,
               ),
             )
                 : null,
@@ -56,7 +45,7 @@ class ItemListView extends GetView<ItemListController> {
             IconButton(
               icon: Icon(
                 controller.showAppBarSearch ? Icons.close : Icons.search,
-                color: Colors.black,
+                color: Colors.white,
               ),
               onPressed: controller.toggleAppBarSearch,
             ),
@@ -91,29 +80,10 @@ class ItemListView extends GetView<ItemListController> {
             Gap(20),
           ],
           body: Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 20),
+            padding: const EdgeInsets.symmetric(horizontal: 16),
             child: Column(
               children: [
 
-                // CommonTextField(
-              //   borderRadius: 12,
-              //   controller: controller.itemNameController,
-              //   title: AppString.itemList,
-              //   isTitle: true,
-              //   maxLength: 10,
-              //   hintText: "Please Select...",
-              //   showCursor: false,
-              //   readOnly: true,
-              //   onTap: () {
-              //     controller.selectItemName();
-              //   },
-              //   suffix: RotatedBox(
-              //       quarterTurns: 1,
-              //       child: Icon(
-              //         Icons.arrow_forward_ios,
-              //         size: 20,
-              //       )),
-              // ),
               Gap(10),
 
 
@@ -125,10 +95,7 @@ class ItemListView extends GetView<ItemListController> {
                     openCategorySelection(controller);
                   },
                   child: DecoratedBox(
-                    decoration: BoxDecoration(
-                      border: Border.all(color: Colors.grey),
-                      borderRadius: BorderRadius.circular(5),
-                    ),
+                    decoration: salesOrderDropdownDecoration(),
                     child: Padding(
                       padding: EdgeInsets.all(5),
                       child: Row(
@@ -149,8 +116,10 @@ class ItemListView extends GetView<ItemListController> {
                                     Text(
                                       selectedCategory.categoryName ??
                                           "Select Category",
-                                      style: TextStyle(  fontFamily: FontFamily.semiBold,
-                                          fontSize: FontSize.s16,color: Colors.black),
+                                      style: TextStyle(
+                                          fontFamily: FontFamily.semiBold,
+                                          fontSize: FontSize.s16,
+                                          color: SplashColors.primaryDark),
                                     ),
                                   ],
                                 ),
@@ -204,10 +173,7 @@ class ItemListView extends GetView<ItemListController> {
                     openBrandSelection(controller);
                   },
                   child: DecoratedBox(
-                    decoration: BoxDecoration(
-                      border: Border.all(color: Colors.grey),
-                      borderRadius: BorderRadius.circular(5),
-                    ),
+                    decoration: salesOrderDropdownDecoration(),
                     child: Padding(
                       padding: EdgeInsets.all(5),
                       child: Row(
@@ -227,8 +193,10 @@ class ItemListView extends GetView<ItemListController> {
                                   Text(
                                     selectedCategory.brandName ??
                                         "Select Brand",
-                                    style: TextStyle(  fontFamily: FontFamily.semiBold,
-                                        fontSize: FontSize.s16,color: Colors.black),
+                                    style: TextStyle(
+                                        fontFamily: FontFamily.semiBold,
+                                        fontSize: FontSize.s16,
+                                        color: SplashColors.primaryDark),
                                   ),
                                 ],
                               ),
@@ -288,6 +256,8 @@ class ItemListView extends GetView<ItemListController> {
                       if (controller.itemList.isNotEmpty)
                         CommonButton(
                           btnName: AppString.downloadPdf,
+                          btnColor: SplashColors.primary,
+                          textColor: Colors.white,
                           onTap: () => controller.genaratePDFApi(),
                         ),
                       if (controller.itemList.isNotEmpty) Gap(20),
@@ -323,34 +293,65 @@ class ItemListView extends GetView<ItemListController> {
                                     barrierDismissible: true,
                                     builder: (_) => AlertDialog(
                                       backgroundColor: Colors.white,
-                                      title: const Center(child: Text("Item Details")),
+                                      shape: RoundedRectangleBorder(
+                                        borderRadius: BorderRadius.circular(18),
+                                      ),
+                                      title: Text(
+                                        "Item Details",
+                                        textAlign: TextAlign.center,
+                                        style: TextStyle(
+                                          fontFamily: FontFamily.semiBold,
+                                          fontSize: FontSize.s18,
+                                          color: SplashColors.primaryDark,
+                                        ),
+                                      ),
                                       content: SizedBox(
                                         width: double.maxFinite,
                                         child: selectedItemView(controller, model),
                                       ),
                                       actions: [
                                         ElevatedButton(
+                                          style: ElevatedButton.styleFrom(
+                                            backgroundColor: SplashColors.primary,
+                                            shape: RoundedRectangleBorder(
+                                              borderRadius:
+                                                  BorderRadius.circular(10),
+                                            ),
+                                          ),
                                           onPressed: () => Navigator.pop(context),
-                                          child: const Text("Close"),
+                                          child: const Text(
+                                            "Close",
+                                            style: TextStyle(color: Colors.white),
+                                          ),
                                         ),
                                       ],
                                     ),
                                   );
                                 },
                                 child: Container(
+                                  padding: const EdgeInsets.all(10),
                                   decoration: BoxDecoration(
                                     border: Border.all(
-                                      color: isSelected ? Colors.blue : Colors.grey,
+                                      color: isSelected
+                                          ? SplashColors.primary
+                                          : SplashColors.primary.withOpacity(0.12),
                                     ),
-                                    borderRadius: BorderRadius.circular(5),
+                                    borderRadius: BorderRadius.circular(14),
                                     color: isSelected
-                                        ? Colors.blue.withOpacity(0.2)
+                                        ? SplashColors.primary.withOpacity(0.08)
                                         : Colors.white,
+                                    boxShadow: [
+                                      BoxShadow(
+                                        color: Colors.black.withOpacity(0.04),
+                                        blurRadius: 8,
+                                        offset: const Offset(0, 2),
+                                      ),
+                                    ],
                                   ),
                                   child: Row(
                                     children: [
                                       Padding(
-                                        padding: const EdgeInsets.fromLTRB(7, 3, 5, 0),
+                                        padding: const EdgeInsets.fromLTRB(2, 2, 4, 2),
                                         child: ClipRRect(
                                           borderRadius: BorderRadius.circular(12),
                                           child: _buildItemImage(
@@ -362,7 +363,7 @@ class ItemListView extends GetView<ItemListController> {
                                           ),
                                         ),
                                       ),
-                                      const SizedBox(width: 5),
+                                      const SizedBox(width: 8),
                                       Expanded(
                                         child: Column(
                                           crossAxisAlignment: CrossAxisAlignment.start,
@@ -370,18 +371,17 @@ class ItemListView extends GetView<ItemListController> {
                                             Text(
                                               model.itemName ?? "",
                                               style: TextStyle(
-                                                fontSize: 15,
+                                                fontSize: FontSize.s14,
                                                 fontFamily: FontFamily.semiBold,
-                                                color: Colors.black,
+                                                color: SplashColors.primaryDark,
                                               ),
                                             ),
                                             Text(
                                               "Price: ₹${model.price ?? "0.00"}",
                                               style: TextStyle(
-                                                fontSize: 14,
-                                                fontFamily: FontFamily.medium,
-                                                fontWeight: FontWeight.w500,
-                                                color: Colors.green,
+                                                fontSize: FontSize.s14,
+                                                fontFamily: FontFamily.semiBold,
+                                                color: SplashColors.primary,
                                               ),
                                             ),
                                           ],
@@ -410,52 +410,31 @@ class ItemListView extends GetView<ItemListController> {
   void openCategorySelection(ItemListController controller) async {
     await controller.ensureFilterListsLoaded();
     controller.filteredCategoryBrands.value =
-        Constants.categoryBrandList; // Initialize observable list
+        Constants.categoryBrandList;
 
     Get.bottomSheet(
       isScrollControlled: true,
       Padding(
         padding: EdgeInsets.only(top: AppBar().preferredSize.height),
         child: DecoratedBox(
-          decoration: BoxDecoration(
+          decoration: const BoxDecoration(
             borderRadius: BorderRadius.vertical(top: Radius.circular(24)),
-            color: Colors.white,
+            color: SplashColors.scaffoldBg,
           ),
           child: Column(
             mainAxisSize: MainAxisSize.min,
             children: [
-              SizedBox(height: 10),
-              Text(
-                "Select Category",
-                style: TextStyle(
-                  fontSize: 22,
-                  color: Colors.black,
-                  fontWeight: FontWeight.bold,
-                ),
+              const SalesOrderSheetHeader(
+                title: 'Select Category',
+                subtitle: 'Filter products by category',
               ),
-              Divider(color: Colors.black, height: 20),
               Padding(
-                padding: EdgeInsets.fromLTRB(20, 0, 20, 0),
+                padding: const EdgeInsets.fromLTRB(20, 0, 20, 0),
                 child: TextField(
                   onChanged: (value) {
                     controller.categoryFilter(value);
                   },
-                  decoration: InputDecoration(
-                    hintText: "Enter here to search",
-                    hintStyle: TextStyle(color: Colors.grey, fontSize: 14),
-                    filled: true,
-                    fillColor: Colors.white,
-                    contentPadding:
-                        EdgeInsets.symmetric(vertical: 10, horizontal: 10),
-                    prefixIcon: Padding(
-                      padding: EdgeInsets.only(left: 10, right: 6),
-                      child: Icon(Icons.search, size: 26, color: Colors.black),
-                    ),
-                    border: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(12),
-                      borderSide: BorderSide(color: Colors.grey),
-                    ),
-                  ),
+                  decoration: salesOrderSearchDecoration(),
                 ),
               ),
               Gap(10),
@@ -553,8 +532,18 @@ class ItemListView extends GetView<ItemListController> {
                         },
                         child: DecoratedBox(
                           decoration: BoxDecoration(
-                            border: Border.all(color: Colors.grey.shade400),
-                            borderRadius: BorderRadius.circular(12),
+                            color: Colors.white,
+                            border: Border.all(
+                              color: SplashColors.primary.withOpacity(0.12),
+                            ),
+                            borderRadius: BorderRadius.circular(14),
+                            boxShadow: [
+                              BoxShadow(
+                                color: Colors.black.withOpacity(0.04),
+                                blurRadius: 8,
+                                offset: const Offset(0, 2),
+                              ),
+                            ],
                           ),
                           child: Column(
                             mainAxisAlignment: MainAxisAlignment.center,
@@ -587,10 +576,10 @@ class ItemListView extends GetView<ItemListController> {
                                 maxLines: 2,
                                 textAlign: TextAlign.center,
                                 overflow: TextOverflow.ellipsis,
-                                style: const TextStyle(
-                                  fontSize: 14,
-                                  color: Colors.black,
-                                  fontWeight: FontWeight.w500,
+                                style: TextStyle(
+                                  fontSize: FontSize.s14,
+                                  color: SplashColors.primaryDark,
+                                  fontFamily: FontFamily.semiBold,
                                 ),
                               ),
                             ],
@@ -626,45 +615,26 @@ class ItemListView extends GetView<ItemListController> {
       Padding(
         padding: EdgeInsets.only(top: AppBar().preferredSize.height),
         child: DecoratedBox(
-          decoration: BoxDecoration(
+          decoration: const BoxDecoration(
             borderRadius: BorderRadius.vertical(top: Radius.circular(24)),
-            color: Colors.white,
+            color: SplashColors.scaffoldBg,
           ),
           child: Column(
             mainAxisSize: MainAxisSize.min,
             children: [
-              SizedBox(height: 10),
-              Text(
-                "Select Brand",
-                style: TextStyle(
-                  fontSize: 22,
-                  color: Colors.black,
-                  fontWeight: FontWeight.bold,
-                ),
+              const SalesOrderSheetHeader(
+                title: 'Select Brand',
+                subtitle: 'Filter products by brand',
               ),
-              Divider(color: Colors.black, height: 20),
               Padding(
-                padding: EdgeInsets.fromLTRB(20, 0, 20, 0),
+                padding: const EdgeInsets.fromLTRB(20, 0, 20, 0),
                 child: TextField(
                   onChanged: (value) {
                     controller
                         .brandFilter(value);
                   },
-                  decoration: InputDecoration(
-                    hintText: "Enter brand to search",
-                    hintStyle: TextStyle(color: Colors.grey, fontSize: 14),
-                    filled: true,
-                    fillColor: Colors.white,
-                    contentPadding:
-                    EdgeInsets.symmetric(vertical: 10, horizontal: 10),
-                    prefixIcon: Padding(
-                      padding: EdgeInsets.only(left: 10, right: 6),
-                      child: Icon(Icons.search, size: 26, color: Colors.black),
-                    ),
-                    border: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(12),
-                      borderSide: BorderSide(color: Colors.grey),
-                    ),
+                  decoration: salesOrderSearchDecoration().copyWith(
+                    hintText: 'Enter brand to search',
                   ),
                 ),
               ),
@@ -696,8 +666,18 @@ class ItemListView extends GetView<ItemListController> {
                         },
                         child: DecoratedBox(
                           decoration: BoxDecoration(
-                            border: Border.all(color: Colors.grey),
-                            borderRadius: BorderRadius.circular(12),
+                            color: Colors.white,
+                            border: Border.all(
+                              color: SplashColors.primary.withOpacity(0.12),
+                            ),
+                            borderRadius: BorderRadius.circular(14),
+                            boxShadow: [
+                              BoxShadow(
+                                color: Colors.black.withOpacity(0.04),
+                                blurRadius: 8,
+                                offset: const Offset(0, 2),
+                              ),
+                            ],
                           ),
                           child: Padding(
                             padding: const EdgeInsets.all(10.0),
@@ -730,10 +710,10 @@ class ItemListView extends GetView<ItemListController> {
                                   textAlign: TextAlign.center,
                                   maxLines: 2,
                                   overflow: TextOverflow.ellipsis,
-                                  style: const TextStyle(
-                                    fontSize: 14,
-                                    color: Colors.black,
-                                    fontWeight: FontWeight.w500,
+                                  style: TextStyle(
+                                    fontSize: FontSize.s14,
+                                    color: SplashColors.primaryDark,
+                                    fontFamily: FontFamily.semiBold,
                                   ),
                                 ),
                               ],
@@ -836,28 +816,29 @@ class ItemListView extends GetView<ItemListController> {
 
   Widget _buildDetailRow(String title, String? value) {
     return Padding(
-      padding: const EdgeInsets.symmetric(vertical: 8.0),
+      padding: const EdgeInsets.symmetric(vertical: 6.0),
       child: Row(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Container(
+          SizedBox(
+            width: 130,
             child: Text(
               "$title:",
               style: TextStyle(
-                fontWeight: FontWeight.bold,
-                fontSize: 15,
-                color: Colors.black87,
+                fontFamily: FontFamily.medium,
+                fontSize: FontSize.s12,
+                color: const Color(0xFF78829A),
               ),
             ),
           ),
-          SizedBox(width: 10),
           Expanded(
             child: Text(
               value ?? "-",
               style: TextStyle(
-                  fontSize: 15,
-                  color: Colors.black54,
-                  fontWeight: FontWeight.w700),
+                fontFamily: FontFamily.semiBold,
+                fontSize: FontSize.s14,
+                color: SplashColors.primaryDark,
+              ),
             ),
           ),
         ],

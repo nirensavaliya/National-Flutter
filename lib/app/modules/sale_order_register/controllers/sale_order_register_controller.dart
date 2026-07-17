@@ -3,6 +3,8 @@ import 'dart:convert';
 
 import 'package:gap/gap.dart';
 import 'package:get/get.dart';
+import 'package:gurukrupa/app/commons/app_colors.dart';
+import 'package:gurukrupa/app/modules/sale_register/views/sale_register_form_ui.dart';
 import 'package:intl/intl.dart';
 
 import '../../../api_common/api_function.dart';
@@ -151,110 +153,150 @@ class SaleOrderRegisterController extends GetxController{
 
     Get.dialog(
       Dialog(
+        backgroundColor: Colors.transparent,
+        insetPadding: const EdgeInsets.symmetric(horizontal: 24),
         child: GetBuilder<SaleOrderRegisterController>(
           builder: (ctrl) {
-            return DecoratedBox(
+            return Container(
               decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(24),
                 color: Colors.white,
+                borderRadius: BorderRadius.circular(24),
+                boxShadow: [
+                  BoxShadow(
+                    color: Colors.black.withOpacity(0.12),
+                    blurRadius: 24,
+                    offset: const Offset(0, 8),
+                  ),
+                ],
               ),
-              child: Padding(
-                padding: const EdgeInsets.all(16),
-                child: SingleChildScrollView(
-                  child: Column(
-                    mainAxisSize: MainAxisSize.min,
-                    children: [
-                      Text("Filter",
-                          style: TextStyle(
-                              fontSize: 18, fontFamily: FontFamily.semiBold)),
-                      Gap(15),
-
-                      // From Date
-                      CommonTextField(
-                        borderRadius: 12,
-                        controller: fromDateController,
-                        title: AppString.fromDate,
-                        isTitle: true,
-                        maxLength: 10,
-                        showCursor: false,
-                        readOnly: true,
-                        inputFormatters: [DateInputFormatter()],
-                        onTap: () => selectDate(context, "from"),
-                        suffix: GestureDetector(
-                          onTap: () => selectDate(context, "from"),
-                          child: Icon(Icons.calendar_month),
+              clipBehavior: Clip.antiAlias,
+              child: SingleChildScrollView(
+                child: Column(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    Container(
+                      width: double.infinity,
+                      padding: const EdgeInsets.fromLTRB(20, 20, 20, 18),
+                      decoration: const BoxDecoration(
+                        gradient: LinearGradient(
+                          begin: Alignment.topLeft,
+                          end: Alignment.bottomRight,
+                          colors: [
+                            SplashColors.primaryDeep,
+                            SplashColors.primary,
+                            SplashColors.primaryDark,
+                          ],
                         ),
                       ),
-                      Gap(15),
-
-                      // To Date
-                      CommonTextField(
-                        borderRadius: 12,
-                        controller: toDateController,
-                        title: AppString.toDate,
-                        isTitle: true,
-                        maxLength: 10,
-                        showCursor: false,
-                        readOnly: true,
-                        inputFormatters: [DateInputFormatter()],
-                        onTap: () => selectDate(context, "to"),
-                        suffix: GestureDetector(
-                          onTap: () => selectDate(context, "to"),
-                          child: Icon(Icons.calendar_month),
-                        ),
-                      ),
-                      Gap(15),
-
-                      // Customer
-                      CommonTextField(
-                        borderRadius: 12,
-                        controller: salesPersonController,
-                        title: AppString.salesPerson,
-                        isTitle: true,
-                        hintText: "Please Select...",
-                        showCursor: false,
-                        readOnly: true,
-                        onTap: () => selectSalesPerson(),
-                        suffix: RotatedBox(
-                          quarterTurns: 1,
-                          child: Icon(Icons.arrow_forward_ios, size: 20),
-                        ),
-                      ),
-                      Gap(20),
-
-                      Row(
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
                         children: [
-                          Expanded(
-                            child: CommonButton(
-                              btnName: "Cancel",
-                              btnColor: Colors.transparent,
-                              textColor: Colors.black87,
-                              borderColor: Colors.blue,
-                              onTap: () => Get.back(),
+                          Container(
+                            padding: const EdgeInsets.all(8),
+                            decoration: BoxDecoration(
+                              color: Colors.white.withOpacity(0.15),
+                              borderRadius: BorderRadius.circular(10),
+                            ),
+                            child: const Icon(
+                              Icons.filter_list_rounded,
+                              color: SplashColors.text,
+                              size: 20,
                             ),
                           ),
-                          Gap(10),
-                          Expanded(
-                            child: CommonButton(
-                              btnName: "Apply",
-                              onTap: () async {
-                                if (salesPersonId == 0) {
-                                  Utils().showToast(
-                                    message: "Please select customer",
-                                    context: context,
-                                  );
-                                  return;
-                                }
-                                Get.back();
-                                await saleOrderRegisterListApi();
-                                // saleOrderRegisterListApi();
-                              },
+                          const Gap(10),
+                          Text(
+                            'Filter',
+                            style: TextStyle(
+                              fontFamily: FontFamily.semiBold,
+                              fontSize: FontSize.s18,
+                              color: SplashColors.text,
                             ),
                           ),
                         ],
                       ),
-                    ],
-                  ),
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.fromLTRB(16, 16, 16, 20),
+                      child: Column(
+                        mainAxisSize: MainAxisSize.min,
+                        children: [
+                          CommonTextField(
+                            borderRadius: 12,
+                            controller: fromDateController,
+                            title: AppString.fromDate,
+                            isTitle: true,
+                            maxLength: 10,
+                            showCursor: false,
+                            readOnly: true,
+                            inputFormatters: [DateInputFormatter()],
+                            onTap: () => selectDate(context, "from"),
+                            suffix: saleRegisterCalendarSuffix(
+                              () => selectDate(context, "from"),
+                            ),
+                          ),
+                          const Gap(12),
+                          CommonTextField(
+                            borderRadius: 12,
+                            controller: toDateController,
+                            title: AppString.toDate,
+                            isTitle: true,
+                            maxLength: 10,
+                            showCursor: false,
+                            readOnly: true,
+                            inputFormatters: [DateInputFormatter()],
+                            onTap: () => selectDate(context, "to"),
+                            suffix: saleRegisterCalendarSuffix(
+                              () => selectDate(context, "to"),
+                            ),
+                          ),
+                          const Gap(12),
+                          CommonTextField(
+                            borderRadius: 12,
+                            controller: salesPersonController,
+                            title: AppString.salesPerson,
+                            isTitle: true,
+                            hintText: "Please Select...",
+                            showCursor: false,
+                            readOnly: true,
+                            onTap: () => selectSalesPerson(),
+                            suffix: saleRegisterDropdownSuffix(),
+                          ),
+                          const Gap(20),
+                          Row(
+                            children: [
+                              Expanded(
+                                child: CommonButton(
+                                  btnName: "Cancel",
+                                  btnColor: Colors.transparent,
+                                  textColor: SplashColors.primary,
+                                  borderColor: SplashColors.primary,
+                                  onTap: () => Get.back(),
+                                ),
+                              ),
+                              const Gap(10),
+                              Expanded(
+                                child: CommonButton(
+                                  btnName: "Apply",
+                                  btnColor: SplashColors.primary,
+                                  onTap: () async {
+                                    if (salesPersonId == 0) {
+                                      Utils().showToast(
+                                        message: "Please select customer",
+                                        context: context,
+                                      );
+                                      return;
+                                    }
+                                    Get.back();
+                                    await saleOrderRegisterListApi();
+                                  },
+                                ),
+                              ),
+                            ],
+                          ),
+                        ],
+                      ),
+                    ),
+                  ],
                 ),
               ),
             );

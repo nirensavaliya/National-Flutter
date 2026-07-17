@@ -2,6 +2,9 @@ import 'dart:convert';
 import 'dart:math';
 
 import 'package:dio/dio.dart';
+import 'package:gap/gap.dart';
+import 'package:gurukrupa/app/commons/app_colors.dart';
+import 'package:gurukrupa/app/modules/sales_order/views/sales_order_form_ui.dart';
 import 'package:gurukrupa/app/modules/Recipt/model/BillDataModel.dart';
 import 'package:gurukrupa/app/modules/Recipt/model/CashBankBookModel.dart';
 import 'package:gurukrupa/app/modules/Recipt/model/GLAccountModel.dart';
@@ -11,18 +14,15 @@ import 'package:gurukrupa/app/modules/Recipt/model/get_role_model.dart';
 import 'package:intl/intl.dart';
 
 import '../../../api_common/api_function.dart';
-import '../../../api_common/loading.dart';
 import '../../../commons/all.dart';
 import '../../../commons/get_storage_data.dart';
-import '../../../data/common_widget/common_textfeild.dart';
 import '../../quotation/model/save_quotation_model.dart';
 import '../model/sales_invoice_model.dart';
 
 class ReceiptController extends GetxController {
   RxBool isAdd = false.obs;
   TextEditingController addDateController = TextEditingController();
-  TextEditingController addInvoiceTypeController =
-      TextEditingController(text: "Bill of Supply");
+  TextEditingController addInvoiceTypeController = TextEditingController(text: "Bill of Supply");
   TextEditingController addCustomerNameController = TextEditingController();
   TextEditingController addCustomerNumberController = TextEditingController();
   TextEditingController addShippingAddressController = TextEditingController();
@@ -237,27 +237,25 @@ class ReceiptController extends GetxController {
   void selectPaidByList() {
     filteredPaidByList = Constants.PaidByList; // Ensure this is updated
     Get.bottomSheet(
+      isScrollControlled: true,
       GetBuilder<ReceiptController>(
         builder: (controller) {
-          return DecoratedBox(
-            decoration: BoxDecoration(
-              color: Colors.white,
+          return Container(
+            height: Get.height * 0.78,
+            decoration: const BoxDecoration(
+              color: SplashColors.scaffoldBg,
               borderRadius: BorderRadius.vertical(top: Radius.circular(24)),
             ),
-            child: Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 15,vertical: 15),
-              child: Column(
-                mainAxisSize: MainAxisSize.min,
-                children: [
-                  Text(
-                    "Select Paid By",
-                    style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
-                  ),
-                  SizedBox(height: 10),
-                  CommonTextField(
+            child: Column(
+              children: [
+                const SalesOrderSheetHeader(
+                  title: 'Select Paid By',
+                  subtitle: 'Search and choose a party',
+                ),
+                Padding(
+                  padding: const EdgeInsets.fromLTRB(20, 12, 20, 8),
+                  child: TextField(
                     controller: searchCashBankController,
-                    borderRadius: 12,
-                    prefix: Icon(Icons.search),
                     onChanged: (query) {
                       final q = query.toLowerCase().trim();
                       if (q.isEmpty) {
@@ -271,66 +269,119 @@ class ReceiptController extends GetxController {
                       }
                       update();
                     },
-                  ),
-                  SizedBox(height: 10),
-                  Expanded(
-                    child: ListView.builder(
-                      itemCount: filteredPaidByList.length,
-                      shrinkWrap: true,
-                      padding: EdgeInsets.zero,
-                      itemBuilder: (context, index) {
-                        final book = filteredPaidByList[index];
-                        return Padding(
-                          padding: EdgeInsets.only(top: 6, bottom: 6),
-                          child: GestureDetector(
-                            onTap: () {
-                              print("${book.glAccountNumber.toString()}");
-                              selectedPaidByAmount =
-                                  "${book.balance ?? 0} ${book.crDr}";
-                              paidByController.text = book.mobileNumber != null && book.mobileNumber!.isNotEmpty
-                                  ? "${book.glAccountName ?? ""} - ${book.mobileNumber}"
-                                  : "${book.glAccountName ?? ""}";
-                              selectedGLAccountNumber = book.glAccountNumber!;
-                              selectedPartyId = book.partyId!;
-                              selectedPartyType = book.partyType!;
-                              apiCallOutStandingBillList();
-                              Get.back();
-                              update();
-                            },
-                            child: DecoratedBox(
-                              decoration: BoxDecoration(
-                                border: Border.all(color: Colors.grey),
-                                borderRadius: BorderRadius.circular(12),
-                                color: Colors.white,
-                              ),
-                              child: Padding(
-                                padding: EdgeInsets.all(10),
-                                child: Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    Text(
-                                      book.mobileNumber != null && book.mobileNumber!.isNotEmpty
-                                          ? "${book.glAccountName ?? ""} - ${book.mobileNumber}"
-                                          : "${book.glAccountName ?? ""}",
-                                      style: TextStyle(
-                                          fontSize: 16,
-                                          fontWeight: FontWeight.bold),
-                                    ),
-                                    SizedBox(height: 5),
-                                    Text("Type: ${book.glAccountType ?? "N/A"}"),
-                                    Text("Balance: ${book.balance ?? 0}"),
-                                    Text("Cr/Dr: ${book.crDr ?? "N/A"}"),
-                                  ],
-                                ),
-                              ),
-                            ),
-                          ),
-                        );
-                      },
+                    decoration: salesOrderSearchDecoration().copyWith(
+                      hintText: 'Search paid by...',
                     ),
                   ),
-                ],
-              ),
+                ),
+                Expanded(
+                  child: ListView.builder(
+                    itemCount: filteredPaidByList.length,
+                    padding: const EdgeInsets.fromLTRB(20, 4, 20, 20),
+                    itemBuilder: (context, index) {
+                      final book = filteredPaidByList[index];
+                      final name = book.mobileNumber != null &&
+                              book.mobileNumber!.isNotEmpty
+                          ? "${book.glAccountName ?? ""} - ${book.mobileNumber}"
+                          : "${book.glAccountName ?? ""}";
+                      return Padding(
+                        padding: const EdgeInsets.only(bottom: 10),
+                        child: GestureDetector(
+                          onTap: () {
+                            print("${book.glAccountNumber.toString()}");
+                            selectedPaidByAmount =
+                                "${book.balance ?? 0} ${book.crDr}";
+                            paidByController.text = book.mobileNumber != null &&
+                                    book.mobileNumber!.isNotEmpty
+                                ? "${book.glAccountName ?? ""} - ${book.mobileNumber}"
+                                : "${book.glAccountName ?? ""}";
+                            selectedGLAccountNumber = book.glAccountNumber!;
+                            selectedPartyId = book.partyId!;
+                            selectedPartyType = book.partyType!;
+                            apiCallOutStandingBillList();
+                            Get.back();
+                            update();
+                          },
+                          child: Container(
+                            padding: const EdgeInsets.all(14),
+                            decoration: BoxDecoration(
+                              color: Colors.white,
+                              borderRadius: BorderRadius.circular(14),
+                              border: Border.all(
+                                color: SplashColors.primary.withOpacity(0.1),
+                              ),
+                              boxShadow: [
+                                BoxShadow(
+                                  color: Colors.black.withOpacity(0.04),
+                                  blurRadius: 8,
+                                  offset: const Offset(0, 2),
+                                ),
+                              ],
+                            ),
+                            child: Row(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Container(
+                                  padding: const EdgeInsets.all(8),
+                                  decoration: BoxDecoration(
+                                    color:
+                                        SplashColors.primary.withOpacity(0.1),
+                                    borderRadius: BorderRadius.circular(10),
+                                  ),
+                                  child: const Icon(
+                                    Icons.account_balance_wallet_outlined,
+                                    color: SplashColors.primary,
+                                    size: 22,
+                                  ),
+                                ),
+                                const Gap(12),
+                                Expanded(
+                                  child: Column(
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                    children: [
+                                      Text(
+                                        name,
+                                        style: TextStyle(
+                                          fontFamily: FontFamily.semiBold,
+                                          fontSize: FontSize.s14,
+                                          color: SplashColors.primaryDark,
+                                        ),
+                                      ),
+                                      const Gap(4),
+                                      Text(
+                                        "Type: ${book.glAccountType ?? "N/A"}",
+                                        style: TextStyle(
+                                          fontFamily: FontFamily.regular,
+                                          fontSize: FontSize.s12,
+                                          color: const Color(0xFF78829A),
+                                        ),
+                                      ),
+                                      Text(
+                                        "Balance: ${book.balance ?? 0} ${book.crDr ?? ""}",
+                                        style: TextStyle(
+                                          fontFamily: FontFamily.medium,
+                                          fontSize: FontSize.s12,
+                                          color: const Color(0xFF78829A),
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                                const Icon(
+                                  Icons.arrow_forward_ios_rounded,
+                                  size: 14,
+                                  color: SplashColors.primary,
+                                ),
+                              ],
+                            ),
+                          ),
+                        ),
+                      );
+                    },
+                  ),
+                ),
+              ],
             ),
           );
         },
@@ -386,27 +437,25 @@ class ReceiptController extends GetxController {
     filteredCashBankBookList = Constants.cashBankBookList;
     searchController.clear();
     Get.bottomSheet(
+      isScrollControlled: true,
       GetBuilder<ReceiptController>(
         builder: (controller) {
-          return DecoratedBox(
-            decoration: BoxDecoration(
-              color: Colors.white,
+          return Container(
+            height: Get.height * 0.78,
+            decoration: const BoxDecoration(
+              color: SplashColors.scaffoldBg,
               borderRadius: BorderRadius.vertical(top: Radius.circular(24)),
             ),
-            child: Padding(
-              padding: EdgeInsets.fromLTRB(20, 20, 20, 0),
-              child: Column(
-                mainAxisSize: MainAxisSize.min,
-                children: [
-                  Text(
-                    "Select Cash/Bank Book",
-                    style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
-                  ),
-                  SizedBox(height: 10),
-                  CommonTextField(
+            child: Column(
+              children: [
+                const SalesOrderSheetHeader(
+                  title: 'Select Cash/Bank Book',
+                  subtitle: 'Search and choose a book',
+                ),
+                Padding(
+                  padding: const EdgeInsets.fromLTRB(20, 12, 20, 8),
+                  child: TextField(
                     controller: searchController,
-                    borderRadius: 12,
-                    prefix: Icon(Icons.search),
                     onChanged: (query) {
                       filteredCashBankBookList = Constants.cashBankBookList
                           .where((book) => book.bookName!
@@ -415,64 +464,114 @@ class ReceiptController extends GetxController {
                           .toList();
                       update();
                     },
-                  ),
-                  SizedBox(height: 10),
-                  Expanded(
-                    child: ListView.builder(
-                      itemCount: filteredCashBankBookList.length,
-                      shrinkWrap: true,
-                      padding: EdgeInsets.zero,
-                      itemBuilder: (context, index) {
-                        final book = filteredCashBankBookList[index];
-                        return Padding(
-                          padding: EdgeInsets.only(top: 6, bottom: 6),
-                          child: GestureDetector(
-                            onTap: () {
-                              // Handle item selection
-                              selectedAmount =
-                                  "${book.balance ?? 0} ${book.crDr}";
-                              cashBankController.text = book.bookName ?? "";
-                              selectedCashBankID = book.bookId!;
-                              selectedBookType.value = book.bookType ?? "N/A";
-                              selectedCashBankGLANumber = book.glAccountNumber!;
-                              cashBankController.addListener(() {
-                                cashBankText.value = cashBankController.text;
-                              });
-                              Get.back();
-                              update();
-                            },
-                            child: DecoratedBox(
-                              decoration: BoxDecoration(
-                                border: Border.all(color: Colors.grey),
-                                borderRadius: BorderRadius.circular(12),
-                                color: Colors.white,
-                              ),
-                              child: Padding(
-                                padding: EdgeInsets.all(10),
-                                child: Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    Text(
-                                      book.bookName ?? "N/A",
-                                      style: TextStyle(
-                                          fontSize: 16,
-                                          fontWeight: FontWeight.bold),
-                                    ),
-                                    SizedBox(height: 5),
-                                    Text("Type: ${book.bookType ?? "N/A"}"),
-                                    Text("Balance: ${book.balance ?? 0}"),
-                                    Text("Cr/Dr: ${book.crDr ?? "N/A"}"),
-                                  ],
-                                ),
-                              ),
-                            ),
-                          ),
-                        );
-                      },
+                    decoration: salesOrderSearchDecoration().copyWith(
+                      hintText: 'Search cash/bank book...',
                     ),
                   ),
-                ],
-              ),
+                ),
+                Expanded(
+                  child: ListView.builder(
+                    itemCount: filteredCashBankBookList.length,
+                    padding: const EdgeInsets.fromLTRB(20, 4, 20, 20),
+                    itemBuilder: (context, index) {
+                      final book = filteredCashBankBookList[index];
+                      return Padding(
+                        padding: const EdgeInsets.only(bottom: 10),
+                        child: GestureDetector(
+                          onTap: () {
+                            // Handle item selection
+                            selectedAmount =
+                                "${book.balance ?? 0} ${book.crDr}";
+                            cashBankController.text = book.bookName ?? "";
+                            selectedCashBankID = book.bookId!;
+                            selectedBookType.value = book.bookType ?? "N/A";
+                            selectedCashBankGLANumber = book.glAccountNumber!;
+                            cashBankController.addListener(() {
+                              cashBankText.value = cashBankController.text;
+                            });
+                            Get.back();
+                            update();
+                          },
+                          child: Container(
+                            padding: const EdgeInsets.all(14),
+                            decoration: BoxDecoration(
+                              color: Colors.white,
+                              borderRadius: BorderRadius.circular(14),
+                              border: Border.all(
+                                color: SplashColors.primary.withOpacity(0.1),
+                              ),
+                              boxShadow: [
+                                BoxShadow(
+                                  color: Colors.black.withOpacity(0.04),
+                                  blurRadius: 8,
+                                  offset: const Offset(0, 2),
+                                ),
+                              ],
+                            ),
+                            child: Row(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Container(
+                                  padding: const EdgeInsets.all(8),
+                                  decoration: BoxDecoration(
+                                    color:
+                                        SplashColors.primary.withOpacity(0.1),
+                                    borderRadius: BorderRadius.circular(10),
+                                  ),
+                                  child: const Icon(
+                                    Icons.account_balance_outlined,
+                                    color: SplashColors.primary,
+                                    size: 22,
+                                  ),
+                                ),
+                                const Gap(12),
+                                Expanded(
+                                  child: Column(
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                    children: [
+                                      Text(
+                                        book.bookName ?? "N/A",
+                                        style: TextStyle(
+                                          fontFamily: FontFamily.semiBold,
+                                          fontSize: FontSize.s14,
+                                          color: SplashColors.primaryDark,
+                                        ),
+                                      ),
+                                      const Gap(4),
+                                      Text(
+                                        "Type: ${book.bookType ?? "N/A"}",
+                                        style: TextStyle(
+                                          fontFamily: FontFamily.regular,
+                                          fontSize: FontSize.s12,
+                                          color: const Color(0xFF78829A),
+                                        ),
+                                      ),
+                                      Text(
+                                        "Balance: ${book.balance ?? 0} ${book.crDr ?? ""}",
+                                        style: TextStyle(
+                                          fontFamily: FontFamily.medium,
+                                          fontSize: FontSize.s12,
+                                          color: const Color(0xFF78829A),
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                                const Icon(
+                                  Icons.arrow_forward_ios_rounded,
+                                  size: 14,
+                                  color: SplashColors.primary,
+                                ),
+                              ],
+                            ),
+                          ),
+                        ),
+                      );
+                    },
+                  ),
+                ),
+              ],
             ),
           );
         },

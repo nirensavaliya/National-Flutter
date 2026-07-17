@@ -121,7 +121,7 @@ class ClaimsToolbar extends GetView<ClaimsController> {
                       color: const Color(0xFF78829A),
                     ),
                     filled: true,
-                    fillColor: const Color(0xFFF4F7F7),
+                    fillColor: SplashColors.scaffoldBg,
                     contentPadding: const EdgeInsets.symmetric(
                       horizontal: 12,
                       vertical: 10,
@@ -144,7 +144,7 @@ class ClaimsToolbar extends GetView<ClaimsController> {
                 child: Container(
                   padding: const EdgeInsets.symmetric(horizontal: 12),
                   decoration: BoxDecoration(
-                    color: const Color(0xFFF4F7F7),
+                    color: SplashColors.scaffoldBg,
                     borderRadius: BorderRadius.circular(12),
                     border: Border.all(
                       color: SplashColors.primary.withOpacity(0.15),

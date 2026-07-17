@@ -67,10 +67,10 @@ class GetStorageData {
     return box.hasData(key);
   }
 
-  static saveObject(String key, value) {
+  static Future<void> saveObject(String key, value) async {
     final box = GetStorage();
     String allData = jsonEncode(value);
-    box.write(key, allData);
+    await box.write(key, allData);
   }
 
   static readObject(String key) {

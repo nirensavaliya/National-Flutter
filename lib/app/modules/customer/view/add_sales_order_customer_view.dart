@@ -1,6 +1,6 @@
 import 'dart:io';
 
-import 'package:flutter/gestures.dart';
+import 'package:gurukrupa/app/commons/app_colors.dart';
 import 'package:gurukrupa/app/commons/all.dart';
 import 'package:gurukrupa/app/modules/customer/controllers/add_sales_order_customer_controller.dart';
 import 'package:gurukrupa/app/modules/customer/model/brand_list_model.dart';
@@ -10,7 +10,7 @@ import '../../../data/common_widget/common_button.dart';
 import '../../../data/common_widget/common_textfeild.dart';
 import '../../bottom_bar/model/get_item_list.dart';
 import '../../sales_order/model/sale_order_model.dart';
-import '../model/get_catefory_brand_list_model.dart';
+import '../../sales_order/views/sales_order_form_ui.dart';
 
 class AddSalesOrderCustomerView
     extends GetView<AddSalesOrderCustomerController> {
@@ -20,71 +20,39 @@ class AddSalesOrderCustomerView
   Widget build(BuildContext context) {
     return GetBuilder<AddSalesOrderCustomerController>(
       builder: (controller) {
-        return Scaffold(
-          backgroundColor: Colors.white,
-          extendBodyBehindAppBar: false,
-          appBar: PreferredSize(
-            preferredSize: const Size.fromHeight(70), // Custom AppBar height
-            child: Container(
-              color: Colors.white, // AppBar background color
-              padding: const EdgeInsets.symmetric(horizontal: 10),
-              child: SafeArea(
-                // Ensure AppBar contents don't overlap system UI
-                child: Row(
-                  children: [
-                    // Custom Back Button
-                    IconButton(
-                      icon: const Icon(Icons.arrow_back, color: Colors.black),
-                      onPressed: () {
-                        Get.back(); // Navigate to the previous screen
-                      },
-                    ),
-                    const Spacer(),
-                    // Custom Title
-                    Text(
-                      "Sale Order",
-                      style: TextStyle(
-                        fontSize: 20,
-                        fontFamily: FontFamily.semiBold,
-                        color: Colors.black,
-                      ),
-                    ),
-                    const Spacer(),
-                    Opacity(
-                      opacity: 0.0,
-                      // Set to 1.0 to make it visible, 0.0 to make it invisible.
-                      child: IconButton(
-                        icon: const Icon(Icons.arrow_back, color: Colors.black),
-                        onPressed: () {
-                          Get.back(); // Navigate to the previous screen
-                        },
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-            ),
-          ),
+        return CommonScreen(
+          title: "Sale Order",
+          brandAppBar: true,
+          scaffoldColor: SplashColors.scaffoldBg,
           body: ListView(
-            padding: EdgeInsets.symmetric(horizontal: 20),
+            padding: const EdgeInsets.fromLTRB(16, 8, 16, 24),
             children: [
-              CommonTextField(
-                borderRadius: 12,
-                controller: controller.addDateController,
-                title: AppString.date,
-                isTitle: true,
-                maxLength: 10,
-                readOnly: true,
-                showCursor: false,
-                inputFormatters: [
-                  DateInputFormatter(),
+              SalesOrderFormSection(
+                title: 'Order Details',
+                icon: Icons.receipt_long_outlined,
+                children: [
+                  CommonTextField(
+                    borderRadius: 12,
+                    controller: controller.addDateController,
+                    title: AppString.date,
+                    isTitle: true,
+                    maxLength: 10,
+                    readOnly: true,
+                    showCursor: false,
+                    inputFormatters: [
+                      DateInputFormatter(),
+                    ],
+                    suffix: GestureDetector(
+                      onTap: () {
+                        // controller.selectDate(context, "add");
+                      },
+                      child: const Icon(
+                        Icons.calendar_month_outlined,
+                        color: SplashColors.primaryDark,
+                      ),
+                    ),
+                  ),
                 ],
-                suffix: GestureDetector(
-                  onTap: () {
-                    // controller.selectDate(context, "add");
-                  },
-                  child: Icon(Icons.calendar_month),
-                ),
               ),
               // Gap(12),
               Visibility(
@@ -284,27 +252,33 @@ class AddSalesOrderCustomerView
               //   ),
               // ),
 
-              if (controller.itemList.isNotEmpty) Gap(20),
-              if (controller.itemList.isNotEmpty) itemData(),
-              Gap(20),
-              CommonButton(
-                btnName: AppString.addItem,
+              const Gap(16),
+              _PrimaryActionButton(
+                label: AppString.addItem,
+                icon: Icons.add_box_outlined,
                 onTap: () {
                   controller.selectedItems.clear();
                   controller.itemQuantities.clear();
                   selectItemSheet();
                 },
               ),
-
-              Gap(12),
-              CommonTextField(
-                borderRadius: 12,
-                controller: controller.addShippingAddressController,
-                title: AppString.shippingAddress,
-                isTitle: true,
-                maxLine: 2,
-                textInputType: TextInputType.streetAddress,
-              ),
+              if (controller.itemList.isNotEmpty) ...[
+                const Gap(16),
+                itemData(),
+              ],
+              const Gap(16),
+              SalesOrderFormSection(
+                title: 'Additional Details',
+                icon: Icons.edit_note_rounded,
+                children: [
+                  CommonTextField(
+                    borderRadius: 12,
+                    controller: controller.addShippingAddressController,
+                    title: AppString.shippingAddress,
+                    isTitle: true,
+                    maxLine: 2,
+                    textInputType: TextInputType.streetAddress,
+                  ),
               // Gap(12),
               // CommonTextField(
               //   borderRadius: 12,
@@ -354,75 +328,76 @@ class AddSalesOrderCustomerView
               //   title: AppString.transport,
               //   isTitle: true,
               // ),
-              Gap(12),
-              CommonTextField(
-                borderRadius: 12,
-                controller: controller.addRemarkController,
-                title: AppString.remark,
-                isTitle: true,
-              ),
+                  const Gap(12),
+                  CommonTextField(
+                    borderRadius: 12,
+                    controller: controller.addRemarkController,
+                    title: AppString.remark,
+                    isTitle: true,
+                  ),
 
-              Gap(12),
-              if (controller.addInvoiceTypeController.text ==
-                  controller.invoiceList[1])
-                Text(
-                  AppString.gstType,
-                  style: TextStyle(
-                    fontFamily: FontFamily.medium,
-                    fontSize: FontSize.s16,
-                    color: Colors.black38,
-                  ),
-                ),
-              if (controller.addInvoiceTypeController.text ==
-                  controller.invoiceList[1])
-                Gap(8),
-              if (controller.addInvoiceTypeController.text ==
-                  controller.invoiceList[1])
-                DecoratedBox(
-                  decoration: BoxDecoration(
-                    border: Border.all(
-                        color: controller.isOpen.value
-                            ? Colors.blue
-                            : Colors.black38),
-                    borderRadius: BorderRadius.circular(12),
-                  ),
-                  child: Theme(
-                    data: ThemeData(dividerColor: Colors.transparent),
-                    child: ExpansionTile(
-                      childrenPadding: EdgeInsets.zero,
-                      dense: true,
-                      key: Key(controller.key.toString()),
-                      onExpansionChanged: (value) {
-                        print("value -- $value");
-                        controller.isOpen.value = value;
-                        controller.update();
-                      },
-                      title: Text(
-                        controller.addGstTypeController.text,
-                      ),
-                      children: List.generate(
-                        controller.gstTYpe.length,
-                        (index) {
-                          return GestureDetector(
-                            onTap: () {
-                              controller.addGstTypeController.text =
-                                  controller.gstTYpe[index];
-                              controller.collapse();
-                              controller.isOpen.value = false;
-                              controller.update();
-                            },
-                            child: Padding(
-                              padding: EdgeInsets.all(8.0),
-                              child: Text(
-                                controller.gstTYpe[index],
-                              ),
-                            ),
-                          );
-                        },
+                  const Gap(12),
+                  if (controller.addInvoiceTypeController.text ==
+                      controller.invoiceList[1]) ...[
+                    Text(
+                      AppString.gstType,
+                      style: TextStyle(
+                        fontFamily: FontFamily.medium,
+                        fontSize: FontSize.s16,
+                        color: Colors.black38,
                       ),
                     ),
-                  ),
-                ),
+                    const Gap(8),
+                    DecoratedBox(
+                      decoration: BoxDecoration(
+                        color: Colors.white,
+                        border: Border.all(
+                          color: controller.isOpen.value
+                              ? SplashColors.primary
+                              : SplashColors.primary.withOpacity(0.25),
+                        ),
+                        borderRadius: BorderRadius.circular(12),
+                      ),
+                      child: Theme(
+                        data: ThemeData(dividerColor: Colors.transparent),
+                        child: ExpansionTile(
+                          childrenPadding: EdgeInsets.zero,
+                          dense: true,
+                          key: Key(controller.key.toString()),
+                          onExpansionChanged: (value) {
+                            print("value -- $value");
+                            controller.isOpen.value = value;
+                            controller.update();
+                          },
+                          title: Text(
+                            controller.addGstTypeController.text,
+                          ),
+                          children: List.generate(
+                            controller.gstTYpe.length,
+                            (index) {
+                              return GestureDetector(
+                                onTap: () {
+                                  controller.addGstTypeController.text =
+                                      controller.gstTYpe[index];
+                                  controller.collapse();
+                                  controller.isOpen.value = false;
+                                  controller.update();
+                                },
+                                child: Padding(
+                                  padding: const EdgeInsets.all(12),
+                                  child: Text(
+                                    controller.gstTYpe[index],
+                                  ),
+                                ),
+                              );
+                            },
+                          ),
+                        ),
+                      ),
+                    ),
+                  ],
+                ],
+              ),
               // if (controller.invoiceController.text ==
               //     controller.invoiceList[1])
               //   Gap(12),
@@ -494,13 +469,38 @@ class AddSalesOrderCustomerView
               //   ],
               // ),
               // Gap(15),
-              CheckboxListTile(
-                title: Text("Order Later"),
-                value: controller.isOrderLaterChecked.value,
-                onChanged: (value) {
-                  controller.isOrderLaterChecked.value = value ?? false;
-                  controller.update();
-                },
+              const Gap(16),
+              Container(
+                padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 6),
+                decoration: BoxDecoration(
+                  color: Colors.white,
+                  borderRadius: BorderRadius.circular(16),
+                  boxShadow: [
+                    BoxShadow(
+                      color: Colors.black.withOpacity(0.04),
+                      blurRadius: 10,
+                      offset: const Offset(0, 4),
+                    ),
+                  ],
+                ),
+                child: CheckboxListTile(
+                  title: Text(
+                    "Order Later",
+                    style: TextStyle(
+                      fontFamily: FontFamily.semiBold,
+                      fontSize: FontSize.s16,
+                      color: SplashColors.primaryDark,
+                    ),
+                  ),
+                  activeColor: SplashColors.primary,
+                  value: controller.isOrderLaterChecked.value,
+                  contentPadding: EdgeInsets.zero,
+                  controlAffinity: ListTileControlAffinity.trailing,
+                  onChanged: (value) {
+                    controller.isOrderLaterChecked.value = value ?? false;
+                    controller.update();
+                  },
+                ),
               ),
 
               // Obx(() => CheckboxListTile(
@@ -511,9 +511,10 @@ class AddSalesOrderCustomerView
               //   },
               // )),
 
-              Gap(10),
-              CommonButton(
-                btnName: AppString.save,
+              const Gap(16),
+              _PrimaryActionButton(
+                label: AppString.save,
+                icon: Icons.check_circle_outline_rounded,
                 onTap: () {
                   // if (controller.deliveryDate.isEmpty) {
                   //   Utils().showSnackBar(
@@ -547,66 +548,132 @@ class AddSalesOrderCustomerView
   }
 
   Widget itemData() {
-    return SingleChildScrollView(
-      padding: EdgeInsets.zero,
-      scrollDirection: Axis.horizontal,
-      dragStartBehavior: DragStartBehavior.start,
-      child: DataTable(
-        border: TableBorder.all(),
-        columns: const <DataColumn>[
-          DataColumn(label: Text('Name')),
-          DataColumn(label: Text('UNIT')),
-          DataColumn(label: Text('QTY')),
-          DataColumn(label: Text('ACTION')),
-          // DataColumn(label: Text('PRICE')),
-          // DataColumn(label: Text('DISCOUNT(%)')),
-          // DataColumn(label: Text('DISCOUNT')),
-          // DataColumn(label: Text('TOTAL DISCOUNT')),
-          // DataColumn(label: Text('GST TEX')),
-          // DataColumn(label: Text('NETPRICE\n(INC. TEX)')),
-          // DataColumn(label: Text('CGSTPER')),
-          // DataColumn(label: Text('CGSTAMT')),
-          // DataColumn(label: Text('SGSTPER')),
-          // DataColumn(label: Text('SGSTAMT')),
-          // DataColumn(label: Text('IGSTPER')),
-          // DataColumn(label: Text('IGSTAMT')),
-          // DataColumn(label: Text('TEXABLE\nAMOUNT')),
-        ],
-        rows: List.generate(
+    return SalesOrderFormSection(
+      title: 'Selected Items',
+      icon: Icons.inventory_2_outlined,
+      children: [
+        ...List.generate(
           controller.itemList.length,
           (index) {
-            SaleOrderDetails data = controller.itemList[index];
-            return DataRow(
-              cells: <DataCell>[
-                DataCell(Text(
-                  data.itemName ?? "",
-                  maxLines: 2,
-                )),
-                DataCell(Text(data.unit ?? "")),
-                DataCell(Text(data.qty.toString())),
-                DataCell(
-                  Icon(Icons.delete, color: Colors.red),
-                  onTap: () {
-                    controller.removeItem(index);
-                    controller.calculateGstAndDiscountForAllItems();
-                  },
+            final data = controller.itemList[index];
+            return Container(
+              margin: EdgeInsets.only(
+                bottom: index == controller.itemList.length - 1 ? 0 : 12,
+              ),
+              decoration: BoxDecoration(
+                color: SplashColors.scaffoldBg,
+                borderRadius: BorderRadius.circular(16),
+                border: Border.all(
+                  color: SplashColors.primary.withOpacity(0.12),
                 ),
-                // DataCell(Text(data.price.toString())),
-                // DataCell(Text(data.discountPer.toString())),
-                // DataCell(Text(data.discount.toString())),
-                // DataCell(Text(data.totalDiscount.toString())),
-                // DataCell(Text(data.gstcodeId.toString())),
-                // DataCell(Text(data.netPriceINCTax.toString())),
-                // DataCell(Text(data.cgstPer.toString())),
-                // DataCell(Text(data.cgstAmount.toString())),
-                // DataCell(Text(data.sgstPer.toString())),
-                // DataCell(Text(data.sgstAmount.toString())),
-                // DataCell(Text(data.igstPer.toString())),
-                // DataCell(Text(data.igstAmount.toString())),
-                // DataCell(Text(data.taxableAmount.toString())),
-              ],
+              ),
+              child: Column(
+                children: [
+                  Padding(
+                    padding: const EdgeInsets.fromLTRB(14, 14, 10, 10),
+                    child: Row(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Expanded(
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text(
+                                data.itemName ?? "",
+                                maxLines: 2,
+                                overflow: TextOverflow.ellipsis,
+                                style: TextStyle(
+                                  fontFamily: FontFamily.semiBold,
+                                  fontSize: FontSize.s14,
+                                  color: SplashColors.primaryDark,
+                                ),
+                              ),
+                              const Gap(4),
+                              Text(
+                                'Unit: ${data.unit ?? "-"}',
+                                style: TextStyle(
+                                  fontFamily: FontFamily.medium,
+                                  fontSize: FontSize.s12,
+                                  color: const Color(0xFF78829A),
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                        GestureDetector(
+                          onTap: () {
+                            controller.removeItem(index);
+                            controller.calculateGstAndDiscountForAllItems();
+                          },
+                          child: Container(
+                            padding: const EdgeInsets.all(8),
+                            decoration: BoxDecoration(
+                              color: const Color(0xFFEF4444).withOpacity(0.1),
+                              borderRadius: BorderRadius.circular(10),
+                            ),
+                            child: const Icon(
+                              Icons.delete_outline,
+                              color: Color(0xFFEF4444),
+                              size: 20,
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                  SalesOrderDetailRow(
+                    label: 'Quantity',
+                    value: data.qty.toString(),
+                  ),
+                ],
+              ),
             );
           },
+        ),
+      ],
+    );
+  }
+
+  Widget _PrimaryActionButton({
+    required String label,
+    required IconData icon,
+    required VoidCallback onTap,
+  }) {
+    return GestureDetector(
+      onTap: onTap,
+      child: Container(
+        width: double.infinity,
+        padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 14),
+        decoration: BoxDecoration(
+          gradient: LinearGradient(
+            colors: [
+              SplashColors.primaryDeep,
+              SplashColors.primary,
+            ],
+          ),
+          borderRadius: BorderRadius.circular(14),
+          boxShadow: [
+            BoxShadow(
+              color: SplashColors.primary.withOpacity(0.25),
+              blurRadius: 14,
+              offset: const Offset(0, 6),
+            ),
+          ],
+        ),
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Icon(icon, color: Colors.white, size: 20),
+            const Gap(8),
+            Text(
+              label,
+              style: TextStyle(
+                color: Colors.white,
+                fontSize: FontSize.s16,
+                fontFamily: FontFamily.semiBold,
+              ),
+            ),
+          ],
         ),
       ),
     );
@@ -705,63 +772,26 @@ class AddSalesOrderCustomerView
       Padding(
         padding: EdgeInsets.only(top: AppBar().preferredSize.height),
         child: DecoratedBox(
-          decoration: BoxDecoration(
+          decoration: const BoxDecoration(
             borderRadius: BorderRadius.vertical(top: Radius.circular(24)),
-            color: Colors.white,
+            color: SplashColors.scaffoldBg,
           ),
           child: Column(
             mainAxisSize: MainAxisSize.min,
             children: [
-              Gap(10),
-              Text(
-                "Sales Order",
-                // "Select Item",
-                style: TextStyle(
-                  fontSize: FontSize.s22,
-                  color: Colors.black,
-                  fontFamily: FontFamily.semiBold,
-                ),
+              const SalesOrderSheetHeader(
+                title: 'Select Items',
+                subtitle: 'Search and add products to order',
               ),
               Gap(10),
-              Divider(color: Colors.black),
-              Gap(10),
-              // Search Text Field
               Padding(
                 padding: EdgeInsets.fromLTRB(20, 0, 20, 0),
                 child: TextField(
+                  controller: controller.searchFieldController,
                   onChanged: (value) {
-                    controller.categoryWiseFilterItems(
-                        value);
+                    controller.categoryWiseFilterItems(value);
                   },
-                  decoration: InputDecoration(
-                    hintText: "Enter here to search",
-                    hintStyle: TextStyle(color: Colors.grey, fontSize: 14),
-                    filled: true,
-                    fillColor: Colors.white,
-                    contentPadding:
-                        EdgeInsets.symmetric(vertical: 10, horizontal: 10),
-                    prefixIcon: Padding(
-                      padding: EdgeInsets.only(left: 10, right: 6),
-                      child: Icon(Icons.search, size: 26, color: Colors.black),
-                    ),
-                    prefixIconConstraints: BoxConstraints(
-                      minWidth: 30,
-                      minHeight: 30,
-                    ),
-                    border: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(12),
-                      // Rounded corners
-                      borderSide: BorderSide(color: Colors.grey),
-                    ),
-                    enabledBorder: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(12),
-                      borderSide: BorderSide(color: Colors.grey),
-                    ),
-                    focusedBorder: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(12),
-                      borderSide: BorderSide(color: Colors.blue),
-                    ),
-                  ),
+                  decoration: salesOrderSearchDecoration(),
                 ),
               ),
 
@@ -834,10 +864,7 @@ class AddSalesOrderCustomerView
                           openCategorySelection(controller);
                         },
                         child: DecoratedBox(
-                          decoration: BoxDecoration(
-                            border: Border.all(color: Colors.grey),
-                            borderRadius: BorderRadius.circular(12),
-                          ),
+                          decoration: salesOrderDropdownDecoration(),
                           child: Padding(
                             padding: EdgeInsets.all(5),
                             child: Row(
@@ -890,10 +917,7 @@ class AddSalesOrderCustomerView
                           openBrandSelection(controller);
                         },
                         child: DecoratedBox(
-                          decoration: BoxDecoration(
-                            border: Border.all(color: Colors.grey),
-                            borderRadius: BorderRadius.circular(12),
-                          ),
+                          decoration: salesOrderDropdownDecoration(),
                           child: Padding(
                             padding: EdgeInsets.all(5),
                             child: Row(
@@ -1097,243 +1121,27 @@ class AddSalesOrderCustomerView
                             }
 
                             if (controller.isSelected(item)) {
-                              // TextEditingController qtyController = TextEditingController();
-                              // TextEditingController qtyController =
-                              // TextEditingController(text: item.quantity?.toString() ?? "");
-                              // final qtyController = TextEditingController(
-                              //   text: controller.getQuantity(item),
-                              // );
-
-
-                              showDialog(
-                                context: context,
-                                builder: (context) {
-                                  final existingQty = controller.itemQuantities.containsKey(item)
-                                      ? controller.itemQuantities[item].toString()
-                                      : "";
-
-                                  final qtyController = TextEditingController(text: existingQty);
-                                  return AlertDialog(
-                                    backgroundColor: Colors.white,
-                                    shape: RoundedRectangleBorder(
-                                      borderRadius: BorderRadius.circular(16),
-                                    ),
-                                    title: Column(
-                                      children: [
-                                        const Text(
-                                          "Add Quantity",
-                                          textAlign: TextAlign.center,
-                                          style: TextStyle(
-                                            fontSize: 20,
-                                            fontWeight: FontWeight.bold,
-                                            color: Colors.indigo,
-                                          ),
-                                        ),
-                                        const SizedBox(height: 8),
-                                        Divider(thickness: 1, color: Colors.grey.shade300),
-                                      ],
-                                    ),
-                                    contentPadding: const EdgeInsets.all(16),
-                                    content: SingleChildScrollView(
-                                      child: Column(
-                                        crossAxisAlignment: CrossAxisAlignment.start,
-                                        mainAxisSize: MainAxisSize.min,
-                                        children: [
-                                          // Image
-                                          Align(
-                                            alignment: Alignment.center,
-                                            child: ClipRRect(
-                                              borderRadius: BorderRadius.circular(12),
-                                              child: Image.network(
-                                                item.imageUrl ?? "",
-                                                width: 120,
-                                                height: 120,
-                                                fit: BoxFit.fill,
-                                                errorBuilder: (context, error, stackTrace) {
-                                                  return Image.asset(
-                                                    AppImages.appIcon_g,
-                                                    width: 100,
-                                                    height: 100,
-                                                    fit: BoxFit.fill,
-                                                  );
-                                                },
-                                              ),
-                                            ),
-                                          ),
-                                          const SizedBox(height: 12),
-
-                                          Text(
-                                            "Item Name",
-                                            textAlign: TextAlign.center,
-                                            style:  TextStyle(
-                                              fontFamily: FontFamily.bold,
-                                              fontSize: FontSize.s18,
-                                              color: Colors.black45,
-                                            ),
-                                          ),
-                                          Align(
-                                            alignment: Alignment.center,
-                                            child: Card(
-                                              elevation: 3,
-                                              color: Colors.white,
-                                              shape: RoundedRectangleBorder(
-                                                borderRadius: BorderRadius.circular(12),
-                                              ),
-                                              child: Container(
-                                                padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 10),
-                                                decoration: BoxDecoration(
-                                                  borderRadius: BorderRadius.circular(12),
-                                                ),
-                                                child: Text(
-                                                  item.itemName ?? "",
-                                                  textAlign: TextAlign.center,
-                                                  style:  TextStyle(
-                                                    color: Colors.black,
-                                                    fontSize:  FontSize.s16,
-                                                    fontFamily: FontFamily.bold,
-                                                  ),
-                                                ),
-                                              ),
-                                            ),
-                                          ),
-
-                                          const SizedBox(height: 16),
-
-                                          Text(
-                                            "Quantity",
-                                            textAlign: TextAlign.center,
-                                            style:  TextStyle(
-                                              fontFamily: FontFamily.bold,
-                                              fontSize: FontSize.s18,
-                                              color: Colors.black45,
-                                            ),
-                                          ),
-
-                                          Card(
-                                            elevation: 3,
-                                            color: Colors.white,
-                                            child: TextField(
-                                              controller: qtyController,
-                                              keyboardType:
-                                              TextInputType.number,
-                                              textAlign: TextAlign.center,
-                                              textAlignVertical:
-                                              TextAlignVertical.center,
-                                              style: TextStyle(
-                                                color: Colors.black,
-                                                fontSize:  FontSize.s16,
-                                                fontFamily: FontFamily.bold,
-                                              ),
-                                              decoration: InputDecoration(
-                                                hintText: "Qty",
-                                                contentPadding: EdgeInsets.zero,
-                                                border: OutlineInputBorder(
-                                                  borderRadius:
-                                                  BorderRadius.circular(8),
-                                                  borderSide: BorderSide(
-                                                      color: Colors.grey),
-                                                ),
-                                              ),
-                                            ),
-                                          ),
-
-                                          const SizedBox(height: 12),
-
-                                          // Text(
-                                          //   "Rate",
-                                          //   textAlign: TextAlign.center,
-                                          //   style:  TextStyle(
-                                          //     fontFamily: FontFamily.bold,
-                                          //     fontSize: FontSize.s18,
-                                          //     color: Colors.black45,
-                                          //   ),
-                                          // ),
-                                          // Align(
-                                          //   alignment: Alignment.center,
-                                          //   child: Card(
-                                          //     elevation: 3,
-                                          //     color: Colors.white,
-                                          //     shape: RoundedRectangleBorder(
-                                          //       borderRadius: BorderRadius.circular(12),
-                                          //     ),
-                                          //     child: Container(
-                                          //       padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 10),
-                                          //       decoration: BoxDecoration(
-                                          //         borderRadius: BorderRadius.circular(12),
-                                          //       ),
-                                          //       child: Text(
-                                          //         (item.price ?? "").toString(),
-                                          //         textAlign: TextAlign.center,
-                                          //         style:  TextStyle(
-                                          //           color: Colors.black,
-                                          //           fontSize:  FontSize.s16,
-                                          //           fontFamily: FontFamily.bold,
-                                          //         ),
-                                          //       ),
-                                          //     ),
-                                          //   ),
-                                          // ),
-                                        ],
-                                      ),
-                                    ),
-                                    actionsPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
-                                    actions: [
-                                      TextButton(
-                                        onPressed: () => Navigator.pop(context),
-                                        child: const Text("Cancel",style: TextStyle(
-                                            color: Colors.black
-                                        ),),
-                                      ),
-                                      ElevatedButton(
-                                        style: ElevatedButton.styleFrom(
-                                          backgroundColor: Colors.indigo,
-                                          shape: RoundedRectangleBorder(
-                                            borderRadius: BorderRadius.circular(8),
-                                          ),
-                                          padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 12),
-                                        ),
-                                        onPressed: () {
-                                          final qty = qtyController.text.trim();
-                                          // Debug log
-                                          debugPrint("Updating quantity for item: ${item.itemName}, Qty: $qty");
-                                          controller.updateQuantity(
-                                              item, qty);
-
-                                          if (qty.isEmpty || int.tryParse(qty) == null || int.parse(qty) <= 0) {
-                                            Get.snackbar(
-                                              "Error",
-                                              "Please enter a valid quantity!",
-                                              snackPosition: SnackPosition.BOTTOM,
-                                              margin: const EdgeInsets.only(left: 10, right: 10, bottom: 70),
-                                              backgroundColor: Colors.red,
-                                              colorText: Colors.white,
-                                            );
-                                            return;
-                                          }
-
-                                          Navigator.pop(context);
-                                        },
-                                        child: const Text("OK",style: TextStyle(
-                                            color: Colors.white
-                                        ),),
-                                      ),
-                                    ],
-                                  );
-                                },
-                              );
+                              _showAddQuantityDialog(context, controller, item);
                             }
                           },
                           child: Obx(() => Container(
                                 decoration: BoxDecoration(
                                   border: Border.all(
                                     color: controller.isSelected(item)
-                                        ? Colors.blue
-                                        : Colors.grey,
+                                        ? SplashColors.primary
+                                        : SplashColors.primary.withOpacity(0.2),
                                   ),
-                                  borderRadius: BorderRadius.circular(5),
+                                  borderRadius: BorderRadius.circular(14),
                                   color: controller.isSelected(item)
-                                      ? Colors.blue.withOpacity(0.2)
+                                      ? SplashColors.primary.withOpacity(0.08)
                                       : Colors.white,
+                                  boxShadow: [
+                                    BoxShadow(
+                                      color: Colors.black.withOpacity(0.04),
+                                      blurRadius: 8,
+                                      offset: const Offset(0, 2),
+                                    ),
+                                  ],
                                 ),
                                 child: Row(
                                   children: [
@@ -1466,237 +1274,17 @@ class AddSalesOrderCustomerView
 
                                     // Selection Checkbox
                                     Checkbox(
+                                      activeColor: SplashColors.primary,
                                       value: controller.isSelected(item),
                                       onChanged: (value) {
                                         controller.toggleSelection(item);
                                         if (controller.isSelected(item)) {
-                                          // TextEditingController qtyController = TextEditingController();
-                                          // TextEditingController qtyController =
-                                          // TextEditingController(text: item.quantity?.toString() ?? "");
-                                          // final qtyController = TextEditingController(
-                                          //   text: controller.getQuantity(item),
-                                          // );
-
-
-                                          showDialog(
-                                            context: context,
-                                            builder: (context) {
-                                              final existingQty = controller.itemQuantities.containsKey(item)
-                                                  ? controller.itemQuantities[item].toString()
-                                                  : "";
-
-                                              final qtyController = TextEditingController(text: existingQty);
-                                              return AlertDialog(
-                                                backgroundColor: Colors.white,
-                                                shape: RoundedRectangleBorder(
-                                                  borderRadius: BorderRadius.circular(16),
-                                                ),
-                                                title: Column(
-                                                  children: [
-                                                    const Text(
-                                                      "Add Quantity",
-                                                      textAlign: TextAlign.center,
-                                                      style: TextStyle(
-                                                        fontSize: 20,
-                                                        fontWeight: FontWeight.bold,
-                                                        color: Colors.indigo,
-                                                      ),
-                                                    ),
-                                                    const SizedBox(height: 8),
-                                                    Divider(thickness: 1, color: Colors.grey.shade300),
-                                                  ],
-                                                ),
-                                                contentPadding: const EdgeInsets.all(16),
-                                                content: SingleChildScrollView(
-                                                  child: Column(
-                                                    crossAxisAlignment: CrossAxisAlignment.start,
-                                                    mainAxisSize: MainAxisSize.min,
-                                                    children: [
-                                                      // Image
-                                                      Align(
-                                                        alignment: Alignment.center,
-                                                        child: ClipRRect(
-                                                          borderRadius: BorderRadius.circular(12),
-                                                          child: Image.network(
-                                                            item.imageUrl ?? "",
-                                                            width: 120,
-                                                            height: 120,
-                                                            fit: BoxFit.fill,
-                                                            errorBuilder: (context, error, stackTrace) {
-                                                              return Image.asset(
-                                                                AppImages.appIcon_g,
-                                                                width: 100,
-                                                                height: 100,
-                                                                fit: BoxFit.fill,
-                                                              );
-                                                            },
-                                                          ),
-                                                        ),
-                                                      ),
-                                                      const SizedBox(height: 12),
-
-                                                      Text(
-                                                        "Item NameEEEEE",
-                                                        textAlign: TextAlign.center,
-                                                        style:  TextStyle(
-                                                          fontFamily: FontFamily.bold,
-                                                          fontSize: FontSize.s18,
-                                                          color: Colors.black45,
-                                                        ),
-                                                      ),
-                                                      Align(
-                                                        alignment: Alignment.center,
-                                                        child: Card(
-                                                          elevation: 3,
-                                                          color: Colors.white,
-                                                          shape: RoundedRectangleBorder(
-                                                            borderRadius: BorderRadius.circular(12),
-                                                          ),
-                                                          child: Container(
-                                                            padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 10),
-                                                            decoration: BoxDecoration(
-                                                              borderRadius: BorderRadius.circular(12),
-                                                            ),
-                                                            child: Text(
-                                                              item.itemName ?? "",
-                                                              textAlign: TextAlign.center,
-                                                              style:  TextStyle(
-                                                                color: Colors.black,
-                                                                fontSize:  FontSize.s16,
-                                                                fontFamily: FontFamily.bold,
-                                                              ),
-                                                            ),
-                                                          ),
-                                                        ),
-                                                      ),
-
-                                                      const SizedBox(height: 16),
-
-                                                      Text(
-                                                        "Quantity",
-                                                        textAlign: TextAlign.center,
-                                                        style:  TextStyle(
-                                                          fontFamily: FontFamily.bold,
-                                                          fontSize: FontSize.s18,
-                                                          color: Colors.black45,
-                                                        ),
-                                                      ),
-
-                                                      Card(
-                                                        elevation: 3,
-                                                        color: Colors.white,
-                                                        child: TextField(
-                                                          controller: qtyController,
-                                                          keyboardType:
-                                                          TextInputType.number,
-                                                          textAlign: TextAlign.center,
-                                                          textAlignVertical:
-                                                          TextAlignVertical.center,
-                                                          style: TextStyle(
-                                                            color: Colors.black,
-                                                            fontSize:  FontSize.s16,
-                                                            fontFamily: FontFamily.bold,
-                                                          ),
-                                                          decoration: InputDecoration(
-                                                            hintText: "Qty",
-                                                            contentPadding: EdgeInsets.zero,
-                                                            border: OutlineInputBorder(
-                                                              borderRadius:
-                                                              BorderRadius.circular(8),
-                                                              borderSide: BorderSide(
-                                                                  color: Colors.grey),
-                                                            ),
-                                                          ),
-                                                        ),
-                                                      ),
-
-                                                      const SizedBox(height: 12),
-
-                                                      // Text(
-                                                      //   "Rate",
-                                                      //   textAlign: TextAlign.center,
-                                                      //   style:  TextStyle(
-                                                      //     fontFamily: FontFamily.bold,
-                                                      //     fontSize: FontSize.s18,
-                                                      //     color: Colors.black45,
-                                                      //   ),
-                                                      // ),
-                                                      // Align(
-                                                      //   alignment: Alignment.center,
-                                                      //   child: Card(
-                                                      //     elevation: 3,
-                                                      //     color: Colors.white,
-                                                      //     shape: RoundedRectangleBorder(
-                                                      //       borderRadius: BorderRadius.circular(12),
-                                                      //     ),
-                                                      //     child: Container(
-                                                      //       padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 10),
-                                                      //       decoration: BoxDecoration(
-                                                      //         borderRadius: BorderRadius.circular(12),
-                                                      //       ),
-                                                      //       child: Text(
-                                                      //         (item.price ?? "").toString(),
-                                                      //         textAlign: TextAlign.center,
-                                                      //         style:  TextStyle(
-                                                      //           color: Colors.black,
-                                                      //           fontSize:  FontSize.s16,
-                                                      //           fontFamily: FontFamily.bold,
-                                                      //         ),
-                                                      //       ),
-                                                      //     ),
-                                                      //   ),
-                                                      // ),
-
-                                                    ],
-                                                  ),
-                                                ),
-                                                actionsPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
-                                                actions: [
-                                                  TextButton(
-                                                    onPressed: () => Navigator.pop(context),
-                                                    child: const Text("Cancel",style: TextStyle(
-                                                        color: Colors.black
-                                                    ),),
-                                                  ),
-                                                  ElevatedButton(
-                                                    style: ElevatedButton.styleFrom(
-                                                      backgroundColor: Colors.indigo,
-                                                      shape: RoundedRectangleBorder(
-                                                        borderRadius: BorderRadius.circular(8),
-                                                      ),
-                                                      padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 12),
-                                                    ),
-                                                    onPressed: () {
-                                                      final qty = qtyController.text.trim();
-                                                      // Debug log
-                                                      debugPrint("Updating quantity for item: ${item.itemName}, Qty: $qty");
-                                                      controller.updateQuantity(
-                                                          item, qty);
-
-                                                      if (qty.isEmpty || int.tryParse(qty) == null || int.parse(qty) <= 0) {
-                                                        Get.snackbar(
-                                                          "Error",
-                                                          "Please enter a valid quantity!",
-                                                          snackPosition: SnackPosition.BOTTOM,
-                                                          margin: const EdgeInsets.only(left: 10, right: 10, bottom: 70),
-                                                          backgroundColor: Colors.red,
-                                                          colorText: Colors.white,
-                                                        );
-                                                        return;
-                                                      }
-
-                                                      Navigator.pop(context);
-                                                    },
-                                                    child: const Text("OK",style: TextStyle(
-                                                        color: Colors.white
-                                                    ),),
-                                                  ),
-                                                ],
-                                              );
-                                            },
+                                          _showAddQuantityDialog(
+                                            context,
+                                            controller,
+                                            item,
                                           );
                                         }
-
                                       },
                                     ),
                                     SizedBox(width: 1.5),
@@ -1738,7 +1326,7 @@ class AddSalesOrderCustomerView
                             // addItemSheet(selectedWithQty);
                           },
                           style: ElevatedButton.styleFrom(
-                            backgroundColor: Colors.blue[900],
+                            backgroundColor: SplashColors.primary,
                             padding: EdgeInsets.symmetric(
                                 horizontal: 40, vertical: 12),
                             shape: RoundedRectangleBorder(
@@ -1774,40 +1362,24 @@ class AddSalesOrderCustomerView
       Padding(
         padding: EdgeInsets.only(top: AppBar().preferredSize.height),
         child: DecoratedBox(
-          decoration: BoxDecoration(
+          decoration: const BoxDecoration(
             borderRadius: BorderRadius.vertical(top: Radius.circular(24)),
-            color: Colors.white,
+            color: SplashColors.scaffoldBg,
           ),
           child: Column(
             mainAxisSize: MainAxisSize.min,
             children: [
-              SizedBox(height: 10),
-              Text(
-                "Select Category",
-                style: TextStyle(
-                  fontSize: 22,
-                  color: Colors.black,
-                  fontWeight: FontWeight.bold,
-                ),
+              const SalesOrderSheetHeader(
+                title: 'Select Category',
+                subtitle: 'Filter products by category',
               ),
-              Divider(color: Colors.black, height: 20),
-
               Padding(
                 padding: EdgeInsets.fromLTRB(20, 0, 20, 0),
                 child: TextField(
                   onChanged: (value) {
                     controller.categoryFilter(value);
                   },
-                  decoration: InputDecoration(
-                    hintText: "Enter here to search",
-                    hintStyle: TextStyle(color: Colors.grey, fontSize: 14),
-                    filled: true,
-                    fillColor: Colors.white,
-                    prefixIcon: Icon(Icons.search, color: Colors.black),
-                    border: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(12),
-                    ),
-                  ),
+                  decoration: salesOrderSearchDecoration(),
                 ),
               ),
               Gap(10),
@@ -1968,39 +1540,25 @@ class AddSalesOrderCustomerView
       Padding(
         padding: EdgeInsets.only(top: AppBar().preferredSize.height),
         child: DecoratedBox(
-          decoration: BoxDecoration(
+          decoration: const BoxDecoration(
             borderRadius: BorderRadius.vertical(top: Radius.circular(24)),
-            color: Colors.white,
+            color: SplashColors.scaffoldBg,
           ),
           child: Column(
             mainAxisSize: MainAxisSize.min,
             children: [
-              SizedBox(height: 10),
-              Text(
-                "Select Brand",
-                style: TextStyle(
-                  fontSize: 22,
-                  color: Colors.black,
-                  fontWeight: FontWeight.bold,
-                ),
+              const SalesOrderSheetHeader(
+                title: 'Select Brand',
+                subtitle: 'Filter products by brand',
               ),
-              Divider(color: Colors.black, height: 20),
-
               Padding(
                 padding: EdgeInsets.fromLTRB(20, 0, 20, 0),
                 child: TextField(
                   onChanged: (value) {
                     controller.brandFilter(value);
                   },
-                  decoration: InputDecoration(
-                    hintText: "Enter brand to search",
-                    hintStyle: TextStyle(color: Colors.grey, fontSize: 14),
-                    filled: true,
-                    fillColor: Colors.white,
-                    prefixIcon: Icon(Icons.search, color: Colors.black),
-                    border: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(12),
-                    ),
+                  decoration: salesOrderSearchDecoration().copyWith(
+                    hintText: 'Enter brand to search',
                   ),
                 ),
               ),
@@ -2622,4 +2180,46 @@ class AddSalesOrderCustomerView
       ),
     );
   }
+}
+
+void _showAddQuantityDialog(
+  BuildContext context,
+  AddSalesOrderCustomerController controller,
+  ItemData item,
+) {
+  showDialog(
+    context: context,
+    builder: (context) {
+      final existingQty = controller.itemQuantities.containsKey(item)
+          ? controller.itemQuantities[item].toString()
+          : '';
+
+      final qtyController = TextEditingController(text: existingQty);
+      return AddQuantityDialog(
+        itemName: item.itemName ?? '',
+        imageUrl: item.imageUrl ?? '',
+        rate: (item.price ?? '').toString(),
+        qtyController: qtyController,
+        onConfirm: () {
+          final qty = qtyController.text.trim();
+          debugPrint('Updating quantity for item: ${item.itemName}, Qty: $qty');
+          controller.updateQuantity(item, qty);
+
+          if (qty.isEmpty || int.tryParse(qty) == null || int.parse(qty) <= 0) {
+            Get.snackbar(
+              'Error',
+              'Please enter a valid quantity!',
+              snackPosition: SnackPosition.BOTTOM,
+              margin: const EdgeInsets.only(left: 10, right: 10, bottom: 70),
+              backgroundColor: Colors.red,
+              colorText: Colors.white,
+            );
+            return;
+          }
+
+          Navigator.pop(context);
+        },
+      );
+    },
+  );
 }

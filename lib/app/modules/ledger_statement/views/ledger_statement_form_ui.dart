@@ -158,7 +158,7 @@ class LedgerStatementTable extends StatelessWidget {
                   return SplashColors.primary.withOpacity(0.12);
                 }
                 if (index.isOdd) {
-                  return const Color(0xFFF4F7F7);
+                  return SplashColors.scaffoldBg;
                 }
                 return null;
               }),
@@ -281,7 +281,7 @@ InputDecoration ledgerSearchDecoration() {
     hintText: 'Search ledger...',
     hintStyle: TextStyle(color: Colors.grey, fontSize: 14),
     filled: true,
-    fillColor: const Color(0xFFF4F7F7),
+    fillColor: SplashColors.scaffoldBg,
     contentPadding: const EdgeInsets.symmetric(vertical: 10, horizontal: 10),
     prefixIcon: const Padding(
       padding: EdgeInsets.only(left: 10, right: 6),

@@ -3,6 +3,7 @@ import 'dart:io';
 
 import 'package:dio/dio.dart';
 import 'package:flutter/foundation.dart';
+import 'package:gurukrupa/app/commons/app_colors.dart';
 import 'package:intl/intl.dart';
 
 import '../../../api_common/api_function.dart';
@@ -10,6 +11,7 @@ import '../../../commons/all.dart';
 import '../../../data/common_widget/common_textfeild.dart';
 import '../../../routes/app_pages.dart';
 import '../../item_list/controllers/item_list_controller.dart';
+import '../../sale_register/views/sale_register_form_ui.dart';
 import '../model/purchase_register_model.dart';
 import '../model/purchase_register_model_data.dart';
 
@@ -57,47 +59,46 @@ class PurchaseRegisterController extends GetxController {
   }
 
   void selectLedger() {
+    filteredItems = supplierList;
     searchFieldController.clear();
     Get.bottomSheet(
       GetBuilder<PurchaseRegisterController>(
         builder: (controller) {
-          return DecoratedBox(
-            decoration: BoxDecoration(
+          return SizedBox(
+            height: Get.height * 0.75,
+            child: DecoratedBox(
+              decoration: const BoxDecoration(
                 color: Colors.white,
-                borderRadius: BorderRadius.vertical(top: Radius.circular(24))),
-            child: Padding(
-              padding: EdgeInsets.symmetric(horizontal: 15, vertical: 12),
-              // padding: EdgeInsets.fromLTRB(20, 20, 20, 0),
+                borderRadius: BorderRadius.vertical(top: Radius.circular(24)),
+              ),
               child: Column(
                 children: [
-                  CommonTextField(
-                    controller: searchFieldController,
-                    borderRadius: 12,
-                    prefix: Icon(Icons.search),
-                    onChanged: (p0) {
-                      filterItems(p0);
-                    },
+                  const SaleRegisterSheetHeader(title: 'Select Supplier'),
+                  Padding(
+                    padding: const EdgeInsets.fromLTRB(16, 12, 16, 8),
+                    child: CommonTextField(
+                      controller: searchFieldController,
+                      borderRadius: 12,
+                      prefix: const Icon(Icons.search, color: SplashColors.primary),
+                      onChanged: (p0) {
+                        filterItems(p0);
+                      },
+                    ),
                   ),
                   Expanded(
                     child: ListView.builder(
                       itemCount: filteredItems.length,
-                      shrinkWrap: true,
-                      padding: EdgeInsets.zero,
+                      padding: const EdgeInsets.fromLTRB(16, 0, 16, 16),
                       itemBuilder: (context, index) {
-                        return Padding(
-                          padding: EdgeInsets.only(top: 10),
-                          child: GestureDetector(onTap: () {
-                            ledgerController.text = controller.filteredItems[index].supplierName ?? "";
-                            supplierId = controller.filteredItems[index].supplierID ?? 0;
+                        return SaleRegisterSelectListTile(
+                          title: filteredItems[index].supplierName,
+                          onTap: () {
+                            ledgerController.text =
+                                filteredItems[index].supplierName ?? "";
+                            supplierId = filteredItems[index].supplierID ?? 0;
                             purchaseRegisterListApi();
                             Get.back();
-                          },child:  DecoratedBox(
-                            decoration: BoxDecoration(
-                                border: Border.all(),
-                                borderRadius: BorderRadius.circular(7),
-                            ),
-                            child: commonTableText(title: controller.filteredItems[index].supplierName),
-                          ),),
+                          },
                         );
                       },
                     ),
@@ -128,45 +129,41 @@ class PurchaseRegisterController extends GetxController {
     Get.bottomSheet(
       GetBuilder<PurchaseRegisterController>(
         builder: (controller) {
-          return DecoratedBox(
-            decoration: BoxDecoration(
+          return SizedBox(
+            height: Get.height * 0.75,
+            child: DecoratedBox(
+              decoration: const BoxDecoration(
                 color: Colors.white,
-                borderRadius: BorderRadius.vertical(top: Radius.circular(24))),
-            child: Padding(
-              padding: EdgeInsets.symmetric(horizontal: 15, vertical: 12),
+                borderRadius: BorderRadius.vertical(top: Radius.circular(24)),
+              ),
               child: Column(
                 children: [
-                  CommonTextField(
-                    controller: searchFieldController,
-                    borderRadius: 12,
-                    prefix: Icon(Icons.search),
-                    onChanged: (p0) {
-                      filterBranch(p0);
-                    },
+                  const SaleRegisterSheetHeader(title: 'Select Branch'),
+                  Padding(
+                    padding: const EdgeInsets.fromLTRB(16, 12, 16, 8),
+                    child: CommonTextField(
+                      controller: searchFieldController,
+                      borderRadius: 12,
+                      prefix: const Icon(Icons.search, color: SplashColors.primary),
+                      onChanged: (p0) {
+                        filterBranch(p0);
+                      },
+                    ),
                   ),
                   Expanded(
                     child: ListView.builder(
                       itemCount: filteredBranch.length,
-                      shrinkWrap: true,
-                      padding: EdgeInsets.zero,
+                      padding: const EdgeInsets.fromLTRB(16, 0, 16, 16),
                       itemBuilder: (context, index) {
-                        return Padding(
-                          padding: EdgeInsets.only(top: 10),
-                          child: GestureDetector(
-                            onTap: () {
-                              branchController.text = filteredBranch[index].branchName ?? "";
-                              branchId = filteredBranch[index].branchID ?? 0 ;
-                              purchaseRegisterListApi();
-                              Get.back();
-                            },
-                            child:  DecoratedBox(
-                              decoration: BoxDecoration(
-                                  border: Border.all(),
-                                  borderRadius: BorderRadius.circular(7)
-                              ),
-                              child: commonTableText(title: filteredBranch[index].branchName ?? ""),
-                            ),
-                          ),
+                        return SaleRegisterSelectListTile(
+                          title: filteredBranch[index].branchName,
+                          onTap: () {
+                            branchController.text =
+                                filteredBranch[index].branchName ?? "";
+                            branchId = filteredBranch[index].branchID ?? 0;
+                            purchaseRegisterListApi();
+                            Get.back();
+                          },
                         );
                       },
                     ),

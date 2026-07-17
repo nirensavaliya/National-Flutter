@@ -17,9 +17,10 @@ class SalesOrderView extends GetView<SalesOrderController> {
         return CommonScreen(
           title: AppString.salesOrder,
           brandAppBar: true,
-          scaffoldColor: const Color(0xFFF4F7F7),
+          scaffoldColor: SplashColors.scaffoldBg,
           floatingActionButton: controller.isAdd.value ? SizedBox() : GestureDetector(
             onTap: () {
+              controller.resetNewSalesOrderForm();
               controller.addDateController.text = DateFormat("dd/MM/yyyy").format(DateTime.now()).toString();
               controller.isAdd.value = true;
               controller.isUpdate = false;
@@ -32,15 +33,17 @@ class SalesOrderView extends GetView<SalesOrderController> {
               child: Center(child: Icon(Icons.add,size: 35,color: Colors.white)),
             ),
           ),
-          actions: controller.isAdd.value ? [] : [
-            GestureDetector(
-                onTap: () {
-
-                  controller.filterSheet(context);
-                },
-                child: Icon(Icons.search,size: 30,)),
-            Gap(20),
-          ],
+          actions: controller.isAdd.value
+              ? []
+              : [
+                  GestureDetector(
+                    onTap: () {
+                      controller.filterSheet(context);
+                    },
+                    child: Icon(Icons.search, size: 30),
+                  ),
+                  Gap(20),
+                ],
             body: Obx(() => controller.isAdd.value
                 ? SalesOrderAddView()
                 : controller.quotationList.isEmpty

@@ -12,7 +12,7 @@ class TransactionView extends GetView<BottomBarController> {
   @override
   Widget build(BuildContext context) {
     return ColoredBox(
-      color: const Color(0xFFF4F7F7),
+      color: SplashColors.scaffoldBg,
       child: Column(
         children: [
           SectionAppBar(

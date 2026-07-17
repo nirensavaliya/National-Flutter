@@ -1,181 +1,114 @@
-import 'package:flutter/gestures.dart';
-import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
-
-import 'package:get/get.dart';
+import 'package:gurukrupa/app/commons/app_colors.dart';
+import 'package:gurukrupa/app/modules/sale_register/views/sale_register_form_ui.dart';
 
 import '../../../commons/all.dart';
 import '../../../data/common_widget/common_button.dart';
 import '../../../data/common_widget/common_textfeild.dart';
 import '../controllers/purchase_register_controller.dart';
+import 'purchase_register_form_ui.dart';
 
 class PurchaseRegisterView extends GetView<PurchaseRegisterController> {
   const PurchaseRegisterView({super.key});
+
   @override
   Widget build(BuildContext context) {
-    return  CommonScreen(
-      title: AppString.purchaseRegister,
-      body: ListView(
-        padding: EdgeInsets.symmetric(horizontal: 20),
-        children: [
-          CommonTextField(
-            borderRadius: 12,
-            controller: controller.fromDateController,
-            title: AppString.fromDate,
-            isTitle: true,
-            maxLength: 10,
-            readOnly: true,
-            showCursor: false,
-            onTap: (){
-              controller.selectDate(context, "from");
-            },
-            inputFormatters: [
-              DateInputFormatter(),
+    return GetBuilder<PurchaseRegisterController>(
+      builder: (controller) {
+        return CommonScreen(
+          title: AppString.purchaseRegister,
+          brandAppBar: true,
+          scaffoldColor: SplashColors.scaffoldBg,
+          body: ListView(
+            padding: const EdgeInsets.fromLTRB(16, 8, 16, 24),
+            children: [
+              SaleRegisterFilterCard(
+                children: [
+                  CommonTextField(
+                    borderRadius: 12,
+                    controller: controller.fromDateController,
+                    title: AppString.fromDate,
+                    isTitle: true,
+                    maxLength: 10,
+                    readOnly: true,
+                    showCursor: false,
+                    onTap: () {
+                      controller.selectDate(context, "from");
+                    },
+                    inputFormatters: [
+                      DateInputFormatter(),
+                    ],
+                    suffix: saleRegisterCalendarSuffix(() {
+                      controller.selectDate(context, "from");
+                    }),
+                  ),
+                  const Gap(12),
+                  CommonTextField(
+                    borderRadius: 12,
+                    controller: controller.toDateController,
+                    title: AppString.toDate,
+                    isTitle: true,
+                    maxLength: 10,
+                    readOnly: true,
+                    showCursor: false,
+                    onTap: () {
+                      controller.selectDate(context, "to");
+                    },
+                    inputFormatters: [
+                      DateInputFormatter(),
+                    ],
+                    suffix: saleRegisterCalendarSuffix(() {
+                      controller.selectDate(context, "to");
+                    }),
+                  ),
+                  const Gap(12),
+                  CommonTextField(
+                    borderRadius: 12,
+                    controller: controller.ledgerController,
+                    title: AppString.supplier,
+                    isTitle: true,
+                    maxLength: 10,
+                    hintText: "Please Select...",
+                    showCursor: false,
+                    readOnly: true,
+                    onTap: () {
+                      controller.selectLedger();
+                    },
+                    suffix: saleRegisterDropdownSuffix(),
+                  ),
+                  const Gap(12),
+                  CommonTextField(
+                    borderRadius: 12,
+                    controller: controller.branchController,
+                    title: AppString.branch,
+                    isTitle: true,
+                    maxLength: 10,
+                    hintText: "Please Select...",
+                    showCursor: false,
+                    readOnly: true,
+                    onTap: () {
+                      controller.selectBranch();
+                    },
+                    suffix: saleRegisterDropdownSuffix(),
+                  ),
+                ],
+              ),
+              const Gap(16),
+              CommonButton(
+                btnName: AppString.downloadPdf,
+                btnColor: SplashColors.primary,
+                onTap: () {
+                  controller.genaratePDFApi();
+                },
+              ),
+              const Gap(16),
+              PurchaseRegisterTable(
+                registerData: controller.registerData,
+              ),
             ],
-            suffix: GestureDetector(
-              onTap: () {
-                controller.selectDate(context, "from");
-              },
-              child: Icon(Icons.calendar_month),
-            ),
           ),
-          Gap(15),
-          CommonTextField(
-            borderRadius: 12,
-            controller: controller.toDateController,
-            title: AppString.toDate,
-            isTitle: true,
-            maxLength: 10,
-            readOnly: true,
-            showCursor: false,
-            onTap: (){
-              controller.selectDate(context, "to");
-            },
-            inputFormatters: [
-              DateInputFormatter(),
-            ],
-            suffix: GestureDetector(
-              onTap: () {
-                controller.selectDate(context, "to");
-              },
-              child: Icon(Icons.calendar_month),
-            ),
-          ),
-          Gap(15),
-          CommonTextField(
-            borderRadius: 12,
-            controller: controller.ledgerController,
-            title: AppString.supplier,
-            isTitle: true,
-            maxLength: 10,
-            hintText: "Please Select...",
-            showCursor: false,
-            readOnly: true,
-            onTap: () {
-              controller.selectLedger();
-            },
-            suffix: RotatedBox(
-                quarterTurns: 1,
-                child: Icon(
-                  Icons.arrow_forward_ios,
-                  size: 20,
-                )),
-          ),
-          Gap(15),
-          CommonTextField(
-            borderRadius: 12,
-            controller: controller.branchController,
-            title: AppString.branch,
-            isTitle: true,
-            maxLength: 10,
-            hintText: "Please Select...",
-            showCursor: false,
-            readOnly: true,
-            onTap: () {
-              controller.selectBranch();
-            },
-            suffix: RotatedBox(
-                quarterTurns: 1,
-                child: Icon(
-                  Icons.arrow_forward_ios,
-                  size: 20,
-                )),
-          ),
-          Gap(20),
-          CommonButton(
-            btnName: AppString.downloadPdf,
-            onTap: () {
-              controller.genaratePDFApi();
-              // Get.toNamed(Routes.SHOW_REPORT);
-            },
-          ),
-          Gap(20),
-          tableView(),
-        ],
-      ),
-    );
-  }
-
-  Widget tableView () {
-    return SingleChildScrollView(
-      scrollDirection: Axis.horizontal,
-      dragStartBehavior: DragStartBehavior.start,
-      child: DataTable(
-        border: TableBorder.all(),
-        columns: const <DataColumn>[
-          DataColumn(label: Text('INVOICETYPE')),
-          DataColumn(label: Text('VOUCHERNO')),
-          DataColumn(label: Text('PURCHASEDATE')),
-          DataColumn(label: Text('GSTINNUMBER')),
-          DataColumn(label: Text('QTY')),
-          DataColumn(label: Text('TAXABLEAMOUNT')),
-          DataColumn(label: Text('GROSSAMOUNT')),
-          DataColumn(label: Text('NETPAYABLEAMOUNT')),
-          DataColumn(label: Text('TOTALOUTSTADING')),
-          DataColumn(label: Text('BILLDAYS')),
-          DataColumn(label: Text('REMARKS')),
-          DataColumn(label: Text('SUPPLIERVOUCHERNO')),
-          DataColumn(label: Text('SUPPLIERNAME')),
-          DataColumn(label: Text('DUEDAYS')),
-        ],
-        rows: List.generate(
-          controller.registerData.length,
-              (index) {
-            return DataRow(
-              cells: <DataCell>[
-                DataCell(
-                    Text(controller.registerData[index].invoicetype ?? "")),
-                DataCell(Text(controller.registerData[index].voucherno ?? "")),
-                DataCell(
-                    Text(controller.registerData[index].purdate ?? "")),
-                DataCell(
-                    Text(controller.registerData[index].gstinnumber ?? "")),
-                DataCell(
-                    Text(controller.registerData[index].qty.toString() ?? "")),
-                DataCell(Text(
-                    controller.registerData[index].taxableAmount.toString())),
-                DataCell(
-                    Text(controller.registerData[index].grossamount.toString())),
-                DataCell(Text(controller.registerData[index].netpayable
-                    .toString())),
-                DataCell(Text(
-                    controller.registerData[index].totaloutstanding
-                        .toString())),
-                DataCell(
-                    Text(controller.registerData[index].billDays.toString() ?? "")),
-                DataCell(
-                    Text(controller.registerData[index].remarks ?? "")),
-                DataCell(Text(
-                    controller.registerData[index].suppliervoucherno
-                        .toString())),
-                DataCell(Text(
-                    controller.registerData[index].supplierName.toString())),
-                DataCell(Text(controller.registerData[index].dueDays.toString() ?? "")),
-              ],
-            );
-          },
-        ),
-      ),
+        );
+      },
     );
   }
 }

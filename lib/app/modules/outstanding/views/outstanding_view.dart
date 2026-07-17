@@ -2,6 +2,7 @@ import 'package:gurukrupa/app/commons/all.dart';
 import 'package:gurukrupa/app/modules/outstanding/views/payable_view.dart';
 import 'package:gurukrupa/app/modules/outstanding/views/receivable_view.dart';
 
+import '../../../commons/app_colors.dart';
 import '../controllers/outstanding_controller.dart';
 
 class OutstandingView extends GetView<OutstandingController> {
@@ -13,7 +14,11 @@ class OutstandingView extends GetView<OutstandingController> {
       builder: (controller) {
         return CommonScreen(
           title: controller.title,
-          body: controller.title == AppString.outstandingReceivable ? ReceivableView() : PayableView(),
+          brandAppBar: true,
+          scaffoldColor: SplashColors.scaffoldBg,
+          body: controller.title == AppString.outstandingReceivable
+              ? const ReceivableView()
+              : const PayableView(),
         );
       },
     );

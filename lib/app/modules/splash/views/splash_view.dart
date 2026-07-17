@@ -3,6 +3,7 @@ import 'dart:math' as math;
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import '../../../commons/app_colors.dart';
+import '../../../commons/app_images.dart';
 import '../../../commons/app_string.dart';
 import '../../../commons/font_family.dart';
 import '../controllers/splash_controller.dart';
@@ -260,7 +261,7 @@ class _SplashViewState extends State<SplashView> with TickerProviderStateMixin {
                               child: ClipRRect(
                                 borderRadius: BorderRadius.circular(10),
                                 child: Image.asset(
-                                  'assets/images/app_icon_gurukrupa.jpeg',
+                                  AppImages.appIcon_g,
                                   fit: BoxFit.cover,
                                 ),
                               ),

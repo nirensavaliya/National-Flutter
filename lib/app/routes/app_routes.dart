@@ -40,6 +40,7 @@ abstract class Routes {
   static const PROFILE = _Paths.PROFILE;
   static const SALESORDERREGISTER = _Paths.SALESORDERREGISTER;
   static const CLAIMS = _Paths.CLAIMS;
+  static const SALES_ORDER_CART = _Paths.SALES_ORDER_CART;
 }
 
 abstract class _Paths {
@@ -80,4 +81,5 @@ abstract class _Paths {
   static const PROFILE = '/profile';
   static const SALESORDERREGISTER = '/sale_order_register';
   static const CLAIMS = '/claims';
+  static const SALES_ORDER_CART = '/sales-order-cart';
 }

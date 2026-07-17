@@ -436,7 +436,7 @@ class SalesOrderAddView extends GetView<SalesOrderController> {
               btnName: AppString.save,
               btnColor: SplashColors.primary,
               textColor: Colors.white,
-              onTap: () {
+              onTap: () async {
                 if (GetStorageData.readBoolean(GetStorageData.isAdmin) ==
                     true) {
                   // if (controller.deliveryDate.isNotEmpty) {
@@ -448,6 +448,7 @@ class SalesOrderAddView extends GetView<SalesOrderController> {
                   //       message: "Please enter PODate", context: context);
                   // } else {
                   controller.isAdd.value = false;
+                  await controller.persistSalesOrderCart();
                   if (controller.isUpdate) {
                     controller.updateQuotationApi();
                   } else {
@@ -456,6 +457,7 @@ class SalesOrderAddView extends GetView<SalesOrderController> {
                   // }
                 } else {
                   controller.isAdd.value = false;
+                  await controller.persistSalesOrderCart();
                   if (controller.isUpdate) {
                     controller.updateQuotationApi();
                   } else {
@@ -645,7 +647,7 @@ class SalesOrderAddView extends GetView<SalesOrderController> {
         child: DecoratedBox(
           decoration: const BoxDecoration(
             borderRadius: BorderRadius.vertical(top: Radius.circular(24)),
-            color: Color(0xFFF4F7F7),
+            color: SplashColors.scaffoldBg,
           ),
           child: Column(
             mainAxisSize: MainAxisSize.min,
@@ -1163,7 +1165,7 @@ class SalesOrderAddView extends GetView<SalesOrderController> {
         child: DecoratedBox(
           decoration: const BoxDecoration(
             borderRadius: BorderRadius.vertical(top: Radius.circular(24)),
-            color: Color(0xFFF4F7F7),
+            color: SplashColors.scaffoldBg,
           ),
           child: Column(
             mainAxisSize: MainAxisSize.min,
@@ -1345,7 +1347,7 @@ class SalesOrderAddView extends GetView<SalesOrderController> {
         child: DecoratedBox(
           decoration: const BoxDecoration(
             borderRadius: BorderRadius.vertical(top: Radius.circular(24)),
-            color: Color(0xFFF4F7F7),
+            color: SplashColors.scaffoldBg,
           ),
           child: Column(
             mainAxisSize: MainAxisSize.min,
@@ -1898,6 +1900,7 @@ class SalesOrderAddView extends GetView<SalesOrderController> {
                             grossAmount: double.parse(
                                 controller.itemGrossAmountController.text),
                           ));
+                          controller.calculateGstAndDiscountForAllItems();
                           controller.update();
                           Get.back();
                         },

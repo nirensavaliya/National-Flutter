@@ -1,11 +1,12 @@
-import 'package:flutter/gestures.dart';
+import 'package:gap/gap.dart';
+import 'package:gurukrupa/app/commons/app_colors.dart';
 import 'package:gurukrupa/app/commons/all.dart';
 import 'package:gurukrupa/app/data/common_widget/common_button.dart';
 import 'package:gurukrupa/app/modules/outstanding/controllers/outstanding_controller.dart';
-import 'package:gap/gap.dart';
+import 'package:gurukrupa/app/modules/sale_register/views/sale_register_form_ui.dart';
 
 import '../../../data/common_widget/common_textfeild.dart';
-import '../../../routes/app_pages.dart';
+import 'outstanding_form_ui.dart';
 
 class ReceivableView extends GetView<OutstandingController> {
   const ReceivableView({super.key});
@@ -15,84 +16,48 @@ class ReceivableView extends GetView<OutstandingController> {
     return GetBuilder<OutstandingController>(
       builder: (controller) {
         return ListView(
-          shrinkWrap: true,
-          padding: EdgeInsets.fromLTRB(20, 0, 20, 0),
+          padding: const EdgeInsets.fromLTRB(16, 8, 16, 24),
           children: [
-            CommonTextField(
-              borderRadius: 12,
-              controller: controller.asPerDateController,
-              title: AppString.asPerDate,
-              isTitle: true,
-              maxLength: 10,
-              hintText: "day-month-year",
-              readOnly: true,
-              showCursor: false,
-              onTap: (){
-                controller.selectDate(context, "from");
-              },
-              inputFormatters: [
-                DateInputFormatter(),
+            SaleRegisterFilterCard(
+              children: [
+                CommonTextField(
+                  borderRadius: 12,
+                  controller: controller.asPerDateController,
+                  title: AppString.asPerDate,
+                  isTitle: true,
+                  maxLength: 10,
+                  hintText: "day-month-year",
+                  readOnly: true,
+                  showCursor: false,
+                  onTap: () {
+                    controller.selectDate(context, "from");
+                  },
+                  inputFormatters: [
+                    DateInputFormatter(),
+                  ],
+                  suffix: saleRegisterCalendarSuffix(() {
+                    controller.selectDate(context, "from");
+                  }),
+                ),
               ],
-              suffix: GestureDetector(
+            ),
+            if (controller.outStandingList.isNotEmpty) ...[
+              const Gap(16),
+              CommonButton(
+                btnName: AppString.downloadPdf,
+                btnColor: SplashColors.primary,
                 onTap: () {
-                  controller.selectDate(context, "from");
+                  controller.genarateRecivePDFApi();
                 },
-                child: Icon(Icons.calendar_month),
               ),
+              const Gap(16),
+            ],
+            OutstandingReceivableTable(
+              outStandingList: controller.outStandingList,
             ),
-            if(controller.outStandingList.isNotEmpty)
-            Gap(20),
-            if(controller.outStandingList.isNotEmpty)
-            CommonButton(
-              btnName: AppString.downloadPdf,
-              onTap: () {
-                controller.genarateRecivePDFApi();
-                // Get.toNamed(Routes.SHOW_REPORT);
-              },
-            ),
-            Gap(20),
-            tableView(),
           ],
         );
       },
-    );
-  }
-
-  Widget tableView() {
-    return SingleChildScrollView(
-      scrollDirection: Axis.horizontal,
-      dragStartBehavior: DragStartBehavior.start,
-      child: DataTable(
-        border: TableBorder.all(),
-        columns: const <DataColumn>[
-          DataColumn(label: Text('CUSTOMER NAME')),
-          DataColumn(label: Text('DRBALANCE')),
-          DataColumn(label: Text('CRBALANCE')),
-          DataColumn(label: Text('ALIAS NAME')),
-          DataColumn(label: Text('CONTACT')),
-          DataColumn(label: Text('CITY')),
-        ],
-        rows: List.generate(
-          controller.outStandingList.length,
-              (index) {
-            return DataRow(
-              cells: <DataCell>[
-                DataCell(
-                    Text(controller.outStandingList[index].customerName ?? "")),
-                DataCell(Text(
-                    controller.outStandingList[index].drBalance.toString())),
-                DataCell(Text(
-                    controller.outStandingList[index].crBalance.toString())),
-                DataCell(
-                    Text(controller.outStandingList[index].aliasName ?? "")),
-                DataCell(
-                    Text(controller.outStandingList[index].contact1 ?? "")),
-                DataCell(Text(controller.outStandingList[index].city ?? "")),
-              ],
-            );
-          },
-        ),
-      ),
     );
   }
 }

@@ -2,7 +2,9 @@ import 'dart:io';
 
 import 'package:flutter/gestures.dart';
 import 'package:gurukrupa/app/commons/all.dart';
+import 'package:gurukrupa/app/commons/app_colors.dart';
 import 'package:gurukrupa/app/modules/sale_invoice/controllers/sale_invoice_controller.dart';
+import 'package:gurukrupa/app/modules/sales_order/views/sales_order_form_ui.dart';
 import 'package:gap/gap.dart';
 
 import '../../../data/common_widget/common_button.dart';
@@ -19,8 +21,12 @@ class SaleInvoiceAddView extends GetView<SaleInvoiceController> {
     return GetBuilder<SaleInvoiceController>(
       builder: (controller) {
         return ListView(
-          padding: EdgeInsets.symmetric(horizontal: 18),
+          padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
           children: [
+            SalesOrderFormSection(
+              title: 'Invoice Details',
+              icon: Icons.receipt_long_outlined,
+              children: [
             CommonTextField(
               borderRadius: 12,
               controller: controller.addDateController,
@@ -78,15 +84,20 @@ class SaleInvoiceAddView extends GetView<SaleInvoiceController> {
               ),
             ),
             Gap(5),
-            DecoratedBox(
-              decoration: BoxDecoration(
-                border: Border.all(
-                    color: controller.isOpen.value ? Colors.blue : Colors.black38),
+            Material(
+              color: Colors.white,
+              shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(12),
+                side: BorderSide(
+                  color: salesOrderFieldBorder(controller.isOpen.value),
+                ),
               ),
+              clipBehavior: Clip.antiAlias,
               child: Theme(
                 data: ThemeData(dividerColor: Colors.transparent),
                 child: ExpansionTile(
+                  backgroundColor: Colors.white,
+                  collapsedBackgroundColor: Colors.white,
                   childrenPadding: EdgeInsets.zero,
                   dense: true,
                   key: Key(controller.key.toString()),
@@ -143,6 +154,13 @@ class SaleInvoiceAddView extends GetView<SaleInvoiceController> {
                     size: 20,
                   )),
             ),
+              ],
+            ),
+            const Gap(16),
+            SalesOrderFormSection(
+              title: 'Customer & Billing',
+              icon: Icons.person_outline,
+              children: [
             Gap(5),
             CommonTextField(
               borderRadius: 12,
@@ -187,15 +205,20 @@ class SaleInvoiceAddView extends GetView<SaleInvoiceController> {
               ),
             ),
             Gap(5),
-            DecoratedBox(
-              decoration: BoxDecoration(
-                border: Border.all(
-                    color: Colors.black38),
+            Material(
+              color: Colors.white,
+              shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(12),
+                side: BorderSide(
+                  color: SplashColors.primary.withOpacity(0.25),
+                ),
               ),
+              clipBehavior: Clip.antiAlias,
               child: Theme(
                 data: ThemeData(dividerColor: Colors.transparent),
                 child: ExpansionTile(
+                  backgroundColor: Colors.white,
+                  collapsedBackgroundColor: Colors.white,
                   childrenPadding: EdgeInsets.zero,
                   dense: true,
                   key: Key(controller.key.toString()),
@@ -257,15 +280,20 @@ class SaleInvoiceAddView extends GetView<SaleInvoiceController> {
             if (controller.addInvoiceTypeController.text == controller.invoiceList[1])
               Gap(5),
             if (controller.addInvoiceTypeController.text == controller.invoiceList[1])
-              DecoratedBox(
-                decoration: BoxDecoration(
-                  border: Border.all(
-                      color: controller.isOpen.value ? Colors.blue : Colors.black38),
+              Material(
+                color: Colors.white,
+                shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(12),
+                  side: BorderSide(
+                    color: salesOrderFieldBorder(controller.isOpen.value),
+                  ),
                 ),
+                clipBehavior: Clip.antiAlias,
                 child: Theme(
                   data: ThemeData(dividerColor: Colors.transparent),
                   child: ExpansionTile(
+                    backgroundColor: Colors.white,
+                    collapsedBackgroundColor: Colors.white,
                     childrenPadding: EdgeInsets.zero,
                     dense: true,
                     key: Key(controller.key.toString()),
@@ -302,84 +330,31 @@ class SaleInvoiceAddView extends GetView<SaleInvoiceController> {
               ),
             if (controller.invoiceController.text == controller.invoiceList[1])
               Gap(5),
+              ],
+            ),
             if (controller.itemList.isNotEmpty)
-              Gap(15),
+              Gap(20),
             if (controller.itemList.isNotEmpty)
               itemData(),
-            Gap(25),
-            if(controller.customerController.text.isNotEmpty)
+            if(controller.customerController.text.isNotEmpty) ...[
+              Gap(15),
               CommonButton(
                 btnName: AppString.addItem,
+                btnColor: SplashColors.primary,
+                textColor: Colors.white,
                 onTap: () {
                   selectItemSheet();
                 },
               ),
+            ],
+            Gap(16),
+            orderSummaryCard(),
             Gap(12),
-            Table(
-              border: TableBorder.all(),
-              children: [
-                TableRow(
-                  children: [
-                    commonTableText(title: "Total"),
-                    commonTableText(title: controller.total, isEnd: true),
-                  ],
-                ),
-                TableRow(
-                  children: [
-                    commonTableText(title: "(-)DiscountTotal"),
-                    commonTableText(
-                        title: controller.discountTotal,
-                        isLight: true,
-                        isEnd: true),
-                  ],
-                ),
-                TableRow(
-                  children: [
-                    commonTableText(title: "(+)CGSTTotal"),
-                    commonTableText(
-                        title: controller.cGstTotal,
-                        isLight: true,
-                        isEnd: true),
-                  ],
-                ),
-                TableRow(
-                  children: [
-                    commonTableText(title: "(+)SGSTTotal"),
-                    commonTableText(
-                        title: controller.sGstTotal,
-                        isLight: true,
-                        isEnd: true),
-                  ],
-                ),
-                TableRow(
-                  children: [
-                    commonTableText(title: "(+)IGSTTotal"),
-                    commonTableText(
-                        title: controller.iGstTotal,
-                        isLight: true,
-                        isEnd: true),
-                  ],
-                ),
-                TableRow(
-                  children: [
-                    commonTableText(title: "TotalItem"),
-                    commonTableText(
-                        title: controller.totalItem,
-                        isLight: true,
-                        isEnd: true),
-                  ],
-                ),
-                TableRow(
-                  children: [
-                    commonTableText(title: "NetTotal"),
-                    commonTableText(
-                        title: controller.netTotal, isLight: true, isEnd: true),
-                  ],
-                ),
-              ],
-            ),
-            Gap(15),
-            CommonButton(btnName: AppString.save, onTap: () {
+            CommonButton(
+              btnName: AppString.save,
+              btnColor: SplashColors.primary,
+              textColor: Colors.white,
+              onTap: () {
               controller.isAdd.value = false;
               controller.createQuotationApi();
               // controller.update();
@@ -388,6 +363,69 @@ class SaleInvoiceAddView extends GetView<SaleInvoiceController> {
           ],
         );
       },
+    );
+  }
+
+  Widget orderSummaryCard() {
+    return Container(
+      decoration: BoxDecoration(
+        color: Colors.white,
+        borderRadius: BorderRadius.circular(18),
+        border: Border.all(color: SplashColors.primary.withOpacity(0.1)),
+        boxShadow: [
+          BoxShadow(
+            color: Colors.black.withOpacity(0.05),
+            blurRadius: 12,
+            offset: const Offset(0, 4),
+          ),
+        ],
+      ),
+      child: Column(
+        children: [
+          summaryRow('Total', controller.total),
+          summaryRow('(-)DiscountTotal', controller.discountTotal, muted: true),
+          summaryRow('(+)CGSTTotal', controller.cGstTotal, muted: true),
+          summaryRow('(+)SGSTTotal', controller.sGstTotal, muted: true),
+          summaryRow('(+)IGSTTotal', controller.iGstTotal, muted: true),
+          summaryRow('TotalItem', controller.totalItem, muted: true),
+          Divider(color: SplashColors.primary.withOpacity(0.12), height: 1),
+          summaryRow('NetTotal', controller.netTotal, bold: true, highlight: true),
+        ],
+      ),
+    );
+  }
+
+  Widget summaryRow(
+    String label,
+    String value, {
+    bool muted = false,
+    bool bold = false,
+    bool highlight = false,
+  }) {
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 10),
+      child: Row(
+        children: [
+          Expanded(
+            child: Text(
+              label,
+              style: TextStyle(
+                fontFamily: bold ? FontFamily.bold : FontFamily.medium,
+                fontSize: FontSize.s14,
+                color: muted ? Colors.black54 : SplashColors.primaryDark,
+              ),
+            ),
+          ),
+          Text(
+            value,
+            style: TextStyle(
+              fontFamily: bold ? FontFamily.bold : FontFamily.semiBold,
+              fontSize: bold ? FontSize.s16 : FontSize.s14,
+              color: highlight ? SplashColors.primary : Colors.black87,
+            ),
+          ),
+        ],
+      ),
     );
   }
 
@@ -541,11 +579,28 @@ class SaleInvoiceAddView extends GetView<SaleInvoiceController> {
   // }
 
   Widget itemData() {
-    return SingleChildScrollView(
-      scrollDirection: Axis.horizontal,
-      child: DataTable(
-        border: TableBorder.all(),
-        dataRowHeight: 75,
+    return Container(
+      decoration: BoxDecoration(
+        color: Colors.white,
+        borderRadius: BorderRadius.circular(16),
+        border: Border.all(color: SplashColors.primary.withOpacity(0.1)),
+        boxShadow: [
+          BoxShadow(
+            color: Colors.black.withOpacity(0.04),
+            blurRadius: 10,
+            offset: const Offset(0, 4),
+          ),
+        ],
+      ),
+      child: ClipRRect(
+        borderRadius: BorderRadius.circular(16),
+        child: SingleChildScrollView(
+          scrollDirection: Axis.horizontal,
+          child: DataTable(
+            border: TableBorder.all(
+              color: SplashColors.primary.withOpacity(0.15),
+            ),
+            dataRowHeight: 75,
         columns: const <DataColumn>[
           DataColumn(label: Text('NAME')),
           DataColumn(label: Text('PRICE')),
@@ -617,6 +672,8 @@ class SaleInvoiceAddView extends GetView<SaleInvoiceController> {
           },
         ),
       ),
+        ),
+      ),
     );
   }
 
@@ -630,60 +687,112 @@ class SaleInvoiceAddView extends GetView<SaleInvoiceController> {
           return Padding(
             padding: EdgeInsets.only(top: AppBar().preferredSize.height),
             child: DecoratedBox(
-              decoration: BoxDecoration(
-                  borderRadius: BorderRadius.vertical(
-                    top: Radius.circular(24),
-                  ),
-                  color: Colors.white),
+              decoration: const BoxDecoration(
+                borderRadius: BorderRadius.vertical(
+                  top: Radius.circular(24),
+                ),
+                color: SplashColors.scaffoldBg,
+              ),
               child: Column(
                 mainAxisSize: MainAxisSize.min,
                 children: [
-                  Gap(10),
-                  Text(
-                    "Select Item",
-                    style: TextStyle(
-                      fontSize: FontSize.s22,
-                      color: Colors.black,
-                      fontFamily: FontFamily.semiBold,
-                    ),
+                  const SalesOrderSheetHeader(
+                    title: 'Select Item',
+                    subtitle: 'Search and add products to invoice',
                   ),
-                  Gap(10),
-                  Divider(
-                    color: Colors.black,
-                  ),
-                  Gap(10),
                   Padding(
-                    padding: EdgeInsets.fromLTRB(20, 0, 20, 0),
-                    child: CommonTextField(
+                    padding: const EdgeInsets.fromLTRB(20, 0, 20, 0),
+                    child: TextField(
                       controller: controller.searchFieldController,
-                      borderRadius: 12,
-                      prefix: Icon(Icons.search),
                       onChanged: (p0) {
-                        // controller.filterItems(p0);
                         controller.customerNameFilterItems(p0);
                       },
+                      decoration: salesOrderSearchDecoration(),
                     ),
                   ),
                   Expanded(
                     child: ListView.builder(
                       itemCount: filteredItems.length,
-                      padding: EdgeInsets.symmetric(horizontal: 20,vertical: 10),
-                      // padding: EdgeInsets.fromLTRB(20, 0, 20, 0),
+                      padding: const EdgeInsets.fromLTRB(20, 10, 20, 20),
                       itemBuilder: (context, index) {
+                        final item = filteredItems[index];
                         return Padding(
-                          padding: EdgeInsets.only(bottom: 10),
+                          padding: const EdgeInsets.only(bottom: 10),
                           child: GestureDetector(
                             onTap: () {
                               Get.back();
                               addItemSheet(filteredItems[index]);
                             },
-                            child: DecoratedBox(
+                            child: Container(
+                              padding: const EdgeInsets.all(12),
                               decoration: BoxDecoration(
-                                  border: Border.all(),
-                                  borderRadius: BorderRadius.circular(7)),
-                              child: commonTableText(
-                                  imageUrl: filteredItems[index].imageUrl,
-                                  title: filteredItems[index].itemName ?? ""),
+                                color: Colors.white,
+                                borderRadius: BorderRadius.circular(14),
+                                border: Border.all(
+                                  color: SplashColors.primary.withOpacity(0.1),
+                                ),
+                                boxShadow: [
+                                  BoxShadow(
+                                    color: Colors.black.withOpacity(0.04),
+                                    blurRadius: 8,
+                                    offset: const Offset(0, 2),
+                                  ),
+                                ],
+                              ),
+                              child: Row(
+                                children: [
+                                  if (item.imageUrl != null &&
+                                      item.imageUrl!.isNotEmpty)
+                                    ClipRRect(
+                                      borderRadius: BorderRadius.circular(10),
+                                      child: Image.network(
+                                        item.imageUrl!,
+                                        width: 48,
+                                        height: 48,
+                                        fit: BoxFit.cover,
+                                        errorBuilder:
+                                            (context, error, stackTrace) {
+                                          return Image.asset(
+                                            AppImages.appIcon_g,
+                                            width: 48,
+                                            height: 48,
+                                            fit: BoxFit.cover,
+                                          );
+                                        },
+                                      ),
+                                    )
+                                  else
+                                    Container(
+                                      padding: const EdgeInsets.all(10),
+                                      decoration: BoxDecoration(
+                                        color: SplashColors.primary
+                                            .withOpacity(0.1),
+                                        borderRadius: BorderRadius.circular(10),
+                                      ),
+                                      child: const Icon(
+                                        Icons.inventory_2_outlined,
+                                        color: SplashColors.primary,
+                                        size: 22,
+                                      ),
+                                    ),
+                                  const Gap(12),
+                                  Expanded(
+                                    child: Text(
+                                      item.itemName ?? '',
+                                      style: TextStyle(
+                                        fontFamily: FontFamily.semiBold,
+                                        fontSize: FontSize.s14,
+                                        color: SplashColors.primaryDark,
+                                      ),
+                                    ),
+                                  ),
+                                  const Icon(
+                                    Icons.arrow_forward_ios_rounded,
+                                    size: 14,
+                                    color: SplashColors.primary,
+                                  ),
+                                ],
+                              ),
                             ),
                           ),
                         );
@@ -716,34 +825,24 @@ class SaleInvoiceAddView extends GetView<SaleInvoiceController> {
     }
 
     Get.bottomSheet(
+      isScrollControlled: true,
       GetBuilder<SaleInvoiceController>(
         builder: (controller) {
-          return DecoratedBox(
-            decoration: BoxDecoration(
-                borderRadius: BorderRadius.vertical(
-                  top: Radius.circular(24),
-                ),
-                color: Colors.white),
+          return Container(
+            height: Get.height * 0.85,
+            decoration: const BoxDecoration(
+              color: SplashColors.scaffoldBg,
+              borderRadius: BorderRadius.vertical(top: Radius.circular(24)),
+            ),
             child: Column(
-              mainAxisSize: MainAxisSize.min,
               children: [
-                Gap(12),
-                Text(
-                  filteredItem.itemName ?? "",
-                  style: TextStyle(
-                    fontSize: FontSize.s18,
-                    color: Colors.black,
-                    fontFamily: FontFamily.medium,
-                  ),
-                ),
-                Gap(10),
-                Divider(
-                  color: Colors.black,
+                SalesOrderSheetHeader(
+                  title: filteredItem.itemName ?? 'Add Item',
+                  subtitle: 'Enter item details below',
                 ),
                 Expanded(
                   child: ListView(
-                    shrinkWrap: true,
-                    padding: EdgeInsets.symmetric(horizontal: 20),
+                    padding: const EdgeInsets.symmetric(horizontal: 20),
                     children: [
                       Gap(10),
                       CommonTextField(
@@ -793,17 +892,20 @@ class SaleInvoiceAddView extends GetView<SaleInvoiceController> {
                       if(controller.addGstTypeController.text.isNotEmpty)
                       Gap(8),
                       if(controller.addGstTypeController.text.isNotEmpty)
-                      DecoratedBox(
-                        decoration: BoxDecoration(
-                          border: Border.all(
-                              color: controller.isOpen.value
-                                  ? Colors.blue
-                                  : Colors.black38),
+                      Material(
+                        color: Colors.white,
+                        shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(12),
+                          side: BorderSide(
+                            color: salesOrderFieldBorder(controller.isOpen.value),
+                          ),
                         ),
+                        clipBehavior: Clip.antiAlias,
                         child: Theme(
                           data: ThemeData(dividerColor: Colors.transparent),
                           child: ExpansionTile(
+                            backgroundColor: Colors.white,
+                            collapsedBackgroundColor: Colors.white,
                             childrenPadding: EdgeInsets.zero,
                             dense: true,
                             key: Key(controller.key.toString()),
@@ -1022,6 +1124,8 @@ class SaleInvoiceAddView extends GetView<SaleInvoiceController> {
                       Gap(25),
                       CommonButton(
                         btnName: AppString.save,
+                        btnColor: SplashColors.primary,
+                        textColor: Colors.white,
                         onTap: () {
                           controller.total =
                               (int.parse(controller.itemQtyController.text) *
@@ -1088,7 +1192,6 @@ class SaleInvoiceAddView extends GetView<SaleInvoiceController> {
                     ],
                   ),
                 ),
-                Gap(30),
               ],
             ),
           );

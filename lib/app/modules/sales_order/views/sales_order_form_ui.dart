@@ -316,7 +316,7 @@ class AddItemDialog extends StatelessWidget {
                     width: double.infinity,
                     padding: const EdgeInsets.symmetric(vertical: 14),
                     decoration: BoxDecoration(
-                      color: const Color(0xFFF4F7F7),
+                      color: SplashColors.scaffoldBg,
                       borderRadius: BorderRadius.circular(12),
                     ),
                     child: Text(
@@ -509,7 +509,7 @@ class AddQuantityDialog extends StatelessWidget {
                               decoration: InputDecoration(
                                 hintText: 'Qty',
                                 filled: true,
-                                fillColor: const Color(0xFFF4F7F7),
+                                fillColor: SplashColors.scaffoldBg,
                                 contentPadding: const EdgeInsets.symmetric(
                                   vertical: 12,
                                 ),
@@ -547,7 +547,7 @@ class AddQuantityDialog extends StatelessWidget {
                               width: double.infinity,
                               padding: const EdgeInsets.symmetric(vertical: 14),
                               decoration: BoxDecoration(
-                                color: const Color(0xFFF4F7F7),
+                                color: SplashColors.scaffoldBg,
                                 borderRadius: BorderRadius.circular(12),
                               ),
                               child: Text(
@@ -831,7 +831,7 @@ class SalesOrderActionBar extends StatelessWidget {
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
       decoration: BoxDecoration(
-        color: const Color(0xFFF4F7F7),
+        color: SplashColors.scaffoldBg,
         borderRadius: const BorderRadius.vertical(bottom: Radius.circular(18)),
       ),
       child: Row(
