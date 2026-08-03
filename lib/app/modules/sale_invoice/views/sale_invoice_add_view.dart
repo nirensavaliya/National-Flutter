@@ -74,16 +74,16 @@ class SaleInvoiceAddView extends GetView<SaleInvoiceController> {
                 ),
               ],
             ),
-            Gap(5),
-            Text(
-              AppString.invoiceType,
-              style: TextStyle(
-                fontFamily: FontFamily.bold,
-                fontSize: FontSize.s18,
-                color: Colors.black45,
-              ),
-            ),
-            Gap(5),
+                Gap(5),
+                Text(
+                  AppString.invoiceType,
+                  style: TextStyle(
+                    fontFamily: FontFamily.semiBold,
+                    fontSize: FontSize.s16,
+                    color: Colors.black,
+                  ),
+                ),
+                Gap(8),
             Material(
               color: Colors.white,
               shape: RoundedRectangleBorder(
@@ -177,6 +177,7 @@ class SaleInvoiceAddView extends GetView<SaleInvoiceController> {
               title: AppString.shippingAddress,
               isTitle: true,
               maxLine: 2,
+              textInputAction: TextInputAction.next,
               textInputType: TextInputType.streetAddress,
             ),
             Gap(5),
@@ -185,6 +186,7 @@ class SaleInvoiceAddView extends GetView<SaleInvoiceController> {
               controller: controller.addCreditDaysController,
               title: AppString.CreditType,
               isTitle: true,
+              textInputAction: TextInputAction.next,
               textInputType: TextInputType.number,
             ),
             Gap(5),
@@ -193,6 +195,7 @@ class SaleInvoiceAddView extends GetView<SaleInvoiceController> {
               controller: controller.addGSTinController,
               title: AppString.gstIn,
               isTitle: true,
+              textInputAction: TextInputAction.next,
               textInputType: TextInputType.number,
             ),
             Gap(5),
@@ -200,11 +203,11 @@ class SaleInvoiceAddView extends GetView<SaleInvoiceController> {
               AppString.salesPerson,
               style: TextStyle(
                 fontFamily: FontFamily.bold,
-                fontSize: FontSize.s18,
-                color: Colors.black45,
+                fontSize: FontSize.s16,
+                color: Colors.black,
               ),
             ),
-            Gap(5),
+            Gap(8),
             Material(
               color: Colors.white,
               shape: RoundedRectangleBorder(
@@ -266,6 +269,7 @@ class SaleInvoiceAddView extends GetView<SaleInvoiceController> {
               controller: controller.addRefController,
               title: AppString.refDocChallanNo,
               isTitle: true,
+              textInputAction: TextInputAction.done,
             ),
             Gap(5),
             if (controller.addInvoiceTypeController.text == controller.invoiceList[1])
@@ -850,6 +854,8 @@ class SaleInvoiceAddView extends GetView<SaleInvoiceController> {
                         controller: controller.itemDesController,
                         title: AppString.itemDec,
                         isTitle: true,
+                        maxLine: 2,
+                        textInputAction: TextInputAction.next,
                       ),
                       Gap(10),
                       CommonTextField(
@@ -857,6 +863,7 @@ class SaleInvoiceAddView extends GetView<SaleInvoiceController> {
                         controller: controller.itemUnitController,
                         title: AppString.unit,
                         isTitle: true,
+                        textInputAction: TextInputAction.next,
                       ),
                       Gap(10),
                       CommonTextField(
@@ -864,6 +871,7 @@ class SaleInvoiceAddView extends GetView<SaleInvoiceController> {
                         controller: controller.itemQtyController,
                         title: AppString.qty,
                         isTitle: true,
+                        textInputAction: TextInputAction.next,
                         onChanged: (p0) {
                           controller.calculateGstAndDiscount();
                         },

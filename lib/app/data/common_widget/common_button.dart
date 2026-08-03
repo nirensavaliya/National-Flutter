@@ -25,7 +25,7 @@ class CommonButton extends StatelessWidget {
               btnName ?? "",
               style: TextStyle(
                 color: textColor ?? Colors.white,
-                fontFamily: FontFamily.PlayfairDisplayMedium,
+                fontFamily: FontFamily.bold,
                 fontSize: FontSize.s16,
               ),
             ),

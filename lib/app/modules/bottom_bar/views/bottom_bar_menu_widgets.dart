@@ -8,12 +8,12 @@ class SectionAppBar extends StatelessWidget {
     super.key,
     required this.title,
     required this.subtitle,
-    required this.icon,
+    // required this.icon,
   });
 
   final String title;
   final String subtitle;
-  final IconData icon;
+  // final IconData icon;
 
   @override
   Widget build(BuildContext context) {
@@ -60,17 +60,17 @@ class SectionAppBar extends StatelessWidget {
               padding: const EdgeInsets.fromLTRB(18, 16, 18, 20),
               child: Row(
                 children: [
-                  Container(
-                    padding: const EdgeInsets.all(10),
-                    decoration: BoxDecoration(
-                      color: Colors.white.withOpacity(0.15),
-                      borderRadius: BorderRadius.circular(14),
-                      border: Border.all(
-                        color: Colors.white.withOpacity(0.2),
-                      ),
-                    ),
-                    child: Icon(icon, color: Colors.white, size: 26),
-                  ),
+                  // Container(
+                  //   padding: const EdgeInsets.all(10),
+                  //   decoration: BoxDecoration(
+                  //     color: Colors.white.withOpacity(0.15),
+                  //     borderRadius: BorderRadius.circular(14),
+                  //     border: Border.all(
+                  //       color: Colors.white.withOpacity(0.2),
+                  //     ),
+                  //   ),
+                  //   child: Icon(icon, color: Colors.white, size: 26),
+                  // ),
                   const Gap(14),
                   Expanded(
                     child: Column(
@@ -79,7 +79,7 @@ class SectionAppBar extends StatelessWidget {
                         Text(
                           title,
                           style: TextStyle(
-                            fontFamily: FontFamily.PlayfairDisplayBold,
+                            fontFamily: FontFamily.bold,
                             fontSize: FontSize.s20,
                             color: SplashColors.text,
                           ),

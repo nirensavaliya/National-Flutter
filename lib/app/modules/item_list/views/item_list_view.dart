@@ -271,14 +271,14 @@ class ItemListView extends GetView<ItemListController> {
                           itemCount: items.length +
                               (!isSearching && controller.isLoadingMore.value ? 1 : 0),
                           itemBuilder: (context, index) {
-                            // if (index >= controller.itemList.length) {
-                            //   return const Padding(
-                            //     padding: EdgeInsets.all(16),
-                            //     child: Center(
-                            //       child: SizedBox()
-                            //     ),
-                            //   );
-                            // }
+                            if (index >= controller.itemList.length) {
+                              return const Padding(
+                                padding: EdgeInsets.all(16),
+                                child: Center(
+                                  child: SizedBox()
+                                ),
+                              );
+                            }
 
                             final model = items[index];
                             final isSelected = controller.isSelected(model);

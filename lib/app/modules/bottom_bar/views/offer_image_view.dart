@@ -93,7 +93,7 @@ class OfferImageView extends GetView<OfferImageController> {
                 CommonButton(
                   btnName: AppString.save,
                   btnColor: SplashColors.primary,
-                  onTap: controller.saveData,
+                  // onTap: controller.saveData,
                 ),
               ],
             ),

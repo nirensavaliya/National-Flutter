@@ -58,72 +58,72 @@ class UserMainHomeView extends GetView<UserMainController> {
                       ),
                     ),
                     const Gap(16),
-                    GestureDetector(
-                      onTap: () {
-                        // Add your promotional banner click action here
-                      },
-                      child: Constants.promoMessageModel.message !=
-                              "No promotional message available."
-                          ? Container(
-                              margin: const EdgeInsets.only(bottom: 16),
-                              padding: const EdgeInsets.symmetric(
-                                horizontal: 14,
-                                vertical: 12,
-                              ),
-                              decoration: BoxDecoration(
-                                color: Colors.white,
-                                borderRadius: BorderRadius.circular(16),
-                                border: Border.all(
-                                  color: SplashColors.primary.withOpacity(0.12),
-                                ),
-                                boxShadow: [
-                                  BoxShadow(
-                                    color: Colors.black.withOpacity(0.04),
-                                    blurRadius: 10,
-                                    offset: const Offset(0, 4),
-                                  ),
-                                ],
-                              ),
-                              child: Row(
-                                children: [
-                                  Container(
-                                    padding: const EdgeInsets.all(8),
-                                    decoration: BoxDecoration(
-                                      color:
-                                          SplashColors.primary.withOpacity(0.1),
-                                      borderRadius: BorderRadius.circular(10),
-                                    ),
-                                    child: const Icon(
-                                      Icons.local_offer_outlined,
-                                      color: SplashColors.primary,
-                                      size: 22,
-                                    ),
-                                  ),
-                                  const Gap(12),
-                                  Expanded(
-                                    child: SizedBox(
-                                      height: 22,
-                                      child: Marquee(
-                                        text: Constants.promoMessageModel.message
-                                            .toString(),
-                                        style: TextStyle(
-                                          color: SplashColors.primaryDark,
-                                          fontSize: FontSize.s14,
-                                          fontFamily: FontFamily.semiBold,
-                                        ),
-                                        scrollAxis: Axis.horizontal,
-                                        blankSpace: 50,
-                                        velocity: 30,
-                                        pauseAfterRound:
-                                            const Duration(seconds: 1),
-                                      ),
-                                    ),
-                                  ),
-                                ],
-                              ),
-                            )
-                          : const SizedBox(),
-                    ),
+                    // GestureDetector(
+                    //   onTap: () {
+                    //     // Add your promotional banner click action here
+                    //   },
+                    //   child: Constants.promoMessageModel.message !=
+                    //           "No promotional message available."
+                    //       ? Container(
+                    //           margin: const EdgeInsets.only(bottom: 16),
+                    //           padding: const EdgeInsets.symmetric(
+                    //             horizontal: 14,
+                    //             vertical: 12,
+                    //           ),
+                    //           decoration: BoxDecoration(
+                    //             color: Colors.white,
+                    //             borderRadius: BorderRadius.circular(16),
+                    //             border: Border.all(
+                    //               color: SplashColors.primary.withOpacity(0.12),
+                    //             ),
+                    //             boxShadow: [
+                    //               BoxShadow(
+                    //                 color: Colors.black.withOpacity(0.04),
+                    //                 blurRadius: 10,
+                    //                 offset: const Offset(0, 4),
+                    //               ),
+                    //             ],
+                    //           ),
+                    //           child: Row(
+                    //             children: [
+                    //               Container(
+                    //                 padding: const EdgeInsets.all(8),
+                    //                 decoration: BoxDecoration(
+                    //                   color:
+                    //                       SplashColors.primary.withOpacity(0.1),
+                    //                   borderRadius: BorderRadius.circular(10),
+                    //                 ),
+                    //                 child: const Icon(
+                    //                   Icons.local_offer_outlined,
+                    //                   color: SplashColors.primary,
+                    //                   size: 22,
+                    //                 ),
+                    //               ),
+                    //               const Gap(12),
+                    //               Expanded(
+                    //                 child: SizedBox(
+                    //                   height: 22,
+                    //                   child: Marquee(
+                    //                     text: Constants.promoMessageModel.message
+                    //                         .toString(),
+                    //                     style: TextStyle(
+                    //                       color: SplashColors.primaryDark,
+                    //                       fontSize: FontSize.s14,
+                    //                       fontFamily: FontFamily.semiBold,
+                    //                     ),
+                    //                     scrollAxis: Axis.horizontal,
+                    //                     blankSpace: 50,
+                    //                     velocity: 30,
+                    //                     pauseAfterRound:
+                    //                         const Duration(seconds: 1),
+                    //                   ),
+                    //                 ),
+                    //               ),
+                    //             ],
+                    //           ),
+                    //         )
+                    //       : const SizedBox(),
+                    // ),
                     Text(
                       'Quick Actions',
                       style: TextStyle(
@@ -151,59 +151,59 @@ class UserMainHomeView extends GetView<UserMainController> {
                       image: AppImages.ledgerStatement,
                       onTap: () => Get.toNamed(Routes.LEDGER_STATEMENT),
                     ),
-                    MenuTile(
-                      title: AppString.orderFromImage,
-                      image: AppImages.invoice,
-                      onTap: () => Get.toNamed(Routes.ORDER_FROM_IMAGE),
-                    ),
-                    MenuTile(
-                      title: AppString.salesVisitFromImage,
-                      image: AppImages.feedback,
-                      onTap: () =>
-                          Get.toNamed(Routes.SALE_PERSON_VISIT_FROM_IMAGE),
-                    ),
-                    MenuTile(
-                      title: AppString.receipt,
-                      image: AppImages.recipt,
-                      onTap: () => Get.toNamed(Routes.RECEIPT),
-                    ),
-                    Obx(() {
-                      print("Image URL: ${controller.offerImage.value}");
-                      if (controller.offerImage.value.isEmpty) {
-                        return const SizedBox();
-                      }
-                      return Container(
-                        margin: const EdgeInsets.only(top: 8, bottom: 8),
-                        decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(16),
-                          boxShadow: [
-                            BoxShadow(
-                              color: Colors.black.withOpacity(0.06),
-                              blurRadius: 12,
-                              offset: const Offset(0, 4),
-                            ),
-                          ],
-                        ),
-                        child: ClipRRect(
-                          borderRadius: BorderRadius.circular(16),
-                          child: CachedNetworkImage(
-                            imageUrl: controller.offerImage.value,
-                            placeholder: (context, url) => const Center(
-                              child: CircularProgressIndicator(
-                                color: SplashColors.primary,
-                              ),
-                            ),
-                            errorWidget: (context, url, error) =>
-                                const Icon(Icons.error, color: Colors.red),
-                            fadeInDuration: Duration.zero,
-                            fadeOutDuration: Duration.zero,
-                            fit: BoxFit.cover,
-                            width: double.infinity,
-                            height: 200,
-                          ),
-                        ),
-                      );
-                    }),
+                    // MenuTile(
+                    //   title: AppString.orderFromImage,
+                    //   image: AppImages.invoice,
+                    //   onTap: () => Get.toNamed(Routes.ORDER_FROM_IMAGE),
+                    // ),
+                    // MenuTile(
+                    //   title: AppString.salesVisitFromImage,
+                    //   image: AppImages.feedback,
+                    //   onTap: () =>
+                    //       Get.toNamed(Routes.SALE_PERSON_VISIT_FROM_IMAGE),
+                    // ),
+                    // MenuTile(
+                    //   title: AppString.receipt,
+                    //   image: AppImages.recipt,
+                    //   onTap: () => Get.toNamed(Routes.RECEIPT),
+                    // ),
+                    // Obx(() {
+                    //   print("Image URL: ${controller.offerImage.value}");
+                    //   if (controller.offerImage.value.isEmpty) {
+                    //     return const SizedBox();
+                    //   }
+                    //   return Container(
+                    //     margin: const EdgeInsets.only(top: 8, bottom: 8),
+                    //     decoration: BoxDecoration(
+                    //       borderRadius: BorderRadius.circular(16),
+                    //       boxShadow: [
+                    //         BoxShadow(
+                    //           color: Colors.black.withOpacity(0.06),
+                    //           blurRadius: 12,
+                    //           offset: const Offset(0, 4),
+                    //         ),
+                    //       ],
+                    //     ),
+                    //     child: ClipRRect(
+                    //       borderRadius: BorderRadius.circular(16),
+                    //       child: CachedNetworkImage(
+                    //         imageUrl: controller.offerImage.value,
+                    //         placeholder: (context, url) => const Center(
+                    //           child: CircularProgressIndicator(
+                    //             color: SplashColors.primary,
+                    //           ),
+                    //         ),
+                    //         errorWidget: (context, url, error) =>
+                    //             const Icon(Icons.error, color: Colors.red),
+                    //         fadeInDuration: Duration.zero,
+                    //         fadeOutDuration: Duration.zero,
+                    //         fit: BoxFit.cover,
+                    //         width: double.infinity,
+                    //         height: 200,
+                    //       ),
+                    //     ),
+                    //   );
+                    // }),
 
                     // Gap(20),
                     // GestureDetector(

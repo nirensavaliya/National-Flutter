@@ -18,7 +18,7 @@ class TransactionView extends GetView<BottomBarController> {
           SectionAppBar(
             title: AppString.transaction,
             subtitle: 'Sales Operations',
-            icon: Icons.swap_horiz_rounded,
+            // icon: Icons.swap_horiz_rounded,
           ),
           Expanded(
             child: ListView(
@@ -27,12 +27,12 @@ class TransactionView extends GetView<BottomBarController> {
                 Text(
                   'Quick Actions',
                   style: TextStyle(
-                    fontFamily: FontFamily.semiBold,
-                    fontSize: FontSize.s16,
+                    fontFamily: FontFamily.PlayfairDisplayBold,
+                    fontSize: FontSize.s20,
                     color: SplashColors.primaryDark,
                   ),
                 ),
-                const Gap(4),
+                const Gap(3),
                 Text(
                   'Choose a transaction type',
                   style: TextStyle(
@@ -41,7 +41,7 @@ class TransactionView extends GetView<BottomBarController> {
                     color: const Color(0xFF78829A),
                   ),
                 ),
-                const Gap(16),
+                const Gap(14),
                 ...List.generate(
                   controller.transactionTab.length,
                   (index) {
@@ -63,10 +63,12 @@ class TransactionView extends GetView<BottomBarController> {
                             if (controller.transactionTab[index].name ==
                               AppString.salesOrder) {
                             Get.toNamed(Routes.SALES_ORDER);
-                          } else if (controller.transactionTab[index].name ==
-                              AppString.recipt) {
-                            Get.toNamed(Routes.RECEIPT);
-                          } else {
+                          }
+                          //   else if (controller.transactionTab[index].name ==
+                          //     AppString.recipt) {
+                          //   Get.toNamed(Routes.RECEIPT);
+                          // }
+                            else {
                             Get.toNamed(Routes.SALE_INVOICE);
                           }
                         }

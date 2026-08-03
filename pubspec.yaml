@@ -70,8 +70,8 @@ dependencies:
   flutter_inappwebview: ^6.1.5
   html: ^0.15.4
   html_to_pdf: ^0.7.0
-
-
+  flutter_spinbox: ^0.13.1
+  shimmer: ^3.0.0
 #  flutter_automation: ^2.0.0
 
 dev_dependencies:

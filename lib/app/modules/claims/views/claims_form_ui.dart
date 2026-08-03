@@ -1,7 +1,9 @@
 import 'package:flutter/services.dart';
 import 'package:gap/gap.dart';
 import 'package:gurukrupa/app/commons/app_colors.dart';
+import 'package:gurukrupa/app/commons/get_storage_data.dart';
 import 'package:gurukrupa/app/data/common_widget/common_textfeild.dart';
+import 'package:gurukrupa/app/modules/claims/views/ClaimDetail_Dialog.dart';
 
 import '../../../commons/all.dart';
 import '../../bottom_bar/model/customer_model.dart';
@@ -34,7 +36,7 @@ class ClaimsHeaderCard extends StatelessWidget {
           Text(
             'Claims',
             style: TextStyle(
-              fontFamily: FontFamily.semiBold,
+              fontFamily: FontFamily.PlayfairDisplayBold,
               fontSize: FontSize.s20,
               color: SplashColors.primaryDark,
             ),
@@ -105,7 +107,7 @@ class ClaimsToolbar extends GetView<ClaimsController> {
               ),
             ],
           ),
-          const Gap(12),
+          Gap(12),
           Row(
             children: [
               Expanded(
@@ -152,6 +154,7 @@ class ClaimsToolbar extends GetView<ClaimsController> {
                   ),
                   child: DropdownButtonHideUnderline(
                     child: DropdownButton<String>(
+                      dropdownColor: Colors.white,
                       value: controller.selectedStatusFilter,
                       isExpanded: true,
                       icon: const Icon(
@@ -174,6 +177,7 @@ class ClaimsToolbar extends GetView<ClaimsController> {
                       )
                           .toList(),
                       onChanged: controller.onStatusFilterChanged,
+
                     ),
                   ),
                 ),
@@ -187,16 +191,23 @@ class ClaimsToolbar extends GetView<ClaimsController> {
 }
 
 class ClaimStatusBadge extends StatelessWidget {
-  const ClaimStatusBadge({super.key, required this.status});
+  const  ClaimStatusBadge({super.key, required this.status});
 
   final String status;
 
   Color get _backgroundColor {
     switch (status.toLowerCase()) {
       case 'approved':
+      case 'complate':
+      case 'completed':
         return const Color(0xFFD1FAE5);
+
       case 'rejected':
         return const Color(0xFFFEE2E2);
+
+      case 'pending':
+        return const Color(0xFFFEF3C7);
+
       default:
         return const Color(0xFFFEF3C7);
     }
@@ -205,9 +216,15 @@ class ClaimStatusBadge extends StatelessWidget {
   Color get _textColor {
     switch (status.toLowerCase()) {
       case 'approved':
+      case 'complate':
+      case 'completed':
         return const Color(0xFF065F46);
       case 'rejected':
         return const Color(0xFF991B1B);
+
+      case 'pending':
+        return const Color(0xFF92400E);
+
       default:
         return const Color(0xFF92400E);
     }
@@ -235,83 +252,130 @@ class ClaimStatusBadge extends StatelessWidget {
 }
 
 class ClaimListCard extends StatelessWidget {
-  const ClaimListCard({super.key, required this.claim});
+  ClaimListCard({super.key, required this.claim});
 
   final ClaimModel claim;
-
+  final controller = Get.find<ClaimsController>();
+  final bool isCustomer =
+      GetStorageData.readString(GetStorageData.role) == "Customer";
   @override
   Widget build(BuildContext context) {
-    return Container(
-      margin: const EdgeInsets.only(bottom: 10),
-      padding: const EdgeInsets.all(14),
-      decoration: BoxDecoration(
-        color: Colors.white,
-        borderRadius: BorderRadius.circular(16),
-        border: Border.all(color: SplashColors.primary.withOpacity(0.1)),
-        boxShadow: [
-          BoxShadow(
-            color: Colors.black.withOpacity(0.04),
-            blurRadius: 8,
-            offset: const Offset(0, 2),
+    return GestureDetector(
+      onTap: (){
+        Get.dialog(
+          ClaimDetailsDialog(
+            claim: claim,
           ),
-        ],
-      ),
-      child: Row(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Expanded(
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Row(
-                  children: [
-                    ClaimStatusBadge(status: claim.status),
-                    const Gap(8),
-                    Text(
-                      'Claim number: ${claim.claimNumber}',
-                      style: TextStyle(
-                        fontFamily: FontFamily.medium,
-                        fontSize: FontSize.s12,
-                        color: const Color(0xFF78829A),
-                      ),
-                    ),
-                  ],
-                ),
-                const Gap(8),
-                Text(
-                  claim.summaryTitle,
-                  style: TextStyle(
-                    fontFamily: FontFamily.semiBold,
-                    fontSize: FontSize.s14,
-                    color: SplashColors.primaryDark,
-                  ),
-                ),
-                const Gap(6),
-                Text(
-                  'Customer: ${claim.customerName} · ${claim.customerMobile}',
-                  style: TextStyle(
-                    fontFamily: FontFamily.regular,
-                    fontSize: FontSize.s12,
-                    color: const Color(0xFF78829A),
-                  ),
-                ),
-                const Gap(4),
-                Text(
-                  'Dealer: ${claim.dealerName}${claim.invoiceNumber != null ? ' · Invoice: ${claim.invoiceNumber}' : ''}',
-                  style: TextStyle(
-                    fontFamily: FontFamily.regular,
-                    fontSize: FontSize.s12,
-                    color: const Color(0xFF78829A),
-                  ),
-                ),
-              ],
+        );
+      },
+      child: Container(
+        margin: const EdgeInsets.only(bottom: 10),
+        padding: const EdgeInsets.all(14),
+        decoration: BoxDecoration(
+          color: Colors.white,
+          borderRadius: BorderRadius.circular(16),
+          border: Border.all(color: SplashColors.primary.withOpacity(0.1)),
+          boxShadow: [
+            BoxShadow(
+              color: Colors.black.withOpacity(0.04),
+              blurRadius: 8,
+              offset: const Offset(0, 2),
             ),
-          ),
-          const Icon(
-            Icons.chevron_right_rounded,
-            color: SplashColors.primary,
-          ),
-        ],
+          ],
+        ),
+        child: Row(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Expanded(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Row(
+                    children: [
+                      ClaimStatusBadge(status: claim.status),
+                      Gap(8),
+                      Text(
+                        'Claim number: ${claim.claimNumber}',
+                        style: TextStyle(
+                          fontFamily: FontFamily.medium,
+                          fontSize: FontSize.s12,
+                          color: const Color(0xFF78829A),
+                        ),
+                      ),
+                    ],
+                  ),
+                  Gap(8),
+                  Text(
+                    claim.summaryTitle,
+                    style: TextStyle(
+                      fontFamily: FontFamily.semiBold,
+                      fontSize: FontSize.s14,
+                      color: SplashColors.primaryDark,
+                    ),
+                  ),
+                  Gap(6),
+                  Text(
+                    'Customer Name: ${claim.customerName}',
+                    style: TextStyle(
+                      fontFamily: FontFamily.regular,
+                      fontSize: FontSize.s12,
+                      color: const Color(0xFF78829A),
+                    ),
+                  ),
+                  Gap(6),
+                  Text(
+                    'Number: ${claim.customerMobile}',
+                    style: TextStyle(
+                      fontFamily: FontFamily.regular,
+                      fontSize: FontSize.s12,
+                      color: const Color(0xFF78829A),
+                    ),
+                  ),
+                  Gap(6),
+                  Text(
+                    'Items: ${claim.claimDetails.length}',
+                    style: TextStyle(
+                      fontFamily: FontFamily.regular,
+                      fontSize: FontSize.s12,
+                      color: const Color(0xFF78829A),
+                    ),
+                  ),
+                  Gap(4),
+                  Text(
+                    'Dealer: ${claim.dealerName}${claim.invoiceNumber != null ? '  · Invoice: ${claim.invoiceNumber}' : ''}',
+                    style: TextStyle(
+                      fontFamily: FontFamily.regular,
+                      fontSize: FontSize.s12,
+                      color: const Color(0xFF78829A),
+                    ),
+                  ),
+                ],
+              ),
+            ),
+            if (!isCustomer)
+            InkWell(
+              onTap: () {
+                controller.openEditDialog(claim);
+              },
+              borderRadius: BorderRadius.circular(8),
+              child: Container(
+                padding: const EdgeInsets.all(6),
+                decoration: BoxDecoration(
+                  color: SplashColors.primary.withOpacity(0.10),
+                  borderRadius: BorderRadius.circular(8),
+                  border: Border.all(
+                    color: SplashColors.primary.withOpacity(0.20),
+                  ),
+                ),
+                child: Icon(
+                  Icons.edit_outlined,
+                  size: 18,
+                  color: SplashColors.primary,
+                ),
+              ),
+            )
+          ],
+        ),
       ),
     );
   }
@@ -331,14 +395,14 @@ class SelectDealerField extends StatelessWidget {
           'SELECT DEALER *',
           style: TextStyle(
             fontFamily: FontFamily.semiBold,
-            fontSize: FontSize.s14,
+            fontSize: FontSize.s12,
             color: const Color(0xFF78829A),
             letterSpacing: 0.4,
           ),
         ),
         const Gap(8),
         CommonTextField(
-          borderRadius: 12,
+          borderRadius: 10,
           controller: controller.dealerSearchController,
           hintText: 'Search dealer by name or mobile...',
           prefix: const Icon(Icons.search, color: SplashColors.primary),
@@ -351,7 +415,6 @@ class SelectDealerField extends StatelessWidget {
             if (!controller.showDealerDropdown) {
               return const SizedBox.shrink();
             }
-
             return Padding(
               padding: const EdgeInsets.only(top: 6),
               child: _DealerDropdownPanel(controller: controller),
@@ -397,8 +460,7 @@ class _DealerDropdownPanel extends StatelessWidget {
           ),
           itemBuilder: (context, index) {
             final dealer = dealers[index];
-            final isSelected =
-                controller.selectedDealerId == dealer.customerID;
+            final isSelected = controller.selectedDealerId == dealer.customerID;
 
             return _DealerListTile(
               dealer: dealer,
@@ -529,7 +591,7 @@ class NewClaimDialog extends GetView<ClaimsController> {
         child: Column(
           children: [
             Padding(
-              padding: const EdgeInsets.fromLTRB(20, 12, 12, 0),
+              padding: EdgeInsets.fromLTRB(20, 12, 12, 0),
               child: Row(
                 children: [
                   Expanded(
@@ -570,6 +632,7 @@ class NewClaimDialog extends GetView<ClaimsController> {
                       borderRadius: 12,
                       controller: controller.customerNameController,
                       hintText: 'Enter customer name',
+                      readOnly: true,
                     ),
                     const Gap(12),
                     _sectionLabel('CUSTOMER MOBILE NUMBER *'),
@@ -578,6 +641,7 @@ class NewClaimDialog extends GetView<ClaimsController> {
                       borderRadius: 12,
                       controller: controller.customerMobileController,
                       hintText: '10 digit mobile number',
+                      readOnly: true,
                       maxLength: 10,
                       textInputType: TextInputType.phone,
                       inputFormatters: [
@@ -591,7 +655,7 @@ class NewClaimDialog extends GetView<ClaimsController> {
                     const Gap(6),
                     CommonTextField(
                       borderRadius: 12,
-                      controller: controller.invoiceNumberController,
+                      controller: controller.billNumberContact,
                       hintText: 'Invoice #',
                     ),
                     const Gap(12),
@@ -621,35 +685,241 @@ class NewClaimDialog extends GetView<ClaimsController> {
                       hintText: 'Describe the issue in detail...',
                       maxLine: 4,
                     ),
-                    const Gap(24),
+                    GetBuilder<ClaimsController>(
+                      builder: (controller) {
+                        if (!controller.showItemFields) {
+                          return const SizedBox();
+                        }
+                        return Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Row(
+                              children: [
+                                Expanded(
+                                  child: Column(
+                                    crossAxisAlignment: CrossAxisAlignment.start,
+                                    children: [
+                                      const Gap(10),
+                                      _sectionLabel('Item Brand'),
+                                      CommonTextField(
+                                        controller: controller.itemBrandController,
+                                        hintText: "Item Brand",
+                                        borderRadius: 12,
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                                const SizedBox(width: 8),
+                                Expanded(
+                                  child: Column(
+                                    crossAxisAlignment: CrossAxisAlignment.start,
+
+                                    children: [
+                                      const Gap(10),
+                                      _sectionLabel('Item Name'),
+                                      CommonTextField(
+                                        borderRadius: 12,
+                                        controller: controller.itemNameController,
+                                        hintText: "Item Name",
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                              ],
+                            ),
+                            const Gap(10),
+
+                            _sectionLabel('Serial Number'),
+                            CommonTextField(
+                              borderRadius: 12,
+                              controller: controller.serialNumberController,
+                              hintText: "Serial Number",
+                            ),
+                            const SizedBox(height: 15),
+                          ],
+                        );
+                      },
+                    ),
+                    Gap(10),
+                    GetBuilder<ClaimsController>(builder: (controller){
+                      return Row(
+                        children: [
+                          Expanded(
+                            child: OutlinedButton.icon(
+                              onPressed: controller.onAddItemClick,
+                              style: OutlinedButton.styleFrom(
+                                padding: const EdgeInsets.symmetric(vertical: 12),
+                                side: BorderSide(
+                                  color: SplashColors.primary,
+                                ),
+                                shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(12),
+                                ),
+                              ),
+                              icon: const Icon(
+                                Icons.add_circle_outline,
+                                size: 18,
+                                color: SplashColors.primary,
+                              ),
+                              label: Text(
+                                controller.editingItemIndex != null
+                                    ? "Update Item"
+                                    : "Add Item",
+                                style: TextStyle(
+                                  fontFamily: FontFamily.semiBold,
+                                  color: SplashColors.primary,
+                                ),
+                              ),
+                            ),
+                          ),
+                          if (controller.showItemFields) ...[
+                            const SizedBox(width: 12),
+                            Expanded(
+                              child: ElevatedButton.icon(
+                                onPressed: controller.saveSameItem,
+                                style: ElevatedButton.styleFrom(
+                                  backgroundColor: SplashColors.primary,
+                                  padding: const EdgeInsets.symmetric(vertical: 12),
+                                  elevation: 0,
+                                  shape: RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.circular(12),
+                                  ),
+                                ),
+                                icon: const Icon(
+                                  Icons.check_circle_outline,
+                                  size: 18,
+                                  color: Colors.white,
+                                ),
+                                label: Text(
+                                  "Same Item",
+                                  style: TextStyle(
+                                    fontFamily: FontFamily.semiBold,
+                                    color: Colors.white,
+                                  ),
+                                ),
+                              ),
+                            ),
+                          ],
+                         ]
+                      );
+                    }),
+                    GetBuilder<ClaimsController>(builder: (controller){
+                      if (controller.claimDetailsList.isEmpty) {
+                        return const SizedBox();
+                      }
+                      return Container(
+                          margin: const EdgeInsets.only(top: 15),
+                          padding: const EdgeInsets.all(14),
+                          decoration: BoxDecoration(
+                            color: Colors.white,
+                            borderRadius: BorderRadius.circular(12),
+                            border: Border.all(
+                              color: SplashColors.primary.withOpacity(.2),
+                            ),
+                          ),
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text(
+                                "Added Items",
+                                style: TextStyle(
+                                  fontFamily: FontFamily.semiBold,
+                                  fontSize: 16,
+                                  color: SplashColors.primary,
+                                ),
+                              ),
+
+                              const Divider(),
+
+                              ...List.generate(
+                                controller.claimDetailsList.length,
+                                    (index) {
+                                  final item = controller.claimDetailsList[index];
+
+                                  return Container(
+                                    margin: const EdgeInsets.only(bottom: 12),
+                                    padding: const EdgeInsets.all(10),
+                                    decoration: BoxDecoration(
+                                      color: Colors.grey.shade100,
+                                      borderRadius: BorderRadius.circular(10),
+                                    ),
+                                    child: Column(
+                                      crossAxisAlignment: CrossAxisAlignment.start,
+                                      children: [
+
+                                        Row(
+                                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                          children: [
+                                            Text(
+                                              "Item ${index + 1}",
+                                              style: TextStyle(
+                                                fontFamily: FontFamily.semiBold,
+                                                color: SplashColors.primary,
+                                              ),
+                                            ),
+
+                                            InkWell(
+                                              onTap: () {
+                                                controller.editItem(index);
+                                              },
+                                              child: const Icon(
+                                                Icons.edit,
+                                                size: 20,
+                                              ),
+                                            ),
+                                          ],
+                                        ),
+
+                                        const SizedBox(height: 8),
+
+                                        Text("Brand : ${item.itemBrand}"),
+                                        const SizedBox(height: 4),
+
+                                        Text("Name : ${item.itemName}"),
+                                        const SizedBox(height: 4),
+
+                                        Text("Serial No : ${item.serialNumber}"),
+                                      ],
+                                    ),
+                                  );
+                                },
+                              ),
+                            ],
+                          ),
+                        );
+                    }),
+                    Gap(10),
                     Row(
                       mainAxisAlignment: MainAxisAlignment.end,
                       children: [
-                        OutlinedButton(
-                          onPressed: () => Get.back(),
-                          style: OutlinedButton.styleFrom(
-                            side: BorderSide(
-                              color: SplashColors.primary.withOpacity(0.4),
-                            ),
-                            padding: const EdgeInsets.symmetric(
-                              horizontal: 24,
-                              vertical: 12,
-                            ),
-                            shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(12),
-                            ),
-                          ),
-                          child: Text(
-                            'Cancel',
-                            style: TextStyle(
-                              fontFamily: FontFamily.medium,
-                              color: SplashColors.primaryDark,
-                            ),
-                          ),
-                        ),
-                        const Gap(12),
-                        ElevatedButton(
-                          onPressed: controller.submitClaim,
+                       // OutlinedButton(
+                       //    onPressed: () => Get.back(),
+                       //
+                       //    style: OutlinedButton.styleFrom(
+                       //      side: BorderSide.none, // remove border
+                       //      shape: RoundedRectangleBorder(
+                       //        borderRadius: BorderRadius.circular(12),
+                       //      ),
+                       //      padding: const EdgeInsets.symmetric(
+                       //        horizontal: 24,
+                       //        vertical: 12,
+                       //      ),
+                       //    ),
+                       //    child: Text(
+                       //      "Cancel",
+                       //      style: TextStyle(
+                       //        color: SplashColors.primaryDark,
+                       //      ),
+                       //    ),
+                       //  ),
+                       ElevatedButton(
+                         onPressed: () {
+                           if (controller.isEditMode) {
+                             controller.updateClaim(controller.editingClaimId!);
+                           } else {
+                             controller.saveClaim();
+                           }
+                         },
                           style: ElevatedButton.styleFrom(
                             backgroundColor: SplashColors.primary,
                             padding: const EdgeInsets.symmetric(
@@ -679,13 +949,12 @@ class NewClaimDialog extends GetView<ClaimsController> {
       ),
     );
   }
-
   Widget _sectionLabel(String label) {
     return Text(
       label,
       style: TextStyle(
         fontFamily: FontFamily.semiBold,
-        fontSize: FontSize.s14,
+        fontSize: FontSize.s12,
         color: const Color(0xFF78829A),
         letterSpacing: 0.4,
       ),
@@ -697,12 +966,12 @@ class NewClaimDialog extends GetView<ClaimsController> {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         const Divider(color: Color(0xFFE8EDED)),
-        const Gap(12),
+        const Gap(10),
         Text(
           title,
           style: TextStyle(
             fontFamily: FontFamily.semiBold,
-            fontSize: FontSize.s18,
+            fontSize: FontSize.s16,
             color: SplashColors.primaryDark,
           ),
         ),

@@ -19,7 +19,7 @@ class ReportView extends GetView<BottomBarController> {
           SectionAppBar(
             title: AppString.reports,
             subtitle: 'Business Insights',
-            icon: Icons.assessment_outlined,
+            // icon: Icons.assessment_outlined,
           ),
           Expanded(
             child: ListView(
@@ -28,8 +28,8 @@ class ReportView extends GetView<BottomBarController> {
                 Text(
                   'Reports & Analytics',
                   style: TextStyle(
-                    fontFamily: FontFamily.semiBold,
-                    fontSize: FontSize.s16,
+                    fontFamily: FontFamily.PlayfairDisplayBold,
+                    fontSize: FontSize.s20,
                     color: SplashColors.primaryDark,
                   ),
                 ),
@@ -63,13 +63,16 @@ class ReportView extends GetView<BottomBarController> {
                         } else if (controller.reportList[index].name ==
                             AppString.ledgerStatement) {
                           Get.toNamed(Routes.LEDGER_STATEMENT);
-                        } else if (controller.reportList[index].name ==
-                            AppString.saleRegister) {
-                          Get.toNamed(Routes.SALE_REGISTER);
-                        } else if (controller.reportList[index].name ==
+                        }
+                        // else if (controller.reportList[index].name ==
+                        //     AppString.saleRegister) {
+                        //   Get.toNamed(Routes.SALE_REGISTER);
+                        // }
+                        else if (controller.reportList[index].name ==
                             AppString.purchaseRegister) {
                           Get.toNamed(Routes.PURCHASE_REGISTER);
-                        } else if (controller.reportList[index].name ==
+                        }
+                        else if (controller.reportList[index].name ==
                             AppString.outstandingReceivable) {
                           Get.toNamed(Routes.OUTSTANDING,
                               arguments: AppString.outstandingReceivable);

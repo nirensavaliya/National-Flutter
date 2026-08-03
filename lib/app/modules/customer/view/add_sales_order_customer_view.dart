@@ -277,6 +277,7 @@ class AddSalesOrderCustomerView
                     title: AppString.shippingAddress,
                     isTitle: true,
                     maxLine: 2,
+                    textInputAction: TextInputAction.next,
                     textInputType: TextInputType.streetAddress,
                   ),
               // Gap(12),
@@ -333,6 +334,7 @@ class AddSalesOrderCustomerView
                     borderRadius: 12,
                     controller: controller.addRemarkController,
                     title: AppString.remark,
+                    textInputAction: TextInputAction.done,
                     isTitle: true,
                   ),
 
@@ -470,8 +472,39 @@ class AddSalesOrderCustomerView
               // ),
               // Gap(15),
               const Gap(16),
+              // Container(
+              //   padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 6),
+              //   decoration: BoxDecoration(
+              //     color: Colors.white,
+              //     borderRadius: BorderRadius.circular(16),
+              //     boxShadow: [
+              //       BoxShadow(
+              //         color: Colors.black.withOpacity(0.04),
+              //         blurRadius: 10,
+              //         offset: const Offset(0, 4),
+              //       ),
+              //     ],
+              //   ),
+              //   child: CheckboxListTile(
+              //     title: Text(
+              //       "Order Later",
+              //       style: TextStyle(
+              //         fontFamily: FontFamily.semiBold,
+              //         fontSize: FontSize.s16,
+              //         color: SplashColors.primaryDark,
+              //       ),
+              //     ),
+              //     activeColor: SplashColors.primary,
+              //     value: controller.isOrderLaterChecked.value,
+              //     contentPadding: EdgeInsets.zero,
+              //     controlAffinity: ListTileControlAffinity.trailing,
+              //     onChanged: (value) {
+              //       controller.isOrderLaterChecked.value = value ?? false;
+              //       controller.update();
+              //     },
+              //   ),
+              // ),
               Container(
-                padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 6),
                 decoration: BoxDecoration(
                   color: Colors.white,
                   borderRadius: BorderRadius.circular(16),
@@ -483,23 +516,22 @@ class AddSalesOrderCustomerView
                     ),
                   ],
                 ),
-                child: CheckboxListTile(
-                  title: Text(
-                    "Order Later",
-                    style: TextStyle(
-                      fontFamily: FontFamily.semiBold,
-                      fontSize: FontSize.s16,
-                      color: SplashColors.primaryDark,
+                child: Material(
+                  color: Colors.transparent,
+                  borderRadius: BorderRadius.circular(16),
+                  child: CheckboxListTile(
+                    title: Text(
+                      "Order Later",
                     ),
+                    value: controller.isOrderLaterChecked.value,
+                    activeColor: SplashColors.primary,
+                    contentPadding: const EdgeInsets.symmetric(horizontal: 14),
+                    controlAffinity: ListTileControlAffinity.trailing,
+                    onChanged: (value) {
+                      controller.isOrderLaterChecked.value = value ?? false;
+                      controller.update();
+                    },
                   ),
-                  activeColor: SplashColors.primary,
-                  value: controller.isOrderLaterChecked.value,
-                  contentPadding: EdgeInsets.zero,
-                  controlAffinity: ListTileControlAffinity.trailing,
-                  onChanged: (value) {
-                    controller.isOrderLaterChecked.value = value ?? false;
-                    controller.update();
-                  },
                 ),
               ),
 

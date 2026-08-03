@@ -111,8 +111,7 @@ class _SplashViewState extends State<SplashView> with TickerProviderStateMixin {
         ]),
         builder: (context, _) {
           final floatY = math.sin(_floatCtrl.value * 2 * math.pi) * 10;
-          final floatRotate =
-              math.sin(_floatCtrl.value * 2 * math.pi) * 0.018;
+          final floatRotate = math.sin(_floatCtrl.value * 2 * math.pi) * 0.018;
 
           return Stack(
             fit: StackFit.expand,
@@ -205,11 +204,7 @@ class _SplashViewState extends State<SplashView> with TickerProviderStateMixin {
                 child: Column(
                   children: [
                     const SizedBox(height: 20),
-                    Opacity(
-                      opacity: _topOpacity.value,
-                      child: Transform.translate(
-                        offset: Offset(0, _topSlide.value),
-                        child: Column(
+                   Column(
                           children: [
                             Text(
                               'PREMIUM COMFORT',
@@ -235,77 +230,71 @@ class _SplashViewState extends State<SplashView> with TickerProviderStateMixin {
                             _lineLabel('MATTRESS'),
                           ],
                         ),
-                      ),
-                    ),
+
                     const Spacer(),
-                    Opacity(
-                      opacity: _bottomOpacity.value,
-                      child: Transform.translate(
-                        offset: Offset(0, _bottomSlide.value),
-                        child: Column(
-                          children: [
-                            Container(
-                              width: 56,
-                              height: 56,
-                              decoration: BoxDecoration(
-                                color: Colors.white,
-                                borderRadius: BorderRadius.circular(10),
-                                boxShadow: [
-                                  BoxShadow(
-                                    color: Colors.black.withOpacity(0.2),
-                                    blurRadius: 16,
-                                    offset: const Offset(0, 6),
-                                  ),
-                                ],
+                    Column(
+                      children: [
+                        Container(
+                          width: 65,
+                          height: 65,
+                          decoration: BoxDecoration(
+                            color: Colors.white,
+                            borderRadius: BorderRadius.circular(10),
+                            boxShadow: [
+                              BoxShadow(
+                                color: Colors.black.withOpacity(0.2),
+                                blurRadius: 16,
+                                offset: const Offset(0, 6),
                               ),
-                              child: ClipRRect(
-                                borderRadius: BorderRadius.circular(10),
-                                child: Image.asset(
-                                  AppImages.appIcon_g,
-                                  fit: BoxFit.cover,
-                                ),
-                              ),
+                            ],
+                          ),
+                          child: ClipRRect(
+                            borderRadius: BorderRadius.circular(10),
+                            child: Image.asset(
+                              AppImages.appIcon_g,
+                              fit: BoxFit.cover,
                             ),
-                            const SizedBox(height: 14),
-                            Text(
-                              AppString.appName.toUpperCase(),
-                              textAlign: TextAlign.center,
-                              style: TextStyle(
-                                fontFamily: FontFamily.bold,
-                                fontSize: 20,
-                                color: SplashColors.text,
-                                letterSpacing: 6,
-                              ),
-                            ),
-                            const SizedBox(height: 8),
-                            _lineLabel('PREMIUM MATTRESSES'),
-                            const SizedBox(height: 14),
-                            Text(
-                              'Better Sleep. Better Life.',
-                              style: TextStyle(
-                                fontFamily: FontFamily.PlayfairDisplayRegular,
-                                fontSize: 15,
-                                color: SplashColors.subText.withOpacity(0.9),
-                              ),
-                            ),
-                            const SizedBox(height: 28),
-                            SizedBox(
-                              width: size.width * 0.55,
-                              child: ClipRRect(
-                                borderRadius: BorderRadius.circular(2),
-                                child: LinearProgressIndicator(
-                                  value: _progressCtrl.value,
-                                  minHeight: 2.5,
-                                  backgroundColor: Colors.white24,
-                                  valueColor: const AlwaysStoppedAnimation(
-                                    SplashColors.text,
-                                  ),
-                                ),
-                              ),
-                            ),
-                          ],
+                          ),
                         ),
-                      ),
+                        const SizedBox(height: 14),
+                        Text(
+                          AppString.appName.toUpperCase(),
+                          textAlign: TextAlign.center,
+                          style: TextStyle(
+                            fontFamily: FontFamily.bold,
+                            fontSize: 20,
+                            color: SplashColors.text,
+                            letterSpacing: 6,
+                          ),
+                        ),
+                        const SizedBox(height: 8),
+                        _lineLabel('PREMIUM MATTRESSES'),
+                        const SizedBox(height: 14),
+                        Text(
+                          'Better Sleep. Better Life.',
+                          style: TextStyle(
+                            fontFamily: FontFamily.bold,
+                            fontSize: 15,
+                            letterSpacing: 3,
+                            color: SplashColors.subText.withOpacity(0.9),
+                          ),
+                        ),
+                        SizedBox(height: 20),
+                        SizedBox(
+                          width: size.width * 0.55,
+                          child: ClipRRect(
+                            borderRadius: BorderRadius.circular(2),
+                            child: LinearProgressIndicator(
+                              value: _progressCtrl.value,
+                              minHeight: 2.5,
+                              backgroundColor: Colors.white24,
+                              valueColor: const AlwaysStoppedAnimation(
+                                SplashColors.text,
+                              ),
+                            ),
+                          ),
+                        ),
+                      ],
                     ),
                     const SizedBox(height: 36),
                   ],

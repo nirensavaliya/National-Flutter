@@ -73,6 +73,10 @@ class AppString {
   static String pendingSaleOrder = "Pending SaleOrder";
   static String saleOrderRegister = "Sale Order Register";
 
+
+  //claim
+  static String claims = "Claims";
+
   //Ledger Statement
   static String fromDate = "From Date";
   static String toDate = "To Date";

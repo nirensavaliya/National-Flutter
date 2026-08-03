@@ -149,15 +149,15 @@ class CustomerMainHomeView extends GetView<CustomerMainController> {
                       image: AppImages.pending,
                       onTap: () => Get.toNamed(Routes.PENDING_SALE_ORDER),
                     ),
+                    // MenuTile(
+                    //   title: AppString.Feedback,
+                    //   image: AppImages.feedback,
+                    //   onTap: () => Get.toNamed(Routes.FEEDBACK),
+                    // ),
                     MenuTile(
-                      title: AppString.Feedback,
+                      title: AppString.claims,
                       image: AppImages.feedback,
-                      onTap: () => Get.toNamed(Routes.FEEDBACK),
-                    ),
-                    MenuTile(
-                      title: AppString.orderLaterSales,
-                      image: AppImages.quotation,
-                      onTap: () => Get.toNamed(Routes.ORDER_LATER_SALE),
+                      onTap: () => Get.toNamed(Routes.CLAIMS),
                     ),
                     MenuTile(
                       title: 'Ledger Statement',
@@ -388,7 +388,7 @@ class _CustomerDashboardAppBar extends StatelessWidget {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Text(
-                          AppString.appName,
+                          "Customer Portal",
                           style: TextStyle(
                             fontFamily: FontFamily.PlayfairDisplayBold,
                             fontSize: FontSize.s20,
@@ -396,15 +396,15 @@ class _CustomerDashboardAppBar extends StatelessWidget {
                             letterSpacing: 0.5,
                           ),
                         ),
-                        const Gap(2),
-                        Text(
-                          'Customer Portal',
-                          style: TextStyle(
-                            fontFamily: FontFamily.medium,
-                            fontSize: FontSize.s12,
-                            color: SplashColors.subText.withOpacity(0.95),
-                          ),
-                        ),
+                        // const Gap(2),
+                        // Text(
+                        //   'Customer Portal',
+                        //   style: TextStyle(
+                        //     fontFamily: FontFamily.medium,
+                        //     fontSize: FontSize.s16,
+                        //     color: SplashColors.subText.withOpacity(0.95),
+                        //   ),
+                        // ),
                       ],
                     ),
                   ),

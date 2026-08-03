@@ -20,59 +20,59 @@ class PromoMessageController extends GetxController {
   @override
   void onInit() {
     super.onInit();
-    apiPromotionalMessage();
+    // apiPromotionalMessage();
     promoMessage.value = Constants.promoMessageModel.message.toString();
   }
 
-  Future<void> apiSavePromotionalMessage(BuildContext context) async {
-    var dataRaw = json.encode({
-      "message": addPromoController.text.toString(),
-    });
+  // Future<void> apiSavePromotionalMessage(BuildContext context) async {
+  //   var dataRaw = json.encode({
+  //     "message": addPromoController.text.toString(),
+  //   });
+  //
+  //   final data = await APIFunction().apiCall(
+  //     apiName: Constants.SavePromoMessage,
+  //     context: Get.context!,
+  //     rawData: dataRaw,
+  //   );
+  //
+  //   IsAdminModel model = IsAdminModel.fromJson(data);
+  //   if (model.statusCode == 200) {
+  //     Utils().showToast(message: "Promo message saved Successfully!", context: context);
+  //     // apiPromotionalMessage();
+  //     // Get.back();
+  //     // print('isAdmin:: ---- --- ${model.data}');
+  //     // customerList.value = model.data!;
+  //     // GetStorageData.saveBoolean(GetStorageData.isAdmin, model.data!);
+  //     update();
+  //   }
+  // }
 
-    final data = await APIFunction().apiCall(
-      apiName: Constants.SavePromoMessage,
-      context: Get.context!,
-      rawData: dataRaw,
-    );
-
-    IsAdminModel model = IsAdminModel.fromJson(data);
-    if (model.statusCode == 200) {
-      Utils().showToast(message: "Promo message saved Successfully!", context: context);
-      apiPromotionalMessage();
-      // Get.back();
-      // print('isAdmin:: ---- --- ${model.data}');
-      // customerList.value = model.data!;
-      // GetStorageData.saveBoolean(GetStorageData.isAdmin, model.data!);
-      update();
-    }
-  }
-
-  Future<void> apiPromotionalMessage() async {
-    FormData formData = FormData.fromMap({});
-
-    final data = await GetAPIFunction().apiCall(
-      apiName: Constants.promoMessage,
-      context: Get.context!,
-      params: formData,
-    );
-    var responseData = data is String ? jsonDecode(data) : data;
-
-    PromotionalMessageModel model = PromotionalMessageModel.fromJson(responseData);
-    if (model.statusCode == 200) {
-      if (model.data?.message != null) {
-        Constants.promoMessageModel = model.data!;
-        addPromoController.text = model.data!.message!.toString();
-        bottomBarController.updatePromoMessage(model.data!.message!);
-        // Get.back(result: model.data!.message!);
-        update();
-      } else {
-        Constants.promoMessageModel = PromotionalMessageData(message: "No promotional message available.");
-        update();
-        // Get.back();
-      }
-    } else {
-      Constants.promoMessageModel = PromotionalMessageData(message: "Failed to load promotional message.");
-      update();
-    }
-  }
+  // Future<void> apiPromotionalMessage() async {
+  //   FormData formData = FormData.fromMap({});
+  //
+  //   final data = await GetAPIFunction().apiCall(
+  //     apiName: Constants.promoMessage,
+  //     context: Get.context!,
+  //     params: formData,
+  //   );
+  //   var responseData = data is String ? jsonDecode(data) : data;
+  //
+  //   PromotionalMessageModel model = PromotionalMessageModel.fromJson(responseData);
+  //   if (model.statusCode == 200) {
+  //     if (model.data?.message != null) {
+  //       Constants.promoMessageModel = model.data!;
+  //       addPromoController.text = model.data!.message!.toString();
+  //       bottomBarController.updatePromoMessage(model.data!.message!);
+  //       // Get.back(result: model.data!.message!);
+  //       update();
+  //     } else {
+  //       Constants.promoMessageModel = PromotionalMessageData(message: "No promotional message available.");
+  //       update();
+  //       // Get.back();
+  //     }
+  //   } else {
+  //     Constants.promoMessageModel = PromotionalMessageData(message: "Failed to load promotional message.");
+  //     update();
+  //   }
+  // }
 }

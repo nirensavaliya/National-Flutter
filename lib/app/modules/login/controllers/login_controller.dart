@@ -311,7 +311,7 @@ class LoginController extends GetxController with CodeAutoFill {
 
       final data = await APIFunction().apiCall(
           apiName:
-          "https://gurukrupawebapis.azurewebsites.net/api/User/UserLogin",
+          "https://nationalenterprisewebapis.azurewebsites.net/api/User/UserLogin",
           context: Get.context!,
           rawData: dataRaw,
           token: token);
@@ -369,7 +369,7 @@ class LoginController extends GetxController with CodeAutoFill {
 
     final data = await APIFunction().apiCall(
         apiName:
-        "https://gurukrupawebapis.azurewebsites.net/api/User/CustomerLogin",
+        "https://nationalenterprisewebapis.azurewebsites.net/api/User/CustomerLogin",
         context: Get.context!,
         rawData: dataRaw,
         token: token);
@@ -396,7 +396,7 @@ class LoginController extends GetxController with CodeAutoFill {
     try {
       final data = await GetAPIFunction().apiCall(
         apiName:
-        'https://gurukrupawebapis.azurewebsites.net/api/User/Selectcompany/YZ9645/48',
+        'https://nationalenterprisewebapis.azurewebsites.net/api/User/Selectcompany/DE0909/7',
         context: context,
         params: formData,
       );

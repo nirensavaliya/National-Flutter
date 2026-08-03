@@ -3,6 +3,7 @@ import 'package:flutter/services.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:gurukrupa/app/commons/font_family.dart';
 import 'package:get/get.dart';
+import 'package:gurukrupa/app/modules/splash/views/splash_view.dart';
 
 import 'app/routes/app_pages.dart';
 
@@ -24,13 +25,14 @@ class _MyAppState extends State<MyApp> {
       ),
       child: GetMaterialApp(
         debugShowCheckedModeBanner: false,
-        title: "GuruKrupa",
+        title: "National",
         initialRoute: AppPages.INITIAL,
         theme: ThemeData(
           fontFamily: FontFamily.medium,
         ),
         getPages: AppPages.routes,
         builder: EasyLoading.init(),
+        // home: SplashView(),
       ),
     );
   }

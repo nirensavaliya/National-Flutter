@@ -15,7 +15,7 @@ import 'all.dart';
 
 class Constants {
   // static String baseUrl = 'https://fraxinuswebapis.azurewebsites.net/api/';
-  static String baseUrl = 'https://gurukrupawebapis.azurewebsites.net/api/';
+  static String baseUrl = 'https://nationalenterprisewebapis.azurewebsites.net/api/';
   static String apiKey = '';
   static String dashboardElements = 'Dashboard/DashboardElements';
   static String todaysTotalsale = 'Dashboard/TodaysTotalsale';
@@ -24,16 +24,12 @@ class Constants {
   static String monthlyTotalpurchase = 'Dashboard/MonthlyTotalpurchase';
   static String customerFeedbacks = '/Dashboard/CustomerFeedbacks';
   static String orderFromImage = '/SaleOrder/OrderFromImage';
-  static String GetOfferImage = '/Dashboard/GetOfferImage';
-  static String saveOfferImage = 'Master/Admin/SaveOfferImage';
   static String salesPersonVisitImage = '/User/SalesPersonVisitImage';
-  static String promoMessage = '/Dashboard/PromoMessage';
   static String sendOTP = 'User/SendOTP';
   static String IsUserIsAdmin = 'User/IsUserIsAdmin';
-  static String SaveFeedBack = 'Customer/SaveFeedback';
-  static String GetItemListByBrandandCategory = 'Master/GetItemListByBrandandCategory';
+  static String GetItemListByBrandandCategory = 'Master/GetItemListbyFilters';
   static String GetItemListByBrandandCategoryPaging =
-      'Master/GetItemListByBrandandCategory_paging';
+      'Master/GetItemListbyFilters_paging';
   static String SavePromoMessage = 'Master/Admin/SavePromoMessage';
   static String SaveSaleOrderfromcustomer = 'Customer/SaveSaleOrderfromcustomer';
   static String OrderLaterSaleOrderList = 'Customer/OrderLaterSaleOrderList';
@@ -73,6 +69,10 @@ class Constants {
   static String getBrandList = 'Master/GetBrandList';
   static String getCategoryList = 'Master/GetCategoryList';
   static String getSupplierList = 'Master/GetSupplierList';
+  static String saveClaim = 'Claim/SaveClaim';
+  static String updateClaim = 'Claim/UpdateClaim';
+  static String updateClaimStatus = 'Claim/UpdateClaimStatus';
+  static String claimList = 'Claim/ClaimList';
   static String itemListApi = 'Reports/ItemList';
   static String ledgerStatement = 'Reports/LedgerStatement';
   static String getLedgerStatementCustomer = 'Customer/MyLedgerStatement';

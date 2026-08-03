@@ -40,9 +40,9 @@ class ReportFeedbackView extends GetView<ReportFeedbackController> {
                 CommonButton(
                   btnName: 'Save Feedback',
                   btnColor: SplashColors.primary,
-                  onTap: () {
-                    controller.validation(context);
-                  },
+                  // onTap: () {
+                  //   controller.validation(context);
+                  // },
                 ),
               ],
             ),

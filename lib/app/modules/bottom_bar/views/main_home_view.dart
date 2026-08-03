@@ -4,6 +4,7 @@ import 'package:gurukrupa/app/commons/app_colors.dart';
 import 'package:gurukrupa/app/commons/get_storage_data.dart';
 import 'package:gurukrupa/app/modules/bottom_bar/controllers/bottom_bar_controller.dart';
 import 'package:gurukrupa/app/routes/app_pages.dart';
+import 'package:shimmer/shimmer.dart';
 
 import '../../../commons/all.dart';
 
@@ -60,7 +61,7 @@ class MainHomeView extends GetView<BottomBarController> {
                         ],
                       ),
                     ),
-                    const Gap(10),
+                    // const Gap(10),
                     GridView.count(
                       crossAxisCount: 2,
                       shrinkWrap: true,
@@ -73,127 +74,132 @@ class MainHomeView extends GetView<BottomBarController> {
                           title: "Today's Sales",
                           value: controller.todaySale,
                           icon: Icons.trending_up_rounded,
+                          isLoading: controller.isLoading,
                           accentColor: SplashColors.primary,
-                          onTap: () => Get.toNamed(
-                            Routes.SHOW_REPORT,
-                            arguments: AppString.todayTotal,
-                          ),
+                          // onTap: () => Get.toNamed(
+                          //   Routes.SHOW_REPORT,
+                          //   arguments: AppString.todayTotal,
+                          // ),
                         ),
                         DashboardStatCard(
                           title: "Monthly Sales",
                           value: controller.monthSale,
                           icon: Icons.bar_chart_rounded,
+                          isLoading: controller.isLoading,
+
                           accentColor: SplashColors.primaryLight,
-                          onTap: () => Get.toNamed(
-                            Routes.SHOW_REPORT,
-                            arguments: AppString.monthlyTotal,
-                          ),
+                          // onTap: () => Get.toNamed(
+                          //   Routes.SHOW_REPORT,
+                          //   arguments: AppString.monthlyTotal,
+                          // ),
                         ),
                         DashboardStatCard(
                           title: "Today's Purchase",
                           value: controller.todayPurchase,
                           icon: Icons.shopping_cart_outlined,
+                          isLoading: controller.isLoading,
                           accentColor: SplashColors.primaryDark,
-                          onTap: () => Get.toNamed(
-                            Routes.SHOW_REPORT,
-                            arguments: AppString.todayPurchase,
-                          ),
+                          // onTap: () => Get.toNamed(
+                          //   Routes.SHOW_REPORT,
+                          //   arguments: AppString.todayPurchase,
+                          // ),
                         ),
                         DashboardStatCard(
                           title: "Monthly Purchase",
                           value: controller.monthPurchase,
                           icon: Icons.inventory_2_outlined,
+                          isLoading: controller.isLoading,
                           accentColor: SplashColors.primaryDeep,
-                          onTap: () => Get.toNamed(
-                            Routes.SHOW_REPORT,
-                            arguments: AppString.monthlyPurchase,
-                          ),
+                          // onTap: () => Get.toNamed(
+                          //   Routes.SHOW_REPORT,
+                          //   arguments: AppString.monthlyPurchase,
+                          // ),
                         ),
                       ],
                     ),
-                    if (controller.isAdmin) ...[
-                      const Gap(24),
-                      Text(
-                        'Admin Actions',
-                        style: TextStyle(
-                          fontFamily: FontFamily.semiBold,
-                          fontSize: FontSize.s16,
-                          color: SplashColors.primaryDark,
-                        ),
-                      ),
-                      const Gap(12),
-                      DashboardActionTile(
-                        title: 'Customer Feedback',
-                        subtitle:
-                            'Check Pending Customers and Read Customers Feedback.',
-                        icon: Icons.people_outline_rounded,
-                        onTap: () => Get.toNamed(Routes.CUSTOMER_VIEW),
-                      ),
-                      DashboardActionTile(
-                        title: 'Promotional Message',
-                        subtitle: 'Change Promotional Message.',
-                        icon: Icons.campaign_outlined,
-                        onTap: () async {
-                          final result =
-                              await Get.toNamed(Routes.ADD_PROMO_MESSAGE);
-                          if (result != null && result is String) {
-                            controller.promoMessage.value = result;
-                            controller.update();
-                          }
-                        },
-                      ),
-                      DashboardActionTile(
-                        title: 'Offer Image',
-                        subtitle: 'Change Offer Image.',
-                        icon: Icons.image_outlined,
-                        onTap: () async {
-                          final result =
-                              await Get.toNamed(Routes.ADD_OFFER_IMAGE);
-                          if (result != null && result is String) {
-                            controller.apiOfferImageMessage();
-                            controller.update();
-                          }
-                        },
-                      ),
-                    ],
-                    const Gap(8),
-                    Obx(() {
-                      print("Image URL: ${controller.offerImage.value}");
-                      if (controller.offerImage.value.isEmpty) {
-                        return const SizedBox();
-                      }
-                      return Container(
-                        margin: const EdgeInsets.only(top: 12, bottom: 8),
-                        decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(16),
-                          boxShadow: [
-                            BoxShadow(
-                              color: Colors.black.withOpacity(0.06),
-                              blurRadius: 12,
-                              offset: const Offset(0, 4),
-                            ),
-                          ],
-                        ),
-                        child: ClipRRect(
-                          borderRadius: BorderRadius.circular(16),
-                          child: CachedNetworkImage(
-                            imageUrl: controller.offerImage.value,
-                            placeholder: (context, url) => const Center(
-                              child: CircularProgressIndicator(
-                                color: SplashColors.primary,
-                              ),
-                            ),
-                            errorWidget: (context, url, error) =>
-                                const Icon(Icons.error, color: Colors.red),
-                            fadeInDuration: Duration.zero,
-                            fadeOutDuration: Duration.zero,
-                            fit: BoxFit.cover,
-                            width: double.infinity,
-                            height: 200,
-                          ),
-                        ),
-                      );
-                    }),
+                    // if (controller.isAdmin) ...[
+                    //   const Gap(24),
+                    //   Text(
+                    //     'Admin Actions',
+                    //     style: TextStyle(
+                    //       fontFamily: FontFamily.semiBold,
+                    //       fontSize: FontSize.s16,
+                    //       color: SplashColors.primaryDark,
+                    //     ),
+                    //   ),
+                    //   const Gap(12),
+                    //   DashboardActionTile(
+                    //     title: 'Customer Feedback',
+                    //     subtitle:
+                    //         'Check Pending Customers and Read Customers Feedback.',
+                    //     icon: Icons.people_outline_rounded,
+                    //     onTap: () => Get.toNamed(Routes.CUSTOMER_VIEW),
+                    //   ),
+                    //   DashboardActionTile(
+                    //     title: 'Promotional Message',
+                    //     subtitle: 'Change Promotional Message.',
+                    //     icon: Icons.campaign_outlined,
+                    //     onTap: () async {
+                    //       final result =
+                    //           await Get.toNamed(Routes.ADD_PROMO_MESSAGE);
+                    //       if (result != null && result is String) {
+                    //         controller.promoMessage.value = result;
+                    //         controller.update();
+                    //       }
+                    //     },
+                    //   ),
+                    //   DashboardActionTile(
+                    //     title: 'Offer Image',
+                    //     subtitle: 'Change Offer Image.',
+                    //     icon: Icons.image_outlined,
+                    //     onTap: () async {
+                    //       final result =
+                    //           await Get.toNamed(Routes.ADD_OFFER_IMAGE);
+                    //       if (result != null && result is String) {
+                    //         controller.apiOfferImageMessage();
+                    //         controller.update();
+                    //       }
+                    //     },
+                    //   ),
+                    // ],
+                    // const Gap(8),
+                    // Obx(() {
+                    //   print("Image URL: ${controller.offerImage.value}");
+                    //   if (controller.offerImage.value.isEmpty) {
+                    //     return const SizedBox();
+                    //   }
+                    //   return Container(
+                    //     margin: const EdgeInsets.only(top: 12, bottom: 8),
+                    //     decoration: BoxDecoration(
+                    //       borderRadius: BorderRadius.circular(16),
+                    //       boxShadow: [
+                    //         BoxShadow(
+                    //           color: Colors.black.withOpacity(0.06),
+                    //           blurRadius: 12,
+                    //           offset: const Offset(0, 4),
+                    //         ),
+                    //       ],
+                    //     ),
+                    //     child: ClipRRect(
+                    //       borderRadius: BorderRadius.circular(16),
+                    //       child: CachedNetworkImage(
+                    //         imageUrl: controller.offerImage.value,
+                    //         placeholder: (context, url) => const Center(
+                    //           child: CircularProgressIndicator(
+                    //             color: SplashColors.primary,
+                    //           ),
+                    //         ),
+                    //         errorWidget: (context, url, error) =>
+                    //             const Icon(Icons.error, color: Colors.red),
+                    //         fadeInDuration: Duration.zero,
+                    //         fadeOutDuration: Duration.zero,
+                    //         fit: BoxFit.cover,
+                    //         width: double.infinity,
+                    //         height: 200,
+                    //       ),
+                    //     ),
+                    //   );
+                    // }),
                   ],
                 ),
               ),
@@ -342,30 +348,29 @@ class _DashboardAppBar extends StatelessWidget {
               child: Row(
                 children: [
                   // Logo with shadow
-                  Container(
-                    width: 48,
-                    height: 48,
-                    decoration: BoxDecoration(
-                      color: Colors.white,
-                      borderRadius: BorderRadius.circular(14),
-                      boxShadow: [
-                        BoxShadow(
-                          color: Colors.black.withOpacity(0.18),
-                          blurRadius: 12,
-                          offset: const Offset(0, 4),
-                        ),
-                      ],
-                    ),
-                    child: ClipRRect(
-                      borderRadius: BorderRadius.circular(14),
-                      child: Image.asset(
-                        AppImages.appIcon_g,
-                        fit: BoxFit.cover,
-                      ),
-                    ),
-                  ),
+                  // Container(
+                  //   width: 48,
+                  //   height: 48,
+                  //   decoration: BoxDecoration(
+                  //     color: Colors.white,
+                  //     borderRadius: BorderRadius.circular(14),
+                  //     boxShadow: [
+                  //       BoxShadow(
+                  //         color: Colors.black.withOpacity(0.18),
+                  //         blurRadius: 12,
+                  //         offset: const Offset(0, 4),
+                  //       ),
+                  //     ],
+                  //   ),
+                  //   child: ClipRRect(
+                  //     borderRadius: BorderRadius.circular(14),
+                  //     child: Image.asset(
+                  //       AppImages.appIcon_g,
+                  //       fit: BoxFit.cover,
+                  //     ),
+                  //   ),
+                  // ),
                   const Gap(14),
-
                   Expanded(
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
@@ -373,7 +378,7 @@ class _DashboardAppBar extends StatelessWidget {
                         Text(
                           AppString.appName,
                           style: TextStyle(
-                            fontFamily: FontFamily.PlayfairDisplayBold,
+                            fontFamily: FontFamily.bold,
                             fontSize: FontSize.s20,
                             color: SplashColors.text,
                             letterSpacing: 0.5,
@@ -414,7 +419,7 @@ class _DashboardAppBar extends StatelessWidget {
                           ),
                         ],
                       ),
-                      child: const Row(
+                      child: Row(
                         mainAxisSize: MainAxisSize.min,
                         children: [
                           Icon(
@@ -462,66 +467,77 @@ class DashboardStatCard extends StatelessWidget {
     required this.title,
     required this.value,
     required this.icon,
-    required this.onTap,
+    required this.isLoading,
+
     this.accentColor = SplashColors.primary,
   });
 
   final String title;
   final String value;
   final IconData icon;
-  final VoidCallback onTap;
+  final bool isLoading;
   final Color accentColor;
 
   @override
   Widget build(BuildContext context) {
-    return GestureDetector(
-      onTap: onTap,
-      child: Container(
-        padding: const EdgeInsets.all(16),
-        decoration: BoxDecoration(
-          color: Colors.white,
-          borderRadius: BorderRadius.circular(18),
-          boxShadow: [
-            BoxShadow(
-              color: Colors.black.withOpacity(0.06),
-              blurRadius: 16,
-              offset: const Offset(0, 6),
+    return Container(
+      padding: const EdgeInsets.all(16),
+      decoration: BoxDecoration(
+        color: Colors.white,
+        borderRadius: BorderRadius.circular(18),
+        boxShadow: [
+          BoxShadow(
+            color: Colors.black.withOpacity(0.06),
+            blurRadius: 16,
+            offset: const Offset(0, 6),
+          ),
+        ],
+      ),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Container(
+            padding: const EdgeInsets.all(8),
+            decoration: BoxDecoration(
+              color: accentColor.withOpacity(0.12),
+              borderRadius: BorderRadius.circular(10),
             ),
-          ],
-        ),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Container(
-              padding: const EdgeInsets.all(8),
+            child: Icon(icon, color: accentColor, size: 20),
+          ),
+          const Gap(12),
+          Text(
+            title,
+            style: TextStyle(
+              fontFamily: FontFamily.medium,
+              fontSize: FontSize.s12,
+              color: Colors.black54,
+            ),
+          ),
+          const Gap(6),
+          isLoading
+              ? Shimmer.fromColors(
+            baseColor: Colors.grey.shade300,
+            highlightColor: Colors.grey.shade100,
+            child: Container(
+              height: 22,
+              width: 70,
               decoration: BoxDecoration(
-                color: accentColor.withOpacity(0.12),
-                borderRadius: BorderRadius.circular(10),
-              ),
-              child: Icon(icon, color: accentColor, size: 20),
-            ),
-            const Gap(12),
-            Text(
-              title,
-              style: TextStyle(
-                fontFamily: FontFamily.medium,
-                fontSize: FontSize.s12,
-                color: Colors.black54,
+                color: Colors.white,
+                borderRadius: BorderRadius.circular(4),
               ),
             ),
-            const Gap(6),
-            Text(
-              value,
-              maxLines: 1,
-              overflow: TextOverflow.ellipsis,
-              style: TextStyle(
-                fontFamily: FontFamily.bold,
-                fontSize: FontSize.s18,
-                color: SplashColors.primaryDark,
-              ),
+          )
+              : Text(
+            value,
+            maxLines: 1,
+            overflow: TextOverflow.ellipsis,
+            style: TextStyle(
+              fontFamily: FontFamily.bold,
+              fontSize: FontSize.s18,
+              color: SplashColors.primaryDark,
             ),
-          ],
-        ),
+          ),
+        ],
       ),
     );
   }

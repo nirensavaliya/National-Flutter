@@ -96,6 +96,29 @@ class LoginView extends GetView<LoginController> {
                         //   ),
                         // ),
                         // const Gap(5),
+                        Container(
+                          width: 65,
+                          height: 65,
+                          decoration: BoxDecoration(
+                            color: Colors.white,
+                            borderRadius: BorderRadius.circular(10),
+                            boxShadow: [
+                              BoxShadow(
+                                color: Colors.black.withOpacity(0.2),
+                                blurRadius: 16,
+                                offset: const Offset(0, 6),
+                              ),
+                            ],
+                          ),
+                          child: ClipRRect(
+                            borderRadius: BorderRadius.circular(10),
+                            child: Image.asset(
+                              "assets/images/login_logo.jpeg",
+                              fit: BoxFit.fill,
+                            ),
+                          ),
+                        ),
+                        const Gap(10),
                         Text(
                           AppString.appName.toUpperCase(),
                           style: TextStyle(
@@ -180,6 +203,7 @@ class LoginView extends GetView<LoginController> {
                                   borderRadius: 12,
                                   hintText: AppString.entermobileNumber,
                                   title: AppString.mobileNumber,
+                                  textInputType: TextInputType.number,
                                   textInputAction: TextInputAction.done,
                                 ),
 
@@ -214,7 +238,7 @@ class LoginView extends GetView<LoginController> {
                                         : "Are you a employee?",
                                     style: TextStyle(
                                       fontSize: 15,
-                                      fontFamily: FontFamily.PlayfairDisplayBlack,
+                                      fontFamily: FontFamily.bold,
                                       color: SplashColors.primary,
                                     ),
                                   ),
@@ -293,7 +317,7 @@ class LoginView extends GetView<LoginController> {
                                             : "OTP auto-fill not available",
                                         style: TextStyle(
                                           fontSize: 12,
-                                          fontFamily: FontFamily.PlayfairDisplayMedium,
+                                          fontFamily: FontFamily.medium,
                                           color: controller.isListeningForOtp.value
                                               ? Colors.green
                                               : Colors.grey,
@@ -876,7 +900,7 @@ class LoginView extends GetView<LoginController> {
       height: 55,
       textStyle: TextStyle(
         fontSize: 20,
-        fontFamily: FontFamily.PlayfairDisplayBlack,
+        fontFamily: FontFamily.bold,
         color: Colors.black,
       ),
       decoration: BoxDecoration(

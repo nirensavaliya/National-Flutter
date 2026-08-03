@@ -107,8 +107,8 @@ class CommonTextField extends StatelessWidget {
                 hintText: hintText ?? "",
                 hintStyle: TextStyle(
                   color: Colors.grey,
-                  fontSize: FontSize.s16,
-                  fontFamily: FontFamily.PlayfairDisplayMedium,
+                  fontSize: FontSize.s14,
+                  fontFamily: FontFamily.regular,
                 ),
               ),
             ),

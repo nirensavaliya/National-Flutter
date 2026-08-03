@@ -80,12 +80,12 @@ class SalesOrderAddView extends GetView<SalesOrderController> {
                 Text(
                   AppString.invoiceType,
                   style: TextStyle(
-                    fontFamily: FontFamily.bold,
-                    fontSize: FontSize.s18,
-                    color: Colors.black45,
+                    fontFamily: FontFamily.semiBold,
+                    fontSize: FontSize.s16,
+                    color: Colors.black,
                   ),
                 ),
-                Gap(5),
+                Gap(8),
                 Material(
                   color: Colors.white,
                   shape: RoundedRectangleBorder(
@@ -196,6 +196,7 @@ class SalesOrderAddView extends GetView<SalesOrderController> {
                     maxLength: 12,
                     textInputType: TextInputType.number,
                     readOnly: controller.isCustomer,
+                    textInputAction: TextInputAction.next,
                     // Disable if the user is a customer
                     showCursor: !controller.isCustomer,
                     // This will make it not editable if the user is a customer
@@ -210,9 +211,11 @@ class SalesOrderAddView extends GetView<SalesOrderController> {
                   borderRadius: 12,
                   controller: controller.addShippingAddressController,
                   title: AppString.shippingAddress,
+
                   isTitle: true,
                   maxLine: 2,
                   textInputType: TextInputType.streetAddress,
+                  textInputAction: TextInputAction.next,
                 ),
                 if (GetStorageData.readBoolean(GetStorageData.isAdmin) == true)
                   Gap(5),
@@ -279,6 +282,8 @@ class SalesOrderAddView extends GetView<SalesOrderController> {
                     borderRadius: 12,
                     controller: controller.addTransportController,
                     title: AppString.transport,
+                    textInputAction: TextInputAction.next,
+                    textInputType: TextInputType.number,
                     isTitle: true,
                   ),
                 // if (GetStorageData.readBoolean(GetStorageData.isAdmin) == true)
@@ -337,6 +342,8 @@ class SalesOrderAddView extends GetView<SalesOrderController> {
                   controller: controller.addRemarkController,
                   title: AppString.remark,
                   isTitle: true,
+                  textInputType: TextInputType.text,
+                  textInputAction: TextInputAction.next,
                 ),
                 Gap(5),
                 if (controller.addInvoiceTypeController.text ==

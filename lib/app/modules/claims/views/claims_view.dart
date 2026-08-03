@@ -13,7 +13,6 @@ class ClaimsView extends GetView<ClaimsController> {
     return GetBuilder<ClaimsController>(
       builder: (controller) {
         final claims = controller.filteredClaims;
-
         return CommonScreen(
           title: 'Claims',
           brandAppBar: true,
@@ -27,7 +26,13 @@ class ClaimsView extends GetView<ClaimsController> {
                 onNewClaim: () => showNewClaimDialog(controller),
               ),
               const Gap(14),
-              if (claims.isEmpty)
+              // if (claims.isEmpty)
+              //   _emptyState()
+              // else
+              //   ...claims.map((claim) => ClaimListCard(claim: claim)),
+              if (controller.isLoading)
+                const SizedBox.shrink()
+              else if (claims.isEmpty)
                 _emptyState()
               else
                 ...claims.map((claim) => ClaimListCard(claim: claim)),

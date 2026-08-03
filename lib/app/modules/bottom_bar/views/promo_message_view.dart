@@ -45,7 +45,7 @@ class PromoMessageView extends StatelessWidget {
                   btnColor: SplashColors.primary,
                   onTap: () {
                     Get.back();
-                    controller.apiSavePromotionalMessage(Get.context!);
+                    // controller.apiSavePromotionalMessage(Get.context!);
                   },
                 ),
               ],

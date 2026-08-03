@@ -30,7 +30,7 @@ class BottomBarController extends GetxController {
   String monthPurchase = "";
   bool isAdmin = true;
   bool isCustomer = false;
-
+  bool isLoading = true;
   var promoMessage = "No promotional message available.".obs;
 
   List<Widget> screen = [
@@ -100,6 +100,8 @@ class BottomBarController extends GetxController {
   }
 
   Future<void> apiCallDashboard() async {
+    isLoading = true;
+    update();
     FormData formData = FormData.fromMap({});
 
     final data = await GetAPIFunction().apiCall(
@@ -124,8 +126,11 @@ class BottomBarController extends GetxController {
           }
         },
       );
+      isLoading = false;
       update();
     } else if (model.statusCode == 401) {
+      isLoading = false;
+      update();
       GetStorageData.saveString(GetStorageData.isOtpVerified, "false");
       Get.offAllNamed(Routes.COMPANY_CODE);
       GetStorageData.removeData(GetStorageData.token);
@@ -200,61 +205,61 @@ class BottomBarController extends GetxController {
     }
   }
 
-  Future<void> apiPromotionalMessage() async {
-    FormData formData = FormData.fromMap({});
-
-    final data = await GetAPIFunction().apiCall(
-      apiName: Constants.promoMessage,
-      context: Get.context!,
-      params: formData,
-    );
-    var responseData = data is String ? jsonDecode(data) : data;
-
-    PromotionalMessageModel model = PromotionalMessageModel.fromJson(responseData);
-    if (model.statusCode == 200) {
-      if (model.data?.message != null) {
-        Constants.promoMessageModel = model.data!;
-        promoMessage.value = model.data!.message!;
-        updatePromoMessage(model.data!.message!);
-        update();
-      } else {
-        Constants.promoMessageModel = PromotionalMessageData(message: "No promotional message available.");
-        update();
-      }
-    } else {
-      Constants.promoMessageModel = PromotionalMessageData(message: "Failed to load promotional message.");
-      update();
-    }
-  }
+  // Future<void> apiPromotionalMessage() async {
+  //   FormData formData = FormData.fromMap({});
+  //
+  //   final data = await GetAPIFunction().apiCall(
+  //     apiName: Constants.promoMessage,
+  //     context: Get.context!,
+  //     params: formData,
+  //   );
+  //   var responseData = data is String ? jsonDecode(data) : data;
+  //
+  //   PromotionalMessageModel model = PromotionalMessageModel.fromJson(responseData);
+  //   if (model.statusCode == 200) {
+  //     if (model.data?.message != null) {
+  //       Constants.promoMessageModel = model.data!;
+  //       promoMessage.value = model.data!.message!;
+  //       updatePromoMessage(model.data!.message!);
+  //       update();
+  //     } else {
+  //       Constants.promoMessageModel = PromotionalMessageData(message: "No promotional message available.");
+  //       update();
+  //     }
+  //   } else {
+  //     Constants.promoMessageModel = PromotionalMessageData(message: "Failed to load promotional message.");
+  //     update();
+  //   }
+  // }
 
   var offerImage = ''.obs;
 
-  Future<void> apiOfferImageMessage() async {
-    FormData formData = FormData.fromMap({});
-
-    final data = await GetAPIFunction().apiCall(
-      apiName: Constants.GetOfferImage,
-      context: Get.context!,
-      params: formData,
-    );
-    var responseData = data is String ? jsonDecode(data) : data;
-
-    OfferImageModel model = OfferImageModel.fromJson(responseData);
-    if (model.statusCode == 200) {
-      if (model.data != null) {
-        Constants.offerImage = model.data!;
-        offerImage.value = model.data!;
-        // fetchOfferImage();
-        update();
-      } else {
-        Constants.offerImage = "";
-        update();
-      }
-    } else {
-      Constants.offerImage = "";
-      update();
-    }
-  }
+  // Future<void> apiOfferImageMessage() async {
+  //   FormData formData = FormData.fromMap({});
+  //
+  //   final data = await GetAPIFunction().apiCall(
+  //     apiName: Constants.GetOfferImage,
+  //     context: Get.context!,
+  //     params: formData,
+  //   );
+  //   var responseData = data is String ? jsonDecode(data) : data;
+  //
+  //   OfferImageModel model = OfferImageModel.fromJson(responseData);
+  //   if (model.statusCode == 200) {
+  //     if (model.data != null) {
+  //       Constants.offerImage = model.data!;
+  //       offerImage.value = model.data!;
+  //       // fetchOfferImage();
+  //       update();
+  //     } else {
+  //       Constants.offerImage = "";
+  //       update();
+  //     }
+  //   } else {
+  //     Constants.offerImage = "";
+  //     update();
+  //   }
+  // }
 
   void updatePromoMessage(String message) {
     promoMessage.value = message;
@@ -313,14 +318,14 @@ class BottomBarController extends GetxController {
         // CommonModel(image: AppImages.quotation, name: AppString.quotation),
         CommonModel(image: AppImages.salesOrder, name: AppString.salesOrder),
         CommonModel(image: AppImages.invoice, name: AppString.salesInvoice),
-        CommonModel(image: AppImages.recipt, name: AppString.recipt)
+        // CommonModel(image: AppImages.recipt, name: AppString.recipt)
       ];
 
       reportList = [
         CommonModel(image: AppImages.itemList, name: AppString.itemList),
         CommonModel(
             image: AppImages.ledgerStatement, name: AppString.ledgerStatement),
-        CommonModel(image: AppImages.saleReister, name: AppString.saleRegister),
+        // CommonModel(image: AppImages.saleReister, name: AppString.saleRegister),
         CommonModel(
             image: AppImages.purchaseRegister,
             name: AppString.purchaseRegister),
@@ -353,8 +358,8 @@ class BottomBarController extends GetxController {
     print("isAdmin -- $isAdmin");
     apiCallDashboard();
     getBrandListApi();
-    apiPromotionalMessage();
-    apiOfferImageMessage();
+    // apiPromotionalMessage();
+    // apiOfferImageMessage();
     getCategoryListApi();
     apiCallGetPermission();
     apiCallGetGst();

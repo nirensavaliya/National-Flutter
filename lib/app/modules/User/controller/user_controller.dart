@@ -84,33 +84,33 @@ class UserMainController extends GetxController {
     }
   }
 
-  Future<void> apiPromotionalMessage() async {
-    FormData formData = FormData.fromMap({});
-
-    final data = await GetAPIFunction().apiCall(
-      apiName: Constants.promoMessage,
-      context: Get.context!,
-      params: formData,
-    );
-    var responseData = data is String ? jsonDecode(data) : data;
-
-    PromotionalMessageModel model = PromotionalMessageModel.fromJson(responseData);
-    if (model.statusCode == 200) {
-      // Check if message is available
-      if (model.data?.message != null) {
-        Constants.promoMessageModel = model.data!;
-        update();
-      } else {
-        // Handle case where message is missing or empty
-        Constants.promoMessageModel = PromotionalMessageData(message: "No promotional message available.");
-        update();
-      }
-    } else {
-      // Handle error or failed response
-      Constants.promoMessageModel = PromotionalMessageData(message: "Failed to load promotional message.");
-      update();
-    }
-  }
+  // Future<void> apiPromotionalMessage() async {
+  //   FormData formData = FormData.fromMap({});
+  //
+  //   final data = await GetAPIFunction().apiCall(
+  //     apiName: Constants.promoMessage,
+  //     context: Get.context!,
+  //     params: formData,
+  //   );
+  //   var responseData = data is String ? jsonDecode(data) : data;
+  //
+  //   PromotionalMessageModel model = PromotionalMessageModel.fromJson(responseData);
+  //   if (model.statusCode == 200) {
+  //     // Check if message is available
+  //     if (model.data?.message != null) {
+  //       Constants.promoMessageModel = model.data!;
+  //       update();
+  //     } else {
+  //       // Handle case where message is missing or empty
+  //       Constants.promoMessageModel = PromotionalMessageData(message: "No promotional message available.");
+  //       update();
+  //     }
+  //   } else {
+  //     // Handle error or failed response
+  //     Constants.promoMessageModel = PromotionalMessageData(message: "Failed to load promotional message.");
+  //     update();
+  //   }
+  // }
 
   var offerImage = ''.obs;  // Ensure it's an observable
 
@@ -118,35 +118,35 @@ class UserMainController extends GetxController {
     offerImage.value = newImage;
   }
 
-  Future<void> apiOfferImageMessage() async {
-    FormData formData = FormData.fromMap({});
-
-    final data = await GetAPIFunction().apiCall(
-      apiName: Constants.GetOfferImage,
-      context: Get.context!,
-      params: formData,
-    );
-
-    var responseData = data is String ? jsonDecode(data) : data;
-
-    OfferImageModel model = OfferImageModel.fromJson(responseData);
-    if (model.statusCode == 200) {
-      // Check if message is available
-      if (model.data != null) {
-        Constants.offerImage = model.data!;
-        offerImage.value = model.data!;
-        update();
-      } else {
-        // Handle case where message is missing or empty
-        Constants.offerImage = "";
-        update();
-      }
-    } else {
-      // Handle error or failed response
-      Constants.offerImage = "";
-      update();
-    }
-  }
+  // Future<void> apiOfferImageMessage() async {
+  //   FormData formData = FormData.fromMap({});
+  //
+  //   final data = await GetAPIFunction().apiCall(
+  //     apiName: Constants.GetOfferImage,
+  //     context: Get.context!,
+  //     params: formData,
+  //   );
+  //
+  //   var responseData = data is String ? jsonDecode(data) : data;
+  //
+  //   OfferImageModel model = OfferImageModel.fromJson(responseData);
+  //   if (model.statusCode == 200) {
+  //     // Check if message is available
+  //     if (model.data != null) {
+  //       Constants.offerImage = model.data!;
+  //       offerImage.value = model.data!;
+  //       update();
+  //     } else {
+  //       // Handle case where message is missing or empty
+  //       Constants.offerImage = "";
+  //       update();
+  //     }
+  //   } else {
+  //     // Handle error or failed response
+  //     Constants.offerImage = "";
+  //     update();
+  //   }
+  // }
 
   Future<void> apiCallGetPermission() async {
     FormData formData = FormData.fromMap({});
@@ -302,8 +302,8 @@ class UserMainController extends GetxController {
     print("isAdmin -- $isAdmin");
     apiCallGetPermission();
     apiCallGetGst();
-    apiPromotionalMessage();
-    apiOfferImageMessage();
+    // apiPromotionalMessage();
+    // apiOfferImageMessage();
     apiCallCustomer();
     apiCallBranch();
     apiCallGetItem();

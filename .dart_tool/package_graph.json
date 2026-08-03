@@ -19,6 +19,7 @@
         "flutter_inappwebview",
         "flutter_launcher_icons",
         "flutter_otp_text_field",
+        "flutter_spinbox",
         "fluttertoast",
         "gap",
         "get",
@@ -40,6 +41,7 @@
         "pinput",
         "printing",
         "share_plus",
+        "shimmer",
         "sms_autofill",
         "syncfusion_flutter_pdfviewer",
         "telephony_info_plus",
@@ -65,6 +67,22 @@
         "stream_channel",
         "test_api",
         "vector_math"
+      ]
+    },
+    {
+      "name": "shimmer",
+      "version": "3.0.0",
+      "dependencies": [
+        "flutter"
+      ]
+    },
+    {
+      "name": "flutter_spinbox",
+      "version": "0.13.1",
+      "dependencies": [
+        "cupertino_icons",
+        "flutter",
+        "meta"
       ]
     },
     {

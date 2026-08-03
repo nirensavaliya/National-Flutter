@@ -261,7 +261,7 @@
     },
     {
       "name": "flutter",
-      "rootUri": "file:///Users/imac/development/flutter/packages/flutter",
+      "rootUri": "file:///Users/imac/StudioProjects/flutter/packages/flutter",
       "packageUri": "lib/",
       "languageVersion": "3.10"
     },
@@ -380,6 +380,12 @@
       "languageVersion": "3.10"
     },
     {
+      "name": "flutter_spinbox",
+      "rootUri": "file:///Users/imac/.pub-cache/hosted/pub.dev/flutter_spinbox-0.13.1",
+      "packageUri": "lib/",
+      "languageVersion": "2.14"
+    },
+    {
       "name": "flutter_spinkit",
       "rootUri": "file:///Users/imac/.pub-cache/hosted/pub.dev/flutter_spinkit-5.2.2",
       "packageUri": "lib/",
@@ -387,13 +393,13 @@
     },
     {
       "name": "flutter_test",
-      "rootUri": "file:///Users/imac/development/flutter/packages/flutter_test",
+      "rootUri": "file:///Users/imac/StudioProjects/flutter/packages/flutter_test",
       "packageUri": "lib/",
       "languageVersion": "3.10"
     },
     {
       "name": "flutter_web_plugins",
-      "rootUri": "file:///Users/imac/development/flutter/packages/flutter_web_plugins",
+      "rootUri": "file:///Users/imac/StudioProjects/flutter/packages/flutter_web_plugins",
       "packageUri": "lib/",
       "languageVersion": "3.10"
     },
@@ -878,8 +884,14 @@
       "languageVersion": "2.18"
     },
     {
+      "name": "shimmer",
+      "rootUri": "file:///Users/imac/.pub-cache/hosted/pub.dev/shimmer-3.0.0",
+      "packageUri": "lib/",
+      "languageVersion": "2.17"
+    },
+    {
       "name": "sky_engine",
-      "rootUri": "file:///Users/imac/development/flutter/bin/cache/pkg/sky_engine",
+      "rootUri": "file:///Users/imac/StudioProjects/flutter/bin/cache/pkg/sky_engine",
       "packageUri": "lib/",
       "languageVersion": "3.10"
     },
@@ -1168,7 +1180,7 @@
   ],
   "generator": "pub",
   "generatorVersion": "3.12.1",
-  "flutterRoot": "file:///Users/imac/development/flutter",
+  "flutterRoot": "file:///Users/imac/StudioProjects/flutter",
   "flutterVersion": "3.44.1",
   "pubCache": "file:///Users/imac/.pub-cache"
 }

@@ -119,7 +119,7 @@ class CompanyCodeController extends GetxController {
     var code = "";
 
   Future<void> apiCallGetCompanyList(BuildContext context) async {
-    code = "YZ9645";
+    code = "DE0909";
     codeController.forEach((element) {
       if(code.isEmpty)
         {
@@ -134,7 +134,7 @@ class CompanyCodeController extends GetxController {
 //DE0909
     final data = await GetAPIFunction().apiCall(
       apiName:
-          'https://gurukrupawebapis.azurewebsites.net/api/User/Companylist/YZ9645',
+          'https://nationalenterprisewebapis.azurewebsites.net/api/User/Companylist/DE0909',
       context: context,
       params: formData,
     );
@@ -179,7 +179,7 @@ class CompanyCodeController extends GetxController {
 
     try {
       final data = await GetAPIFunction().apiCall(
-        apiName: 'https://gurukrupawebapis.azurewebsites.net/api/User/Selectcompany/YZ9645/48',
+        apiName: 'https://nationalenterprisewebapis.azurewebsites.net/api/User/Selectcompany/DE0909/7',
         context: context,
         params: formData,
       );
@@ -240,7 +240,7 @@ void showCustomDialog(BuildContext context, String? token) {
         child: Padding(
           padding: const EdgeInsets.all(17.0),
           child: Column(
-            mainAxisSize: MainAxisSize.min, // Wrap content
+            mainAxisSize: MainAxisSize.min,
             children: [
               Icon(
                 Icons.person,
