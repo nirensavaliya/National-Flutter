@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_spinbox/flutter_spinbox.dart';
 import 'package:gap/gap.dart';
 import 'package:get/get.dart';
 import 'package:gurukrupa/app/commons/app_colors.dart';
@@ -17,441 +16,351 @@ class ClaimDetailsDialog extends StatelessWidget {
   });
 
   final ClaimModel claim;
-
   final controller = Get.find<ClaimsController>();
   final bool isCustomer =
       GetStorageData.readString(GetStorageData.role) == "Customer";
   final TextEditingController expenseController = TextEditingController();
-  double expenseAmount = 0;
+
   @override
   Widget build(BuildContext context) {
     return Dialog(
-      insetPadding: const EdgeInsets.all(20),
-      shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(20),
-      ),
+      backgroundColor: Colors.transparent,
+      insetPadding: const EdgeInsets.all(18),
       child: GetBuilder<ClaimsController>(
         builder: (_) {
           return Container(
-            width: 550,
+            width: 560,
             decoration: BoxDecoration(
-                color: Colors.white, borderRadius: BorderRadius.circular(15)),
-            padding: const EdgeInsets.all(20),
-            child: SingleChildScrollView(
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Row(
+              color: Colors.white,
+              borderRadius: BorderRadius.circular(22),
+              boxShadow: [
+                BoxShadow(
+                  color: Colors.black.withOpacity(0.18),
+                  blurRadius: 28,
+                  offset: const Offset(0, 10),
+                ),
+              ],
+            ),
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                Container(
+                  padding: const EdgeInsets.fromLTRB(20, 16, 12, 18),
+                  decoration: const BoxDecoration(
+                    gradient: LinearGradient(
+                      begin: Alignment.topLeft,
+                      end: Alignment.bottomRight,
+                      colors: [
+                        SplashColors.nightSkyMid,
+                        SplashColors.nightSky,
+                        SplashColors.nightSkyDeep,
+                      ],
+                    ),
+                    borderRadius: BorderRadius.vertical(top: Radius.circular(22)),
+                  ),
+                  child: Row(
                     children: [
                       Expanded(
-                        child: Text(
-                          "Claim Details",
-                          style: TextStyle(
-                            fontSize: 22,
-                            fontFamily: FontFamily.PlayfairDisplayBold,
-                            color: SplashColors.primaryDark,
-                          ),
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text(
+                              "Claim Details",
+                              style: TextStyle(
+                                fontSize: 22,
+                                fontFamily: FontFamily.PlayfairDisplayBold,
+                                color: SplashColors.text,
+                              ),
+                            ),
+                            const Gap(6),
+                            Container(
+                              width: 42,
+                              height: 3,
+                              decoration: BoxDecoration(
+                                color: SplashColors.accent,
+                                borderRadius: BorderRadius.circular(2),
+                              ),
+                            ),
+                          ],
                         ),
                       ),
                       IconButton(
                         onPressed: () => Get.back(),
-                        icon: Icon(Icons.close),
+                        icon: const Icon(Icons.close, color: Colors.white),
                       ),
                     ],
                   ),
-                  Divider(),
-                  Gap(15),
-                  Row(
-                    children: [
-                      Expanded(
-                        child: buildTile(
-                          "Claim Number",
-                          claim.claimNumber.toString(),
-                        ),
-                      ),
-                      Expanded(
-                        child: buildTile(
-                          "Status",
-                          claim.status,
-                        ),
-                      ),
-                    ],
-                  ),
-                  Gap(8),
-                  Row(
-                    children: [
-                      Expanded(
-                        child: buildTile(
-                          "Dealer",
-                          claim.dealerName,
-                        ),
-                      ),
-                      Expanded(
-                        child: buildTile(
-                          "Customer Name",
-                          claim.customerName,
-                        ),
-                      ),
-                    ],
-                  ),
-                  Gap(8),
-                  Row(
-                    children: [
-                      Expanded(
-                        child: buildTile(
-                          "Customer Mobile",
-                          claim.customerMobile,
-                        ),
-                      ),
-                      Expanded(
-                        child: buildTile(
-                          "Invoice Number",
-                          claim.invoiceNumber ?? "-",
-                        ),
-                      ),
-                    ],
-                  ),
-                  Gap(8),
-                  Row(
-                    children: [
-                      Expanded(
-                        child: buildTile(
-                          "Bill Date",
-                          formatBillDate(claim.billDate),
-                        ),
-                      ),
-                      Expanded(
-                        child: buildTile(
-                          "Description",
-                          claim.companyDescription,
-                        ),
-                      ),
-                    ],
-                  ),
-                  Gap(15),
-                  Text(
-                    "Claim Items",
-                    style: TextStyle(
-                      fontWeight: FontWeight.bold,
-                      fontSize: 18,
-                      color: SplashColors.primaryDark,
-                      fontFamily: FontFamily.PlayfairDisplayBold,
-
-                    ),
-                  ),
-                  Divider(),
-                  ...claim.claimDetails.map(
-                    (e) => Card(
-                      elevation: 1,
-                      margin: const EdgeInsets.only(top: 10,bottom: 10),
-                      child: Container(
-                        padding: const EdgeInsets.all(12),
-                        decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(15),
-                          color: Colors.grey[100],
-                          border: Border.all(
-                            color: Colors.black,
-                            width: 1
-                          )
-                        ),
-                        child: Column(
+                ),
+                Flexible(
+                  child: SingleChildScrollView(
+                    padding: const EdgeInsets.all(18),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Row(
                           children: [
-                            Row(
-                              children: [
-                                Expanded(
-                                  child: buildTile(
-                                    "Brand",
-                                    "${e.itemBrand}",
-                                  ),
-                                ),
-                                Expanded(
-                                  child: buildTile(
-                                    "Item",
-                                    "${e.itemName}",
-                                  ),
-                                ),
-
-                              ],
+                            Expanded(
+                              child: _InfoTile(
+                                title: "Claim Number",
+                                value: claim.claimNumber.toString(),
+                              ),
                             ),
-                            SizedBox(height: 10,),
-                            Row(
-                              children: [
-                                buildTile(
-                                  "Serial",
-                                  "${e.serialNumber}",
-                                ),
-                              ],
-                            )
+                            const Gap(10),
+                            Expanded(
+                              child: _InfoTile(
+                                title: "Status",
+                                value: claim.status,
+                                isHighlight: true,
+                              ),
+                            ),
                           ],
                         ),
-                      ),
-                    ),
-                  ),
-                  Gap(15),
-                  if(!isCustomer)...[
-                  Text(
-                    "Expense",
-                    style: TextStyle(
-                      fontSize: 18,
-                      fontFamily: FontFamily.PlayfairDisplayBold,
-                      color: SplashColors.primaryDark,
-                    ),
-                  ),
-
-                  Divider(),
-                  ExpenseField(
-                    controller: expenseController,
-                  ),
-                  const SizedBox(height: 20),
-                  Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text(
-                        "Image",
-                        style: TextStyle(
-                          fontSize: 15,
-                          fontFamily: FontFamily.PlayfairDisplayBold,
-                          color: SplashColors.primaryDark,
+                        const Gap(10),
+                        Row(
+                          children: [
+                            Expanded(
+                              child: _InfoTile(
+                                title: "Dealer",
+                                value: claim.dealerName,
+                              ),
+                            ),
+                            const Gap(10),
+                            Expanded(
+                              child: _InfoTile(
+                                title: "Customer Name",
+                                value: claim.customerName,
+                              ),
+                            ),
+                          ],
                         ),
-                      ),
-                      SizedBox(height: 8),
-                      Row(
-                        children: [
-                          CommonButton(
-                            btnName: "Choose File",
-                            onTap: () async {
-                              await controller.pickImage();
-                            },
+                        const Gap(10),
+                        Row(
+                          children: [
+                            Expanded(
+                              child: _InfoTile(
+                                title: "Customer Mobile",
+                                value: claim.customerMobile,
+                              ),
+                            ),
+                            const Gap(10),
+                            Expanded(
+                              child: _InfoTile(
+                                title: "Invoice Number",
+                                value: claim.invoiceNumber ?? "-",
+                              ),
+                            ),
+                          ],
+                        ),
+                        const Gap(10),
+                        Row(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Expanded(
+                              child: _InfoTile(
+                                title: "Bill Date",
+                                value: formatBillDate(claim.billDate),
+                              ),
+                            ),
+                            const Gap(10),
+                            Expanded(
+                              child: _InfoTile(
+                                title: "Description",
+                                value: claim.companyDescription,
+                              ),
+                            ),
+                          ],
+                        ),
+                        const Gap(18),
+                        _SectionTitle(title: 'Claim Items'),
+                        const Gap(10),
+                        ...claim.claimDetails.map(
+                          (e) => Container(
+                            margin: const EdgeInsets.only(bottom: 12),
+                            padding: const EdgeInsets.all(14),
+                            decoration: BoxDecoration(
+                              color: const Color(0xFFF8FAFC),
+                              borderRadius: BorderRadius.circular(16),
+                              border: Border.all(
+                                color: SplashColors.accent.withOpacity(0.18),
+                              ),
+                            ),
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Row(
+                                  children: [
+                                    Expanded(
+                                      child: _InfoTile(
+                                        title: "Brand",
+                                        value: "${e.itemBrand}",
+                                        compact: true,
+                                      ),
+                                    ),
+                                    const Gap(10),
+                                    Expanded(
+                                      child: _InfoTile(
+                                        title: "Item",
+                                        value: "${e.itemName}",
+                                        compact: true,
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                                const Gap(10),
+                                _InfoTile(
+                                  title: "Serial",
+                                  value: "${e.serialNumber}",
+                                  compact: true,
+                                ),
+                              ],
+                            ),
                           ),
+                        ),
+                        if (!isCustomer) ...[
+                          const Gap(8),
+                          _SectionTitle(title: 'Expense'),
+                          const Gap(10),
+                          ExpenseField(controller: expenseController),
+                          const Gap(18),
+                          Text(
+                            "Image",
+                            style: TextStyle(
+                              fontSize: 15,
+                              fontFamily: FontFamily.semiBold,
+                              color: SplashColors.nightSky,
+                            ),
+                          ),
+                          const Gap(8),
+                          Row(
+                            children: [
+                              Expanded(
+                                child: CommonButton(
+                                  btnName: "Choose File",
+                                  btnColor: SplashColors.accent,
+                                  textColor: SplashColors.nightSkyDeep,
+                                  onTap: () async {
+                                    await controller.pickImage();
+                                  },
+                                ),
+                              ),
+                              const SizedBox(width: 12),
+                              Expanded(
+                                child: Text(
+                                  controller.selectedImage == null
+                                      ? "No file chosen"
+                                      : controller.selectedImage!.path.split('/').last,
+                                  overflow: TextOverflow.ellipsis,
+                                  style: const TextStyle(color: Colors.black87),
+                                ),
+                              ),
+                            ],
+                          ),
+                          if (controller.selectedImage != null) ...[
+                            const SizedBox(height: 12),
+                            ClipRRect(
+                              borderRadius: BorderRadius.circular(12),
+                              child: Image.file(
+                                controller.selectedImage!,
+                                height: 120,
+                                width: 120,
+                                fit: BoxFit.cover,
+                              ),
+                            ),
+                          ],
+                          const SizedBox(height: 24),
+                          SizedBox(
+                            width: double.infinity,
+                            height: 48,
+                            child: ElevatedButton(
+                              onPressed: () async {
+                                if (controller.selectedImage == null) {
+                                  Get.snackbar(
+                                    "Image Required",
+                                    "Please select claim image",
+                                    snackPosition: SnackPosition.TOP,
+                                  );
+                                  return;
+                                }
 
-                          const SizedBox(width: 12),
+                                await controller.updateClaimStatus(
+                                  claim.claimId!,
+                                  "Complate",
+                                  double.tryParse(expenseController.text.trim()) ?? 0,
+                                );
 
-                          Expanded(
-                            child: Text(
-                              controller.selectedImage == null
-                                  ? "No file chosen"
-                                  : controller.selectedImage!.path.split('/').last,
-                              overflow: TextOverflow.ellipsis,
-                              style: const TextStyle(
-                                color: Colors.black87,
+                                Get.back();
+                                controller.getClaimList();
+
+                                Get.snackbar(
+                                  "Success",
+                                  "Claim Approved Successfully",
+                                  snackPosition: SnackPosition.BOTTOM,
+                                );
+                              },
+                              style: ElevatedButton.styleFrom(
+                                backgroundColor: SplashColors.accent,
+                                foregroundColor: SplashColors.nightSkyDeep,
+                                elevation: 0,
+                                shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(12),
+                                ),
+                              ),
+                              child: Text(
+                                "Approve",
+                                style: TextStyle(
+                                  color: SplashColors.nightSkyDeep,
+                                  fontFamily: FontFamily.bold,
+                                  fontSize: 16,
+                                ),
+                              ),
+                            ),
+                          ),
+                          const SizedBox(height: 12),
+                          SizedBox(
+                            width: double.infinity,
+                            height: 48,
+                            child: OutlinedButton(
+                              onPressed: () async {
+                                await controller.updateClaimStatus(
+                                  claim.claimId!,
+                                  "Rejected",
+                                  double.tryParse(expenseController.text.trim()) ?? 0,
+                                );
+
+                                Get.back();
+                                controller.getClaimList();
+
+                                Get.snackbar(
+                                  "Success",
+                                  "Claim Rejected Successfully",
+                                  snackPosition: SnackPosition.BOTTOM,
+                                );
+                              },
+                              style: OutlinedButton.styleFrom(
+                                side: const BorderSide(
+                                  color: SplashColors.nightSky,
+                                  width: 1.5,
+                                ),
+                                shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(12),
+                                ),
+                              ),
+                              child: Text(
+                                "Reject",
+                                style: TextStyle(
+                                  color: SplashColors.nightSky,
+                                  fontFamily: FontFamily.bold,
+                                  fontSize: 16,
+                                ),
                               ),
                             ),
                           ),
                         ],
-                      ),
-                      if (controller.selectedImage != null) ...[
-                        const SizedBox(height: 12),
-                        ClipRRect(
-                          borderRadius: BorderRadius.circular(8),
-                          child: Image.file(
-                            controller.selectedImage!,
-                            height: 120,
-                            width: 120,
-                            fit: BoxFit.cover,
-                          ),
-                        ),
                       ],
-                    ],
+                    ),
                   ),
-                  // Column(
-                  //   children: [
-                  //     InkWell(
-                  //       child: Container(),
-                  //     ),
-                  //     const SizedBox(height: 12),
-                  //     if (controller.selectedImage != null)
-                  //       Align(
-                  //         alignment: Alignment.centerRight,
-                  //         child: TextButton.icon(
-                  //           onPressed: () async {
-                  //             await controller.pickImage();
-                  //           },
-                  //           icon: const Icon(Icons.edit),
-                  //           label: const Text("Change Image"),
-                  //         ),
-                  //       ),
-                  //     const SizedBox(height: 30),
-                  //   ],
-                  // ),
-                  const SizedBox(height: 30),
-                  // Row(
-                  //   children: [
-                  //     Expanded(
-                  //       child: OutlinedButton(
-                  //         onPressed: () => Get.back(),
-                  //         style: OutlinedButton.styleFrom(
-                  //           padding: const EdgeInsets.symmetric(vertical: 14),
-                  //         ),
-                  //         child: const Text("Cancel"),
-                  //       ),
-                  //     ),
-                  //     const SizedBox(width: 15),
-                  //     Expanded(
-                  //       child: ElevatedButton(
-                  //         style: ElevatedButton.styleFrom(
-                  //           backgroundColor: Colors.red,
-                  //           padding: const EdgeInsets.symmetric(vertical: 14),
-                  //         ),
-                  //         onPressed: () async {
-                  //           await controller.updateClaimStatus(
-                  //             claim.claimId!,
-                  //             "Rejected",
-                  //             double.tryParse(expenseController.text.trim()) ??
-                  //                 0,
-                  //           );
-                  //
-                  //           Get.back();
-                  //
-                  //           controller.getClaimList();
-                  //
-                  //           Get.snackbar(
-                  //             "Success",
-                  //             "Claim Rejected Successfully",
-                  //             snackPosition: SnackPosition.BOTTOM,
-                  //           );
-                  //         },
-                  //         child: const Text(
-                  //           "Reject",
-                  //           style: TextStyle(color: Colors.white),
-                  //         ),
-                  //       ),
-                  //     ),
-                  //     const SizedBox(width: 15),
-                  //     Expanded(
-                  //       child: ElevatedButton(
-                  //         style: ElevatedButton.styleFrom(
-                  //           backgroundColor: Colors.green,
-                  //           padding: const EdgeInsets.symmetric(vertical: 14),
-                  //         ),
-                  //         onPressed: () async {
-                  //           if (controller.selectedImage == null) {
-                  //             Get.snackbar(
-                  //               "Image Required",
-                  //               "Please select claim image",
-                  //               snackPosition: SnackPosition.TOP,
-                  //             );
-                  //             return;
-                  //           }
-                  //
-                  //           await controller.updateClaimStatus(
-                  //             claim.claimId!,
-                  //             "Complate",
-                  //             double.tryParse(expenseController.text.trim()) ??
-                  //                 0,
-                  //           );
-                  //
-                  //           Get.back();
-                  //
-                  //           controller.getClaimList();
-                  //
-                  //           Get.snackbar(
-                  //             "Success",
-                  //             "Claim Approved Successfully",
-                  //             snackPosition: SnackPosition.BOTTOM,
-                  //           );
-                  //         },
-                  //         child: const Text(
-                  //           "Approve",
-                  //           style: TextStyle(color: Colors.white),
-                  //         ),
-                  //       ),
-                  //     ),
-                  //   ],
-                  // ),
-                  Column(
-                    children: [
-                      /// Approve Button
-                      SizedBox(
-                        width: double.infinity,
-                        height: 48,
-                        child: ElevatedButton(
-                          onPressed: () async {
-                            if (controller.selectedImage == null) {
-                              Get.snackbar(
-                                "Image Required",
-                                "Please select claim image",
-                                snackPosition: SnackPosition.TOP,
-                              );
-                              return;
-                            }
-
-                            await controller.updateClaimStatus(
-                              claim.claimId!,
-                              "Complate",
-                              double.tryParse(expenseController.text.trim()) ?? 0,
-                            );
-
-                            Get.back();
-                            controller.getClaimList();
-
-                            Get.snackbar(
-                              "Success",
-                              "Claim Approved Successfully",
-                              snackPosition: SnackPosition.BOTTOM,
-                            );
-                          },
-                          style: ElevatedButton.styleFrom(
-                            backgroundColor: SplashColors.primaryDark,
-                            elevation: 0,
-                            shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(12),
-                            ),
-                          ),
-                          child: Text(
-                            "Approve",
-                            style: TextStyle(
-                              color: Colors.white,
-                              fontFamily: FontFamily.bold,
-                              fontSize: 16,
-                            ),
-                          ),
-                        ),
-                      ),
-                      SizedBox(height: 12),
-                      SizedBox(
-                        width: double.infinity,
-                        height: 48,
-                        child: OutlinedButton(
-                          onPressed: () async {
-                            await controller.updateClaimStatus(
-                              claim.claimId!,
-                              "Rejected",
-                              double.tryParse(expenseController.text.trim()) ?? 0,
-                            );
-
-                            Get.back();
-                            controller.getClaimList();
-
-                            Get.snackbar(
-                              "Success",
-                              "Claim Rejected Successfully",
-                              snackPosition: SnackPosition.BOTTOM,
-                            );
-                          },
-                          style: OutlinedButton.styleFrom(
-                            side: const BorderSide(
-                              color: SplashColors.primaryDark,
-                              width: 1.5,
-                            ),
-                            shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(12),
-                            ),
-                          ),
-                          child: Text(
-                            "Reject",
-                            style: TextStyle(
-                              color: Colors.black87,
-                              fontFamily: FontFamily.bold,
-                              fontSize: 16,
-                            ),
-                          ),
-                        ),
-                      ),
-                    ],
-                  )
-                 ]
-                ],
-              ),
+                ),
+              ],
             ),
           );
         },
@@ -459,24 +368,6 @@ class ClaimDetailsDialog extends StatelessWidget {
     );
   }
 
-  Widget buildTile(String title, String value) {
-    return Padding(
-      padding: const EdgeInsets.all(0),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Text(
-            title,
-            style: TextStyle(fontFamily: FontFamily.bold,color: const Color(0xFF78829A),fontSize: 12),
-          ),
-          Text(
-            value,
-            style: TextStyle(fontFamily: FontFamily.medium,fontSize: 14),
-          ),
-        ],
-      ),
-    );
-  }
   String formatBillDate(String? date) {
     if (date == null || date.isEmpty) return "-";
 
@@ -488,6 +379,78 @@ class ClaimDetailsDialog extends StatelessWidget {
     }
   }
 }
+
+class _SectionTitle extends StatelessWidget {
+  const _SectionTitle({required this.title});
+
+  final String title;
+
+  @override
+  Widget build(BuildContext context) {
+    return Text(
+      title,
+      style: TextStyle(
+        fontFamily: FontFamily.PlayfairDisplayBold,
+        fontSize: 18,
+        color: SplashColors.nightSky,
+      ),
+    );
+  }
+}
+
+class _InfoTile extends StatelessWidget {
+  const _InfoTile({
+    required this.title,
+    required this.value,
+    this.isHighlight = false,
+    this.compact = false,
+  });
+
+  final String title;
+  final String value;
+  final bool isHighlight;
+  final bool compact;
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      width: double.infinity,
+      padding: EdgeInsets.all(compact ? 12 : 14),
+      decoration: BoxDecoration(
+        color: Colors.white,
+        borderRadius: BorderRadius.circular(14),
+        border: Border.all(
+          color: isHighlight
+              ? SplashColors.accent.withOpacity(0.35)
+              : SplashColors.nightSky.withOpacity(0.08),
+        ),
+      ),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Text(
+            title,
+            style: TextStyle(
+              fontFamily: FontFamily.bold,
+              color: const Color(0xFF78829A),
+              fontSize: 12,
+            ),
+          ),
+          const Gap(4),
+          Text(
+            value,
+            style: TextStyle(
+              fontFamily: FontFamily.medium,
+              fontSize: 14,
+              color: isHighlight ? SplashColors.accent : Colors.black87,
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+}
+
 class ExpenseField extends StatefulWidget {
   final TextEditingController controller;
 
@@ -501,8 +464,7 @@ class ExpenseField extends StatefulWidget {
 }
 
 class _ExpenseFieldState extends State<ExpenseField> {
-  double get value =>
-      double.tryParse(widget.controller.text) ?? 0.00;
+  double get value => double.tryParse(widget.controller.text) ?? 0.00;
 
   void increment() {
     widget.controller.text = (value + 1).toStringAsFixed(2);
@@ -532,9 +494,19 @@ class _ExpenseFieldState extends State<ExpenseField> {
         controller: widget.controller,
         keyboardType: const TextInputType.numberWithOptions(decimal: true),
         decoration: InputDecoration(
-          floatingLabelBehavior: FloatingLabelBehavior.always,
+          filled: true,
+          fillColor: const Color(0xFFF8FAFC),
           border: OutlineInputBorder(
-            borderRadius: BorderRadius.circular(8),
+            borderRadius: BorderRadius.circular(10),
+            borderSide: BorderSide(color: SplashColors.nightSky.withOpacity(0.12)),
+          ),
+          enabledBorder: OutlineInputBorder(
+            borderRadius: BorderRadius.circular(10),
+            borderSide: BorderSide(color: SplashColors.nightSky.withOpacity(0.12)),
+          ),
+          focusedBorder: const OutlineInputBorder(
+            borderRadius: BorderRadius.all(Radius.circular(10)),
+            borderSide: BorderSide(color: SplashColors.accent, width: 1.4),
           ),
           contentPadding: const EdgeInsets.only(
             left: 12,
@@ -552,6 +524,7 @@ class _ExpenseFieldState extends State<ExpenseField> {
                   child: const Icon(
                     Icons.keyboard_arrow_up,
                     size: 18,
+                    color: SplashColors.nightSky,
                   ),
                 ),
                 Container(
@@ -563,6 +536,7 @@ class _ExpenseFieldState extends State<ExpenseField> {
                   child: const Icon(
                     Icons.keyboard_arrow_down,
                     size: 18,
+                    color: SplashColors.nightSky,
                   ),
                 ),
               ],

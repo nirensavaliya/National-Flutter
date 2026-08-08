@@ -1,5 +1,3 @@
-import 'dart:io';
-
 import 'package:gurukrupa/app/commons/all.dart';
 import 'package:gurukrupa/app/commons/app_colors.dart';
 import 'package:gap/gap.dart';
@@ -16,33 +14,28 @@ class BottomBarView extends GetView<BottomBarController> {
         final bottomPad = MediaQuery.of(context).padding.bottom;
 
         return Scaffold(
-          backgroundColor: SplashColors.scaffoldBg,
+          backgroundColor: SplashColors.nightSky,
           body: controller.screen[controller.indexCount.value],
           bottomNavigationBar: Container(
-            margin: const EdgeInsets.fromLTRB(16, 0, 16, 12),
-            padding: EdgeInsets.only(
-              top: 10,
-              bottom: 5
-              /*
-              bottom: bottomPad > 0 ? bottomPad : (Platform.isIOS ? 0 : 0),
-*/
-            ),
             decoration: BoxDecoration(
-              color: Colors.white,
-              borderRadius: BorderRadius.circular(24),
+              color: SplashColors.nightSkyDeep,
               boxShadow: [
                 BoxShadow(
-                  color: SplashColors.primaryDeep.withOpacity(0.18),
-                  blurRadius: 24,
-                  offset: const Offset(0, 8),
-                  spreadRadius: 1,
-                ),
-                BoxShadow(
-                  color: Colors.black.withOpacity(0.08),
-                  blurRadius: 12,
-                  offset: const Offset(0, 4),
+                  color: Colors.black.withOpacity(0.35),
+                  blurRadius: 20,
+                  offset: const Offset(0, -4),
                 ),
               ],
+              border: Border(
+                top: BorderSide(
+                  color: SplashColors.accent.withOpacity(0.18),
+                  width: 1,
+                ),
+              ),
+            ),
+            padding: EdgeInsets.only(
+              top: 6,
+              bottom: bottomPad > 0 ? bottomPad : 10,
             ),
             child: Row(
               children: [
@@ -104,66 +97,64 @@ class _BottomNavItem extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final activeColor = SplashColors.accent;
+    final inactiveColor = Colors.white.withOpacity(0.55);
+
     return Expanded(
       child: GestureDetector(
         onTap: onTap,
         behavior: HitTestBehavior.opaque,
-        child: AnimatedContainer(
-          duration: const Duration(milliseconds: 220),
-          curve: Curves.easeOutCubic,
-          margin: const EdgeInsets.symmetric(horizontal: 6),
-          padding: const EdgeInsets.symmetric(vertical: 8, horizontal: 4),
-          decoration: BoxDecoration(
-            color: isActive
-                ? SplashColors.primary.withOpacity(0.12)
-                : Colors.transparent,
-            borderRadius: BorderRadius.circular(16),
-          ),
-          child: Column(
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              AnimatedContainer(
-                duration: const Duration(milliseconds: 220),
-                padding: const EdgeInsets.all(6),
-                decoration: BoxDecoration(
-                  color: isActive
-                      ? SplashColors.primary.withOpacity(0.15)
-                      : Colors.transparent,
-                  borderRadius: BorderRadius.circular(12),
-                ),
-                child: Image.asset(
-                  icon,
-                  height: 22,
-                  color: isActive
-                      ? SplashColors.primary
-                      : const Color(0xFF9AA3AD),
-                ),
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            AnimatedContainer(
+              duration: const Duration(milliseconds: 220),
+              curve: Curves.easeOutCubic,
+              width: isActive ? 28 : 0,
+              height: 3,
+              margin: const EdgeInsets.only(bottom: 8),
+              decoration: BoxDecoration(
+                color: activeColor,
+                borderRadius: BorderRadius.circular(2),
+                boxShadow: isActive
+                    ? [
+                        BoxShadow(
+                          color: activeColor.withOpacity(0.45),
+                          blurRadius: 8,
+                          offset: const Offset(0, 2),
+                        ),
+                      ]
+                    : null,
               ),
-              const Gap(4),
-              Text(
-                label,
-                style: TextStyle(
-                  fontFamily: isActive
-                      ? FontFamily.semiBold
-                      : FontFamily.medium,
-                  fontSize: FontSize.s12,
-                  color: isActive
-                      ? SplashColors.primaryDark
-                      : const Color(0xFF9AA3AD),
-                ),
+            ),
+            AnimatedContainer(
+              duration: const Duration(milliseconds: 220),
+              padding: const EdgeInsets.all(6),
+              decoration: BoxDecoration(
+                color: isActive
+                    ? SplashColors.accent.withOpacity(0.12)
+                    : Colors.transparent,
+                borderRadius: BorderRadius.circular(12),
               ),
-              const Gap(2),
-              AnimatedContainer(
-                duration: const Duration(milliseconds: 220),
-                width: isActive ? 18 : 0,
-                height: 3,
-                decoration: BoxDecoration(
-                  color: SplashColors.primary,
-                  borderRadius: BorderRadius.circular(2),
-                ),
+              child: Image.asset(
+                icon,
+                height: 22,
+                color: isActive ? activeColor : inactiveColor,
               ),
-            ],
-          ),
+            ),
+            const Gap(4),
+            Text(
+              label,
+              maxLines: 1,
+              overflow: TextOverflow.ellipsis,
+              style: TextStyle(
+                fontFamily:
+                    isActive ? FontFamily.semiBold : FontFamily.medium,
+                fontSize: FontSize.s12,
+                color: isActive ? activeColor : inactiveColor,
+              ),
+            ),
+          ],
         ),
       ),
     );

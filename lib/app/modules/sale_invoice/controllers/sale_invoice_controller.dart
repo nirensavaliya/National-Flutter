@@ -509,7 +509,7 @@ class SaleInvoiceController extends GetxController {
                               color: Colors.white,
                               borderRadius: BorderRadius.circular(14),
                               border: Border.all(
-                                color: SplashColors.primary.withOpacity(0.1),
+                                color: SplashColors.nightSky.withOpacity(0.1),
                               ),
                               boxShadow: [
                                 BoxShadow(
@@ -525,12 +525,12 @@ class SaleInvoiceController extends GetxController {
                                   padding: const EdgeInsets.all(8),
                                   decoration: BoxDecoration(
                                     color:
-                                        SplashColors.primary.withOpacity(0.1),
+                                        SplashColors.nightSky.withOpacity(0.1),
                                     borderRadius: BorderRadius.circular(10),
                                   ),
                                   child: const Icon(
                                     Icons.person_outline_rounded,
-                                    color: SplashColors.primary,
+                                    color: SplashColors.nightSky,
                                     size: 22,
                                   ),
                                 ),
@@ -545,7 +545,7 @@ class SaleInvoiceController extends GetxController {
                                         style: TextStyle(
                                           fontFamily: FontFamily.semiBold,
                                           fontSize: FontSize.s14,
-                                          color: SplashColors.primaryDark,
+                                          color: SplashColors.nightSky,
                                         ),
                                       ),
                                       if (phone.isNotEmpty) ...[
@@ -565,7 +565,7 @@ class SaleInvoiceController extends GetxController {
                                 const Icon(
                                   Icons.arrow_forward_ios_rounded,
                                   size: 14,
-                                  color: SplashColors.primary,
+                                  color: SplashColors.nightSky,
                                 ),
                               ],
                             ),

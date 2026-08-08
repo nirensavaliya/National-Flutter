@@ -64,7 +64,7 @@ class SalesOrderCartView extends GetView<SalesOrderCartController> {
                       //   style: TextStyle(
                       //     fontFamily: FontFamily.semiBold,
                       //     fontSize: FontSize.s16,
-                      //     color: SplashColors.primaryDark,
+                      //     color: SplashColors.nightSky,
                       //   ),
                       // ),
                       const Gap(5),
@@ -89,7 +89,7 @@ class SalesOrderCartView extends GetView<SalesOrderCartController> {
                           style: TextStyle(
                             fontFamily: FontFamily.semiBold,
                             fontSize: FontSize.s16,
-                            color: SplashColors.primaryDark,
+                            color: SplashColors.nightSky,
                           ),
                         ),
                       ),
@@ -160,7 +160,7 @@ class _CartGroupCardState extends State<_CartGroupCard> {
       decoration: BoxDecoration(
         color: Colors.white,
         borderRadius: BorderRadius.circular(18),
-        border: Border.all(color: SplashColors.primary.withOpacity(0.1)),
+        border: Border.all(color: SplashColors.nightSky.withOpacity(0.1)),
         boxShadow: [
           BoxShadow(
             color: Colors.black.withOpacity(0.05),
@@ -194,7 +194,7 @@ class _CartGroupCardState extends State<_CartGroupCard> {
                           style: TextStyle(
                             fontFamily: FontFamily.semiBold,
                             fontSize: FontSize.s14,
-                            color: SplashColors.primaryDark,
+                            color: SplashColors.nightSky,
                           ),
                         ),
                         const Gap(4),
@@ -213,7 +213,7 @@ class _CartGroupCardState extends State<_CartGroupCard> {
                     isExpanded
                         ? Icons.keyboard_arrow_up_rounded
                         : Icons.keyboard_arrow_down_rounded,
-                    color: SplashColors.primary,
+                    color: SplashColors.accent,
                   ),
                   IconButton(
                     onPressed: widget.onRemoveCart,
@@ -227,7 +227,7 @@ class _CartGroupCardState extends State<_CartGroupCard> {
             ),
           ),
           if (isExpanded) ...[
-            Divider(height: 1, color: SplashColors.primary.withOpacity(0.1)),
+            Divider(height: 1, color: SplashColors.nightSky.withOpacity(0.1)),
             if ((cart.savedAt ?? '').isNotEmpty)
               SalesOrderDetailRow(
                 label: 'Saved At',
@@ -276,7 +276,7 @@ class _CartItemCard extends StatelessWidget {
         color: SplashColors.scaffoldBg,
         borderRadius: BorderRadius.circular(14),
         border: Border.all(
-          color: SplashColors.primary.withOpacity(0.08),
+          color: SplashColors.nightSky.withOpacity(0.08),
         ),
       ),
       child: Column(
@@ -290,7 +290,7 @@ class _CartItemCard extends StatelessWidget {
                 style: TextStyle(
                   fontFamily: FontFamily.semiBold,
                   fontSize: FontSize.s14,
-                  color: SplashColors.primaryDark,
+                  color: SplashColors.nightSky,
                 ),
               ),
             ),
@@ -326,7 +326,7 @@ class _CartSummaryCard extends StatelessWidget {
       decoration: BoxDecoration(
         color: Colors.white,
         borderRadius: BorderRadius.circular(18),
-        border: Border.all(color: SplashColors.primary.withOpacity(0.1)),
+        border: Border.all(color: SplashColors.nightSky.withOpacity(0.1)),
         boxShadow: [
           BoxShadow(
             color: Colors.black.withOpacity(0.05),
@@ -363,7 +363,7 @@ class _CartSummaryCard extends StatelessWidget {
             totals['totalItem'] ?? '0',
             muted: true,
           ),
-          Divider(color: SplashColors.primary.withOpacity(0.12), height: 1),
+          Divider(color: SplashColors.nightSky.withOpacity(0.12), height: 1),
           _summaryRow(
             'NetTotal',
             totals['netTotal'] ?? '0.00',
@@ -392,7 +392,7 @@ class _CartSummaryCard extends StatelessWidget {
               style: TextStyle(
                 fontFamily: bold ? FontFamily.bold : FontFamily.medium,
                 fontSize: FontSize.s14,
-                color: muted ? Colors.black54 : SplashColors.primaryDark,
+                color: muted ? Colors.black54 : SplashColors.nightSky,
               ),
             ),
           ),
@@ -401,7 +401,7 @@ class _CartSummaryCard extends StatelessWidget {
             style: TextStyle(
               fontFamily: bold ? FontFamily.bold : FontFamily.semiBold,
               fontSize: bold ? FontSize.s16 : FontSize.s14,
-              color: highlight ? SplashColors.primary : Colors.black87,
+              color: highlight ? SplashColors.accent : Colors.black87,
             ),
           ),
         ],

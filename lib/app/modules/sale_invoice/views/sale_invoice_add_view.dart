@@ -213,7 +213,7 @@ class SaleInvoiceAddView extends GetView<SaleInvoiceController> {
               shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(12),
                 side: BorderSide(
-                  color: SplashColors.primary.withOpacity(0.25),
+                  color: SplashColors.nightSky.withOpacity(0.25),
                 ),
               ),
               clipBehavior: Clip.antiAlias,
@@ -336,33 +336,29 @@ class SaleInvoiceAddView extends GetView<SaleInvoiceController> {
               Gap(5),
               ],
             ),
-            if (controller.itemList.isNotEmpty)
-              Gap(20),
-            if (controller.itemList.isNotEmpty)
+            if (controller.itemList.isNotEmpty) ...[
+              const Gap(20),
               itemData(),
-            if(controller.customerController.text.isNotEmpty) ...[
-              Gap(15),
-              CommonButton(
-                btnName: AppString.addItem,
-                btnColor: SplashColors.primary,
-                textColor: Colors.white,
+            ],
+            if (controller.customerController.text.isNotEmpty) ...[
+              const Gap(16),
+              _InvoiceOutlineButton(
+                label: AppString.addItem,
+                icon: Icons.add_rounded,
                 onTap: () {
                   selectItemSheet();
                 },
               ),
             ],
-            Gap(16),
+            const Gap(16),
             orderSummaryCard(),
-            Gap(12),
-            CommonButton(
-              btnName: AppString.save,
-              btnColor: SplashColors.primary,
-              textColor: Colors.white,
+            const Gap(14),
+            _InvoiceSaveButton(
               onTap: () {
-              controller.isAdd.value = false;
-              controller.createQuotationApi();
-              // controller.update();
-            },),
+                controller.isAdd.value = false;
+                controller.createQuotationApi();
+              },
+            ),
             Gap(Platform.isIOS ? 25 : 20),
           ],
         );
@@ -372,10 +368,11 @@ class SaleInvoiceAddView extends GetView<SaleInvoiceController> {
 
   Widget orderSummaryCard() {
     return Container(
+      padding: const EdgeInsets.fromLTRB(16, 16, 16, 10),
       decoration: BoxDecoration(
         color: Colors.white,
-        borderRadius: BorderRadius.circular(18),
-        border: Border.all(color: SplashColors.primary.withOpacity(0.1)),
+        borderRadius: BorderRadius.circular(16),
+        border: Border.all(color: SplashColors.nightSky.withOpacity(0.1)),
         boxShadow: [
           BoxShadow(
             color: Colors.black.withOpacity(0.05),
@@ -385,38 +382,96 @@ class SaleInvoiceAddView extends GetView<SaleInvoiceController> {
         ],
       ),
       child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          summaryRow('Total', controller.total),
-          summaryRow('(-)DiscountTotal', controller.discountTotal, muted: true),
-          summaryRow('(+)CGSTTotal', controller.cGstTotal, muted: true),
-          summaryRow('(+)SGSTTotal', controller.sGstTotal, muted: true),
-          summaryRow('(+)IGSTTotal', controller.iGstTotal, muted: true),
-          summaryRow('TotalItem', controller.totalItem, muted: true),
-          Divider(color: SplashColors.primary.withOpacity(0.12), height: 1),
-          summaryRow('NetTotal', controller.netTotal, bold: true, highlight: true),
+          Text(
+            'BILL SUMMARY',
+            style: TextStyle(
+              fontFamily: FontFamily.bold,
+              fontSize: FontSize.s14,
+              color: SplashColors.nightSky,
+              letterSpacing: 0.6,
+            ),
+          ),
+          const Gap(12),
+          summaryRow(
+            icon: Icons.calculate_outlined,
+            label: 'Total',
+            value: controller.total,
+          ),
+          summaryRow(
+            icon: Icons.local_offer_outlined,
+            label: 'Discount',
+            value: controller.discountTotal,
+            valueColor: const Color(0xFF16A34A),
+            trailing: '-',
+          ),
+          summaryRow(
+            icon: Icons.receipt_outlined,
+            label: 'CGST',
+            value: controller.cGstTotal,
+            trailing: '+',
+          ),
+          summaryRow(
+            icon: Icons.receipt_outlined,
+            label: 'SGST',
+            value: controller.sGstTotal,
+            trailing: '+',
+          ),
+          summaryRow(
+            icon: Icons.receipt_long_outlined,
+            label: 'IGST',
+            value: controller.iGstTotal,
+            trailing: '+',
+          ),
+          summaryRow(
+            icon: Icons.inventory_2_outlined,
+            label: 'Total Items',
+            value: controller.totalItem,
+          ),
+          Divider(color: SplashColors.nightSky.withOpacity(0.12), height: 20),
+          summaryRow(
+            icon: Icons.account_balance_wallet_outlined,
+            label: 'Net Total',
+            value: '₹ ${controller.netTotal}',
+            bold: true,
+            highlight: true,
+          ),
         ],
       ),
     );
   }
 
-  Widget summaryRow(
-    String label,
-    String value, {
-    bool muted = false,
+  Widget summaryRow({
+    required IconData icon,
+    required String label,
+    required String value,
     bool bold = false,
     bool highlight = false,
+    Color? valueColor,
+    String? trailing,
   }) {
     return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 10),
+      padding: const EdgeInsets.symmetric(vertical: 8),
       child: Row(
         children: [
+          Container(
+            width: 32,
+            height: 32,
+            decoration: BoxDecoration(
+              color: SplashColors.accent.withOpacity(0.14),
+              borderRadius: BorderRadius.circular(8),
+            ),
+            child: Icon(icon, size: 16, color: SplashColors.nightSky),
+          ),
+          const Gap(10),
           Expanded(
             child: Text(
               label,
               style: TextStyle(
                 fontFamily: bold ? FontFamily.bold : FontFamily.medium,
-                fontSize: FontSize.s14,
-                color: muted ? Colors.black54 : SplashColors.primaryDark,
+                fontSize: bold ? FontSize.s16 : FontSize.s14,
+                color: SplashColors.nightSky,
               ),
             ),
           ),
@@ -424,10 +479,22 @@ class SaleInvoiceAddView extends GetView<SaleInvoiceController> {
             value,
             style: TextStyle(
               fontFamily: bold ? FontFamily.bold : FontFamily.semiBold,
-              fontSize: bold ? FontSize.s16 : FontSize.s14,
-              color: highlight ? SplashColors.primary : Colors.black87,
+              fontSize: bold ? FontSize.s18 : FontSize.s14,
+              color: valueColor ??
+                  (highlight ? SplashColors.nightSky : Colors.black87),
             ),
           ),
+          if (trailing != null) ...[
+            const Gap(8),
+            Text(
+              trailing,
+              style: TextStyle(
+                fontFamily: FontFamily.bold,
+                fontSize: FontSize.s14,
+                color: valueColor ?? const Color(0xFF8A93A6),
+              ),
+            ),
+          ],
         ],
       ),
     );
@@ -583,11 +650,12 @@ class SaleInvoiceAddView extends GetView<SaleInvoiceController> {
   // }
 
   Widget itemData() {
+    final items = controller.itemList;
     return Container(
       decoration: BoxDecoration(
         color: Colors.white,
         borderRadius: BorderRadius.circular(16),
-        border: Border.all(color: SplashColors.primary.withOpacity(0.1)),
+        border: Border.all(color: SplashColors.nightSky.withOpacity(0.1)),
         boxShadow: [
           BoxShadow(
             color: Colors.black.withOpacity(0.04),
@@ -596,91 +664,245 @@ class SaleInvoiceAddView extends GetView<SaleInvoiceController> {
           ),
         ],
       ),
-      child: ClipRRect(
-        borderRadius: BorderRadius.circular(16),
-        child: SingleChildScrollView(
-          scrollDirection: Axis.horizontal,
-          child: DataTable(
-            border: TableBorder.all(
-              color: SplashColors.primary.withOpacity(0.15),
+      child: Column(
+        children: [
+          Padding(
+            padding: const EdgeInsets.fromLTRB(16, 14, 16, 10),
+            child: Row(
+              children: [
+                Text(
+                  'ITEMS',
+                  style: TextStyle(
+                    fontFamily: FontFamily.bold,
+                    fontSize: FontSize.s14,
+                    color: SplashColors.nightSky,
+                    letterSpacing: 0.6,
+                  ),
+                ),
+                const Spacer(),
+                Text(
+                  '${items.length} Item${items.length == 1 ? '' : 's'}',
+                  style: TextStyle(
+                    fontFamily: FontFamily.medium,
+                    fontSize: FontSize.s12,
+                    color: const Color(0xFF8A93A6),
+                  ),
+                ),
+              ],
             ),
-            dataRowHeight: 75,
-        columns: const <DataColumn>[
-          DataColumn(label: Text('NAME')),
-          DataColumn(label: Text('PRICE')),
-          // DataColumn(label: Text('DISCOUNT(%)')),
-          DataColumn(label: Text('DISCOUNT')),
-          DataColumn(label: Text('TOTAL DISCOUNT')),
-          DataColumn(label: Text('GST TAX')),
-          DataColumn(label: Text('NETPRICE\n(INC. TAX)')),
-          DataColumn(label: Text('CGST(%)')),
-          DataColumn(label: Text('CGSTAMT')),
-          DataColumn(label: Text('SGST(%)')),
-          DataColumn(label: Text('SGSTAMT')),
-          DataColumn(label: Text('IGST(%)')),
-          DataColumn(label: Text('IGSTAMT')),
-          DataColumn(label: Text('TEXABLE\nAMOUNT')),
-          DataColumn(label: Text('ACTION')),
-        ],
-        rows: List.generate(
-          controller.itemList.length,
-              (index) {
-            SaleDetails data = controller.itemList[index];
-            return DataRow(
-              cells: <DataCell>[
-                DataCell(
-                  Container(
-                    width: 250,
+          ),
+          Container(
+            padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 10),
+            color: SplashColors.nightSky,
+            child: Row(
+              children: [
+                Expanded(
+                  flex: 5,
+                  child: Text(
+                    'Item',
+                    style: TextStyle(
+                      fontFamily: FontFamily.semiBold,
+                      fontSize: 12,
+                      color: Colors.white.withOpacity(0.95),
+                    ),
+                  ),
+                ),
+                Expanded(
+                  flex: 2,
+                  child: Text(
+                    'Qty',
+                    textAlign: TextAlign.center,
+                    style: TextStyle(
+                      fontFamily: FontFamily.semiBold,
+                      fontSize: 12,
+                      color: Colors.white.withOpacity(0.95),
+                    ),
+                  ),
+                ),
+                Expanded(
+                  flex: 2,
+                  child: Text(
+                    'Rate (₹)',
+                    textAlign: TextAlign.end,
+                    style: TextStyle(
+                      fontFamily: FontFamily.semiBold,
+                      fontSize: 12,
+                      color: Colors.white.withOpacity(0.95),
+                    ),
+                  ),
+                ),
+                Expanded(
+                  flex: 3,
+                  child: Text(
+                    'Amount (₹)',
+                    textAlign: TextAlign.end,
+                    style: TextStyle(
+                      fontFamily: FontFamily.semiBold,
+                      fontSize: 12,
+                      color: Colors.white.withOpacity(0.95),
+                    ),
+                  ),
+                ),
+                const SizedBox(width: 28),
+              ],
+            ),
+          ),
+          ...List.generate(items.length, (index) {
+            final data = items[index];
+            final qty = data.qty ?? 0;
+            final rate = data.price ?? 0;
+            final amount = data.netAmount ??
+                data.netPriceINCTax ??
+                (rate * qty);
+            return Container(
+              padding: const EdgeInsets.fromLTRB(14, 12, 8, 12),
+              decoration: BoxDecoration(
+                border: Border(
+                  bottom: BorderSide(
+                    color: SplashColors.nightSky.withOpacity(0.08),
+                  ),
+                ),
+              ),
+              child: Row(
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                  Expanded(
+                    flex: 5,
                     child: Column(
-                      mainAxisSize: MainAxisSize.min, // important
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Text(
-                          data.itemName ?? "-",
-                          style: TextStyle(fontWeight: FontWeight.w600),
+                          data.itemName ?? '',
+                          maxLines: 2,
                           overflow: TextOverflow.ellipsis,
+                          style: TextStyle(
+                            fontFamily: FontFamily.semiBold,
+                            fontSize: FontSize.s14,
+                            color: SplashColors.nightSky,
+                            height: 1.2,
+                          ),
                         ),
-                        SizedBox(height: 4),
-                        Text("UNIT: ${data.unit ?? "-"}", overflow: TextOverflow.ellipsis),
-                        Row(
-                          children: [
-                            Flexible(
-                              child: Text("QTY: ${data.qty?.toString() ?? "-"}", overflow: TextOverflow.ellipsis),
+                        if ((data.unit ?? '').isNotEmpty) ...[
+                          const Gap(3),
+                          Text(
+                            data.unit!,
+                            maxLines: 1,
+                            overflow: TextOverflow.ellipsis,
+                            style: TextStyle(
+                              fontFamily: FontFamily.regular,
+                              fontSize: 11,
+                              color: const Color(0xFF78829A),
                             ),
-                            SizedBox(width: 5),
-                            Flexible(
-                              child: Text("DIS(%): ${data.discountPer?.toString() ?? "-"}", overflow: TextOverflow.ellipsis),
+                          ),
+                        ],
+                        if ((data.discountPer ?? 0) > 0) ...[
+                          const Gap(2),
+                          Text(
+                            'Disc ${data.discountPer}%',
+                            style: TextStyle(
+                              fontFamily: FontFamily.medium,
+                              fontSize: 10,
+                              color: const Color(0xFF8A93A6),
                             ),
-                          ],
+                          ),
+                        ],
+                      ],
+                    ),
+                  ),
+                  Expanded(
+                    flex: 2,
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Container(
+                          padding: const EdgeInsets.symmetric(
+                            horizontal: 8,
+                            vertical: 6,
+                          ),
+                          constraints: const BoxConstraints(minWidth: 36),
+                          decoration: BoxDecoration(
+                            color: const Color(0xFFF3F5FA),
+                            borderRadius: BorderRadius.circular(8),
+                            border: Border.all(
+                              color: SplashColors.nightSky.withOpacity(0.12),
+                            ),
+                          ),
+                          child: Text(
+                            _fmtQty(qty),
+                            textAlign: TextAlign.center,
+                            style: TextStyle(
+                              fontFamily: FontFamily.semiBold,
+                              fontSize: 12,
+                              color: SplashColors.nightSky,
+                            ),
+                          ),
                         ),
                       ],
                     ),
                   ),
-                ),
-                DataCell(Center(child: Text(data.price?.toString() ?? "-"))),
-                // DataCell(Text(data.discountPer.toString())),
-                DataCell(Center(child: Text(data.discount?.toString() ?? "-"))),
-                DataCell(Center(child: Text(data.totalDiscount?.toString() ?? "-"))),
-                DataCell(Center(child: Text(data.gstcodeId?.toString() ?? "-"))),
-                DataCell(Center(child: Text(data.netPriceINCTax?.toString() ?? "-"))),
-                DataCell(Center(child: Text(data.cgstPer?.toString() ?? "-"))),
-                DataCell(Center(child: Text(data.cgstAmount?.toString() ?? "-"))),
-                DataCell(Center(child: Text(data.sgstPer?.toString() ?? "-"))),
-                DataCell(Center(child: Text(data.sgstAmount?.toString() ?? "-"))),
-                DataCell(Center(child: Text(data.igstPer?.toString() ?? "-"))),
-                DataCell(Center(child: Text(data.igstAmount?.toString() ?? "-"))),
-                DataCell(Center(child: Text(data.taxableAmount?.toString() ?? "-"))),
-                DataCell(Icon(Icons.delete)),
-              ],
+                  Expanded(
+                    flex: 2,
+                    child: Text(
+                      _fmtAmt(rate),
+                      textAlign: TextAlign.end,
+                      style: TextStyle(
+                        fontFamily: FontFamily.medium,
+                        fontSize: 12,
+                        color: SplashColors.nightSky,
+                      ),
+                    ),
+                  ),
+                  Expanded(
+                    flex: 3,
+                    child: Text(
+                      _fmtAmt(amount),
+                      textAlign: TextAlign.end,
+                      style: TextStyle(
+                        fontFamily: FontFamily.semiBold,
+                        fontSize: 12,
+                        color: SplashColors.nightSky,
+                      ),
+                    ),
+                  ),
+                  PopupMenuButton<String>(
+                    padding: EdgeInsets.zero,
+                    icon: const Icon(
+                      Icons.more_vert_rounded,
+                      color: Color(0xFF9AA3AD),
+                      size: 20,
+                    ),
+                    onSelected: (value) {
+                      if (value == 'delete') {
+                        controller.itemList.removeAt(index);
+                        controller.totalItem =
+                            controller.itemList.length.toString();
+                        controller.update();
+                      }
+                    },
+                    itemBuilder: (context) => const [
+                      PopupMenuItem(
+                        value: 'delete',
+                        child: Text('Delete'),
+                      ),
+                    ],
+                  ),
+                ],
+              ),
             );
-          },
-        ),
-      ),
-        ),
+          }),
+        ],
       ),
     );
   }
 
+  String _fmtQty(double qty) {
+    if (qty == qty.roundToDouble()) return qty.toInt().toString();
+    return qty.toStringAsFixed(2);
+  }
+
+  String _fmtAmt(double value) {
+    return value.toStringAsFixed(2);
+  }
 
   selectItemSheet() {
     filteredItems = Constants.itemList;
@@ -733,7 +955,7 @@ class SaleInvoiceAddView extends GetView<SaleInvoiceController> {
                                 color: Colors.white,
                                 borderRadius: BorderRadius.circular(14),
                                 border: Border.all(
-                                  color: SplashColors.primary.withOpacity(0.1),
+                                  color: SplashColors.nightSky.withOpacity(0.1),
                                 ),
                                 boxShadow: [
                                   BoxShadow(
@@ -769,13 +991,13 @@ class SaleInvoiceAddView extends GetView<SaleInvoiceController> {
                                     Container(
                                       padding: const EdgeInsets.all(10),
                                       decoration: BoxDecoration(
-                                        color: SplashColors.primary
-                                            .withOpacity(0.1),
+                                        color: SplashColors.accent
+                                            .withOpacity(0.15),
                                         borderRadius: BorderRadius.circular(10),
                                       ),
                                       child: const Icon(
                                         Icons.inventory_2_outlined,
-                                        color: SplashColors.primary,
+                                        color: SplashColors.nightSky,
                                         size: 22,
                                       ),
                                     ),
@@ -786,14 +1008,14 @@ class SaleInvoiceAddView extends GetView<SaleInvoiceController> {
                                       style: TextStyle(
                                         fontFamily: FontFamily.semiBold,
                                         fontSize: FontSize.s14,
-                                        color: SplashColors.primaryDark,
+                                        color: SplashColors.nightSky,
                                       ),
                                     ),
                                   ),
                                   const Icon(
                                     Icons.arrow_forward_ios_rounded,
                                     size: 14,
-                                    color: SplashColors.primary,
+                                    color: SplashColors.nightSky,
                                   ),
                                 ],
                               ),
@@ -1132,8 +1354,8 @@ class SaleInvoiceAddView extends GetView<SaleInvoiceController> {
                       Gap(25),
                       CommonButton(
                         btnName: AppString.save,
-                        btnColor: SplashColors.primary,
-                        textColor: Colors.white,
+                        btnColor: SplashColors.accent,
+                        textColor: SplashColors.nightSkyDeep,
                         onTap: () {
                           controller.total =
                               (int.parse(controller.itemQtyController.text) *
@@ -1204,6 +1426,94 @@ class SaleInvoiceAddView extends GetView<SaleInvoiceController> {
             ),
           );
         },
+      ),
+    );
+  }
+}
+
+class _InvoiceOutlineButton extends StatelessWidget {
+  const _InvoiceOutlineButton({
+    required this.label,
+    required this.icon,
+    required this.onTap,
+  });
+
+  final String label;
+  final IconData icon;
+  final VoidCallback onTap;
+
+  @override
+  Widget build(BuildContext context) {
+    return Material(
+      color: Colors.white,
+      borderRadius: BorderRadius.circular(12),
+      child: InkWell(
+        onTap: onTap,
+        borderRadius: BorderRadius.circular(12),
+        child: Container(
+          height: 48,
+          alignment: Alignment.center,
+          decoration: BoxDecoration(
+            borderRadius: BorderRadius.circular(12),
+            border: Border.all(color: SplashColors.accent, width: 1.5),
+          ),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Icon(icon, size: 20, color: SplashColors.nightSky),
+              const SizedBox(width: 6),
+              Text(
+                label,
+                style: TextStyle(
+                  fontFamily: FontFamily.semiBold,
+                  fontSize: FontSize.s14,
+                  color: SplashColors.nightSky,
+                ),
+              ),
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+}
+
+class _InvoiceSaveButton extends StatelessWidget {
+  const _InvoiceSaveButton({required this.onTap});
+
+  final VoidCallback onTap;
+
+  @override
+  Widget build(BuildContext context) {
+    return Material(
+      color: SplashColors.accent,
+      borderRadius: BorderRadius.circular(12),
+      child: InkWell(
+        onTap: onTap,
+        borderRadius: BorderRadius.circular(12),
+        child: Container(
+          height: 52,
+          alignment: Alignment.center,
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              const Icon(
+                Icons.save_outlined,
+                size: 20,
+                color: SplashColors.nightSkyDeep,
+              ),
+              const SizedBox(width: 8),
+              Text(
+                AppString.save,
+                style: TextStyle(
+                  fontFamily: FontFamily.semiBold,
+                  fontSize: FontSize.s16,
+                  color: SplashColors.nightSkyDeep,
+                ),
+              ),
+            ],
+          ),
+        ),
       ),
     );
   }

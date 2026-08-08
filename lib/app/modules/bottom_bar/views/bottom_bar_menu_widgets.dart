@@ -8,12 +8,10 @@ class SectionAppBar extends StatelessWidget {
     super.key,
     required this.title,
     required this.subtitle,
-    // required this.icon,
   });
 
   final String title;
   final String subtitle;
-  // final IconData icon;
 
   @override
   Widget build(BuildContext context) {
@@ -27,15 +25,15 @@ class SectionAppBar extends StatelessWidget {
           begin: Alignment.topLeft,
           end: Alignment.bottomRight,
           colors: [
-            SplashColors.primaryDeep,
-            SplashColors.primary,
-            SplashColors.primaryDark,
+            SplashColors.nightSkyMid,
+            SplashColors.nightSky,
+            SplashColors.nightSkyDeep,
           ],
         ),
         boxShadow: [
           BoxShadow(
-            color: SplashColors.primaryDeep.withOpacity(0.4),
-            blurRadius: 20,
+            color: Colors.black.withOpacity(0.28),
+            blurRadius: 18,
             offset: const Offset(0, 8),
           ),
         ],
@@ -43,56 +41,60 @@ class SectionAppBar extends StatelessWidget {
       child: Stack(
         children: [
           Positioned(
-            top: -15,
-            right: 20,
+            top: -18,
+            right: 16,
             child: Container(
-              width: 80,
-              height: 80,
+              width: 90,
+              height: 90,
               decoration: BoxDecoration(
                 shape: BoxShape.circle,
-                color: Colors.white.withOpacity(0.06),
+                color: SplashColors.accent.withOpacity(0.08),
+              ),
+            ),
+          ),
+          Positioned(
+            bottom: -20,
+            left: -10,
+            child: Container(
+              width: 70,
+              height: 70,
+              decoration: BoxDecoration(
+                shape: BoxShape.circle,
+                color: Colors.white.withOpacity(0.04),
               ),
             ),
           ),
           SafeArea(
             bottom: false,
             child: Padding(
-              padding: const EdgeInsets.fromLTRB(18, 16, 18, 20),
-              child: Row(
+              padding: const EdgeInsets.fromLTRB(20, 16, 20, 22),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  // Container(
-                  //   padding: const EdgeInsets.all(10),
-                  //   decoration: BoxDecoration(
-                  //     color: Colors.white.withOpacity(0.15),
-                  //     borderRadius: BorderRadius.circular(14),
-                  //     border: Border.all(
-                  //       color: Colors.white.withOpacity(0.2),
-                  //     ),
-                  //   ),
-                  //   child: Icon(icon, color: Colors.white, size: 26),
-                  // ),
-                  const Gap(14),
-                  Expanded(
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text(
-                          title,
-                          style: TextStyle(
-                            fontFamily: FontFamily.bold,
-                            fontSize: FontSize.s20,
-                            color: SplashColors.text,
-                          ),
-                        ),
-                        Text(
-                          subtitle,
-                          style: TextStyle(
-                            fontFamily: FontFamily.regular,
-                            fontSize: FontSize.s12,
-                            color: SplashColors.subText.withOpacity(0.9),
-                          ),
-                        ),
-                      ],
+                  Text(
+                    title,
+                    style: TextStyle(
+                      fontFamily: FontFamily.PlayfairDisplayBold,
+                      fontSize: FontSize.s22,
+                      color: SplashColors.text,
+                    ),
+                  ),
+                  const Gap(6),
+                  Container(
+                    width: 40,
+                    height: 3,
+                    decoration: BoxDecoration(
+                      color: SplashColors.accent,
+                      borderRadius: BorderRadius.circular(2),
+                    ),
+                  ),
+                  const Gap(8),
+                  Text(
+                    subtitle,
+                    style: TextStyle(
+                      fontFamily: FontFamily.regular,
+                      fontSize: FontSize.s12,
+                      color: SplashColors.accentSoft.withOpacity(0.85),
                     ),
                   ),
                 ],
@@ -127,7 +129,7 @@ class MenuTile extends StatelessWidget {
         decoration: BoxDecoration(
           color: Colors.white,
           borderRadius: BorderRadius.circular(16),
-          border: Border.all(color: SplashColors.primary.withOpacity(0.1)),
+          border: Border.all(color: SplashColors.accent.withOpacity(0.18)),
           boxShadow: [
             BoxShadow(
               color: Colors.black.withOpacity(0.05),
@@ -143,12 +145,12 @@ class MenuTile extends StatelessWidget {
               height: 48,
               padding: const EdgeInsets.all(10),
               decoration: BoxDecoration(
-                color: SplashColors.primary.withOpacity(0.1),
+                color: SplashColors.accent.withOpacity(0.15),
                 borderRadius: BorderRadius.circular(12),
               ),
               child: Image.asset(
                 image,
-                color: SplashColors.primary,
+                color: SplashColors.nightSky,
                 fit: BoxFit.contain,
               ),
             ),
@@ -159,14 +161,14 @@ class MenuTile extends StatelessWidget {
                 style: TextStyle(
                   fontFamily: FontFamily.semiBold,
                   fontSize: FontSize.s16,
-                  color: SplashColors.primaryDark,
+                  color: SplashColors.nightSky,
                 ),
               ),
             ),
             Icon(
               Icons.arrow_forward_ios_rounded,
               size: 14,
-              color: SplashColors.primary,
+              color: SplashColors.accent,
             ),
           ],
         ),

@@ -8,7 +8,6 @@ import 'package:gurukrupa/app/modules/claims/models/Claim_detail_Model.dart';
 import 'package:gurukrupa/app/modules/claims/views/claims_form_ui.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:intl/intl.dart';
-import 'package:gurukrupa/app/commons/app_colors.dart';
 
 import '../../../commons/all.dart';
 import '../../../commons/constants.dart';

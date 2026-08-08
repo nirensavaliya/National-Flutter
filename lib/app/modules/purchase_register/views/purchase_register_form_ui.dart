@@ -22,7 +22,7 @@ class PurchaseRegisterTable extends StatelessWidget {
       decoration: BoxDecoration(
         color: Colors.white,
         borderRadius: BorderRadius.circular(18),
-        border: Border.all(color: SplashColors.primary.withOpacity(0.1)),
+        border: Border.all(color: SplashColors.nightSky.withOpacity(0.1)),
         boxShadow: [
           BoxShadow(
             color: Colors.black.withOpacity(0.05),
@@ -38,16 +38,16 @@ class PurchaseRegisterTable extends StatelessWidget {
         child: DataTable(
           showCheckboxColumn: false,
           headingRowColor: MaterialStateProperty.all(
-            SplashColors.primary.withOpacity(0.1),
+            SplashColors.nightSky.withOpacity(0.1),
           ),
           dataRowMinHeight: 44,
           dataRowMaxHeight: 56,
           border: TableBorder(
             horizontalInside: BorderSide(
-              color: SplashColors.primary.withOpacity(0.08),
+              color: SplashColors.nightSky.withOpacity(0.08),
             ),
             verticalInside: BorderSide(
-              color: SplashColors.primary.withOpacity(0.08),
+              color: SplashColors.nightSky.withOpacity(0.08),
             ),
           ),
           columns: [
@@ -106,7 +106,7 @@ class PurchaseRegisterTable extends StatelessWidget {
         style: TextStyle(
           fontFamily: FontFamily.semiBold,
           fontSize: FontSize.s12,
-          color: SplashColors.primaryDark,
+          color: SplashColors.nightSky,
         ),
       ),
     );
@@ -119,7 +119,7 @@ class PurchaseRegisterTable extends StatelessWidget {
         style: TextStyle(
           fontFamily: FontFamily.medium,
           fontSize: FontSize.s14,
-          color: SplashColors.primaryDark,
+          color: SplashColors.nightSky,
         ),
       ),
     );

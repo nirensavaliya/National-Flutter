@@ -71,7 +71,7 @@ class _ReceivableSummaryStrip extends StatelessWidget {
       decoration: BoxDecoration(
         color: Colors.white,
         borderRadius: BorderRadius.circular(18),
-        border: Border.all(color: SplashColors.primary.withOpacity(0.1)),
+        border: Border.all(color: SplashColors.nightSky.withOpacity(0.1)),
         boxShadow: [
           BoxShadow(
             color: Colors.black.withOpacity(0.05),
@@ -87,13 +87,13 @@ class _ReceivableSummaryStrip extends StatelessWidget {
               label: 'Customers',
               value: customerCount.toString(),
               icon: Icons.people_outline_rounded,
-              color: SplashColors.primary,
+              color: SplashColors.nightSky,
             ),
           ),
           Container(
             width: 1,
             height: 44,
-            color: SplashColors.primary.withOpacity(0.12),
+            color: SplashColors.nightSky.withOpacity(0.12),
           ),
           Expanded(
             child: _SummaryTile(
@@ -106,7 +106,7 @@ class _ReceivableSummaryStrip extends StatelessWidget {
           Container(
             width: 1,
             height: 44,
-            color: SplashColors.primary.withOpacity(0.12),
+            color: SplashColors.nightSky.withOpacity(0.12),
           ),
           Expanded(
             child: _SummaryTile(
@@ -155,7 +155,7 @@ class _SummaryTile extends StatelessWidget {
           style: TextStyle(
             fontFamily: FontFamily.bold,
             fontSize: FontSize.s14,
-            color: SplashColors.primaryDark,
+            color: SplashColors.nightSky,
           ),
         ),
         Text(
@@ -196,31 +196,31 @@ class _ReceivableCustomerCard extends StatelessWidget {
         color: Colors.white,
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(18),
-          side: BorderSide(color: SplashColors.primary.withOpacity(0.1)),
+          side: BorderSide(color: SplashColors.nightSky.withOpacity(0.1)),
         ),
         clipBehavior: Clip.antiAlias,
         child: Theme(
           data: ThemeData(
             dividerColor: Colors.transparent,
-            splashColor: SplashColors.primary.withOpacity(0.08),
-            highlightColor: SplashColors.primary.withOpacity(0.05),
+            splashColor: SplashColors.nightSky.withOpacity(0.08),
+            highlightColor: SplashColors.nightSky.withOpacity(0.05),
           ),
           child: ExpansionTile(
             tilePadding: const EdgeInsets.symmetric(horizontal: 14, vertical: 2),
             childrenPadding: EdgeInsets.zero,
-            iconColor: SplashColors.primary,
-            collapsedIconColor: SplashColors.primary,
+            iconColor: SplashColors.nightSky,
+            collapsedIconColor: SplashColors.nightSky,
             title: Row(
               children: [
                 Container(
                   padding: const EdgeInsets.all(9),
                   decoration: BoxDecoration(
-                    color: SplashColors.primary.withOpacity(0.1),
+                    color: SplashColors.nightSky.withOpacity(0.1),
                     borderRadius: BorderRadius.circular(10),
                   ),
                   child: const Icon(
                     Icons.person_outline_rounded,
-                    color: SplashColors.primary,
+                    color: SplashColors.nightSky,
                     size: 20,
                   ),
                 ),
@@ -233,7 +233,7 @@ class _ReceivableCustomerCard extends StatelessWidget {
                     style: TextStyle(
                       fontFamily: FontFamily.semiBold,
                       fontSize: FontSize.s14,
-                      color: SplashColors.primaryDark,
+                      color: SplashColors.nightSky,
                     ),
                   ),
                 ),
@@ -261,7 +261,7 @@ class _ReceivableCustomerCard extends StatelessWidget {
             ),
             children: [
               Divider(
-                color: SplashColors.primary.withOpacity(0.1),
+                color: SplashColors.nightSky.withOpacity(0.1),
                 height: 1,
               ),
               SalesOrderDetailRow(
@@ -376,31 +376,31 @@ class _PayableSupplierCard extends StatelessWidget {
         color: Colors.white,
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(18),
-          side: BorderSide(color: SplashColors.primary.withOpacity(0.1)),
+          side: BorderSide(color: SplashColors.nightSky.withOpacity(0.1)),
         ),
         clipBehavior: Clip.antiAlias,
         child: Theme(
           data: ThemeData(
             dividerColor: Colors.transparent,
-            splashColor: SplashColors.primary.withOpacity(0.08),
-            highlightColor: SplashColors.primary.withOpacity(0.05),
+            splashColor: SplashColors.nightSky.withOpacity(0.08),
+            highlightColor: SplashColors.nightSky.withOpacity(0.05),
           ),
           child: ExpansionTile(
             tilePadding: const EdgeInsets.symmetric(horizontal: 14, vertical: 2),
             childrenPadding: EdgeInsets.zero,
-            iconColor: SplashColors.primary,
-            collapsedIconColor: SplashColors.primary,
+            iconColor: SplashColors.nightSky,
+            collapsedIconColor: SplashColors.nightSky,
             title: Row(
               children: [
                 Container(
                   padding: const EdgeInsets.all(9),
                   decoration: BoxDecoration(
-                    color: SplashColors.primary.withOpacity(0.1),
+                    color: SplashColors.nightSky.withOpacity(0.1),
                     borderRadius: BorderRadius.circular(10),
                   ),
                   child: const Icon(
                     Icons.store_outlined,
-                    color: SplashColors.primary,
+                    color: SplashColors.nightSky,
                     size: 20,
                   ),
                 ),
@@ -413,7 +413,7 @@ class _PayableSupplierCard extends StatelessWidget {
                     style: TextStyle(
                       fontFamily: FontFamily.semiBold,
                       fontSize: FontSize.s14,
-                      color: SplashColors.primaryDark,
+                      color: SplashColors.nightSky,
                     ),
                   ),
                 ),
@@ -441,7 +441,7 @@ class _PayableSupplierCard extends StatelessWidget {
             ),
             children: [
               Divider(
-                color: SplashColors.primary.withOpacity(0.1),
+                color: SplashColors.nightSky.withOpacity(0.1),
                 height: 1,
               ),
               SalesOrderDetailRow(

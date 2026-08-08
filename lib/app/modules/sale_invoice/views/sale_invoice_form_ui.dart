@@ -55,14 +55,14 @@ class SaleInvoiceListCard extends StatelessWidget {
         color: Colors.white,
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(18),
-          side: BorderSide(color: SplashColors.primary.withOpacity(0.1)),
+          side: BorderSide(color: SplashColors.nightSky.withOpacity(0.1)),
         ),
         clipBehavior: Clip.antiAlias,
         child: Theme(
           data: ThemeData(
             dividerColor: Colors.transparent,
-            splashColor: SplashColors.primary.withOpacity(0.08),
-            highlightColor: SplashColors.primary.withOpacity(0.05),
+            splashColor: SplashColors.nightSky.withOpacity(0.08),
+            highlightColor: SplashColors.nightSky.withOpacity(0.05),
           ),
           child: ExpansionTile(
             backgroundColor: Colors.white,
@@ -71,19 +71,19 @@ class SaleInvoiceListCard extends StatelessWidget {
             onExpansionChanged: onExpansionChanged,
             tilePadding: const EdgeInsets.symmetric(horizontal: 14, vertical: 4),
             childrenPadding: EdgeInsets.zero,
-            iconColor: SplashColors.primary,
-            collapsedIconColor: SplashColors.primary,
+            iconColor: SplashColors.accent,
+            collapsedIconColor: SplashColors.accent,
             title: Row(
               children: [
                 Container(
                   padding: const EdgeInsets.all(10),
                   decoration: BoxDecoration(
-                    color: SplashColors.primary.withOpacity(0.1),
+                    color: SplashColors.accent.withOpacity(0.18),
                     borderRadius: BorderRadius.circular(12),
                   ),
                   child: const Icon(
                     Icons.receipt_long_outlined,
-                    color: SplashColors.primary,
+                    color: SplashColors.nightSky,
                     size: 22,
                   ),
                 ),
@@ -99,7 +99,7 @@ class SaleInvoiceListCard extends StatelessWidget {
                         style: TextStyle(
                           fontFamily: FontFamily.semiBold,
                           fontSize: FontSize.s14,
-                          color: SplashColors.primaryDark,
+                          color: SplashColors.nightSky,
                         ),
                       ),
                       if (date != null && date!.isNotEmpty) ...[
@@ -128,7 +128,7 @@ class SaleInvoiceListCard extends StatelessWidget {
                           vertical: 3,
                         ),
                         decoration: BoxDecoration(
-                          color: SplashColors.primary.withOpacity(0.1),
+                          color: SplashColors.nightSky.withOpacity(0.1),
                           borderRadius: BorderRadius.circular(8),
                         ),
                         child: Text(
@@ -136,7 +136,7 @@ class SaleInvoiceListCard extends StatelessWidget {
                           style: TextStyle(
                             fontFamily: FontFamily.semiBold,
                             fontSize: FontSize.s10,
-                            color: SplashColors.primary,
+                            color: SplashColors.nightSky,
                           ),
                         ),
                       ),
@@ -145,7 +145,7 @@ class SaleInvoiceListCard extends StatelessWidget {
                       style: TextStyle(
                         fontFamily: FontFamily.bold,
                         fontSize: FontSize.s16,
-                        color: SplashColors.primary,
+                        color: SplashColors.accent,
                       ),
                     ),
                   ],
@@ -154,7 +154,7 @@ class SaleInvoiceListCard extends StatelessWidget {
             ),
             children: [
               Divider(
-                color: SplashColors.primary.withOpacity(0.1),
+                color: SplashColors.nightSky.withOpacity(0.1),
                 height: 1,
               ),
               SalesOrderDetailRow(

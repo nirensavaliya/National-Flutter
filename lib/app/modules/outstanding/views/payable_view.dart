@@ -45,7 +45,8 @@ class PayableView extends GetView<OutstandingController> {
               const Gap(16),
               CommonButton(
                 btnName: AppString.downloadPdf,
-                btnColor: SplashColors.primary,
+                btnColor: SplashColors.accent,
+                textColor: SplashColors.nightSkyDeep,
                 onTap: () {
                   controller.genaratePDFApi();
                 },

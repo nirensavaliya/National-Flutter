@@ -146,7 +146,7 @@ class LedgerStatementController extends GetxController {
                     child: CommonTextField(
                       controller: searchFieldController,
                       borderRadius: 12,
-                      prefix: const Icon(Icons.search, color: SplashColors.primary),
+                      prefix: const Icon(Icons.search, color: SplashColors.nightSky),
                       onChanged: (p0) {
                         filterItems(p0);
                       },

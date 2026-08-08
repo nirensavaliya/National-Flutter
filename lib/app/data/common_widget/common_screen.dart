@@ -35,7 +35,7 @@ class CommonScreen extends StatelessWidget {
         leading: GestureDetector(onTap: (){
           Get.back();
         },child: Icon(Icons.arrow_back_ios,color: Colors.white,)),
-        backgroundColor: brandAppBar ? SplashColors.primary : Colors.white,
+        backgroundColor: brandAppBar ? SplashColors.nightSky : Colors.white,
         foregroundColor: brandAppBar ? Colors.white : Colors.black,
         iconTheme: IconThemeData(
           color: brandAppBar ? Colors.white : Colors.black,

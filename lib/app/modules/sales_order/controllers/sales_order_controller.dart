@@ -224,10 +224,12 @@ class SalesOrderController extends GetxController {
 
   RxList<ItemData> selectedItems = <ItemData>[].obs;
   RxMap<ItemData, int> itemQuantities = <ItemData, int>{}.obs;
+  RxMap<ItemData, String> customSizeLabels = <ItemData, String>{}.obs;
 
   void toggleSelection(ItemData item) {
     if (selectedItems.contains(item)) {
       selectedItems.remove(item);
+      customSizeLabels.remove(item);
       // itemQuantities.remove(item);
     } else {
       selectedItems.add(item);
@@ -295,7 +297,9 @@ class SalesOrderController extends GetxController {
 
       itemList.add(SaleOrderDetails(
         itemId: item.itemid,
-        itemName: item.itemName,
+        itemName: customSizeLabels.containsKey(item)
+            ? '${item.itemName} ${customSizeLabels[item]}'
+            : item.itemName,
         unit: item.unitCode,
         qty: double.parse(quantity.toString()),
         price: double.parse(itemPrice.toString()),
@@ -390,6 +394,7 @@ class SalesOrderController extends GetxController {
     deliveryDate = '';
     selectedItems.clear();
     itemQuantities.clear();
+    customSizeLabels.clear();
     update();
   }
 
@@ -898,7 +903,7 @@ class SalesOrderController extends GetxController {
                               color: Colors.white,
                               borderRadius: BorderRadius.circular(14),
                               border: Border.all(
-                                color: SplashColors.primary.withOpacity(0.1),
+                                color: SplashColors.nightSky.withOpacity(0.1),
                               ),
                               boxShadow: [
                                 BoxShadow(
@@ -914,12 +919,12 @@ class SalesOrderController extends GetxController {
                                   padding: const EdgeInsets.all(8),
                                   decoration: BoxDecoration(
                                     color:
-                                        SplashColors.primary.withOpacity(0.1),
+                                        SplashColors.nightSky.withOpacity(0.1),
                                     borderRadius: BorderRadius.circular(10),
                                   ),
                                   child: const Icon(
                                     Icons.person_outline_rounded,
-                                    color: SplashColors.primary,
+                                    color: SplashColors.accent,
                                     size: 22,
                                   ),
                                 ),
@@ -934,7 +939,7 @@ class SalesOrderController extends GetxController {
                                         style: TextStyle(
                                           fontFamily: FontFamily.semiBold,
                                           fontSize: FontSize.s14,
-                                          color: SplashColors.primaryDark,
+                                          color: SplashColors.nightSky,
                                         ),
                                       ),
                                       if (phone.isNotEmpty) ...[
@@ -954,7 +959,7 @@ class SalesOrderController extends GetxController {
                                 const Icon(
                                   Icons.arrow_forward_ios_rounded,
                                   size: 14,
-                                  color: SplashColors.primary,
+                                  color: SplashColors.accent,
                                 ),
                               ],
                             ),

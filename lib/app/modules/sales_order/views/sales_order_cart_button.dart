@@ -38,7 +38,7 @@ class SalesOrderCartActionButton extends StatelessWidget {
                 child: Container(
                   padding: const EdgeInsets.all(4),
                   decoration: const BoxDecoration(
-                    color: Colors.redAccent,
+                    color: Color(0xFFF5C518),
                     shape: BoxShape.circle,
                   ),
                   constraints: const BoxConstraints(
@@ -49,7 +49,7 @@ class SalesOrderCartActionButton extends StatelessWidget {
                     itemCount > 99 ? '99+' : itemCount.toString(),
                     textAlign: TextAlign.center,
                     style: TextStyle(
-                      color: Colors.white,
+                      color: Color(0xFF061022),
                       fontSize: FontSize.s10,
                       fontFamily: FontFamily.bold,
                     ),

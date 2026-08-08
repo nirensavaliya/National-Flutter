@@ -28,9 +28,11 @@ class SalesOrderView extends GetView<SalesOrderController> {
               controller.update();
             },
             child: CircleAvatar(
-              backgroundColor: SplashColors.primary,
+              backgroundColor: SplashColors.accent,
               radius: 25,
-              child: Center(child: Icon(Icons.add,size: 35,color: Colors.white)),
+              child: Center(
+                child: Icon(Icons.add, size: 35, color: SplashColors.nightSkyDeep),
+              ),
             ),
           ),
           actions: controller.isAdd.value
@@ -40,9 +42,9 @@ class SalesOrderView extends GetView<SalesOrderController> {
                     onTap: () {
                       controller.filterSheet(context);
                     },
-                    child: Icon(Icons.search, size: 30),
+                    child: const Icon(Icons.search, size: 28, color: Colors.white),
                   ),
-                  Gap(20),
+                  const Gap(20),
                 ],
             body: Obx(() => controller.isAdd.value
                 ? SalesOrderAddView()

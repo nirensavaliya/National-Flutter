@@ -8,9 +8,9 @@ import 'package:gurukrupa/app/data/common_widget/common_textfeild.dart';
 import 'package:gurukrupa/app/routes/app_pages.dart';
 import 'package:gap/gap.dart';
 import 'package:pinput/pinput.dart';
-import 'package:sms_autofill/sms_autofill.dart';
 
 import '../../../commons/app_colors.dart';
+import '../../../data/common_widget/sleepwave_night_sky.dart';
 import '../controllers/login_controller.dart';
 
 class LoginView extends GetView<LoginController> {
@@ -23,121 +23,74 @@ class LoginView extends GetView<LoginController> {
     return GetBuilder<LoginController>(
       builder: (controller) {
         return Scaffold(
+          backgroundColor: SplashColors.nightSky,
           body: Stack(
             fit: StackFit.expand,
             children: [
-              // ── Splash jaisa background ──
-              Container(
-                decoration: const BoxDecoration(
-                  gradient: RadialGradient(
-                    center: Alignment(0, -0.3),
-                    radius: 1.2,
-                    colors: [
-                      SplashColors.primaryLight,
-                      SplashColors.primary,
-                      SplashColors.primaryDeep,
-                    ],
-                    stops: [0.0, 0.5, 1.0],
-                  ),
-                ),
-              ),
-
-              // Optional: subtle bed texture (splash jaisa)
-              Positioned.fill(
-                child: Image.asset(
-                  'assets/images/img_bed.png',
-                  fit: BoxFit.cover,
-                  color: SplashColors.primaryDeep.withOpacity(0.35),
-                  colorBlendMode: BlendMode.hardLight,
-                ),
-              ),
-
-              // Dark vignette — card readable rahe
-              Container(
-                decoration: BoxDecoration(
-                  gradient: LinearGradient(
-                    begin: Alignment.topCenter,
-                    end: Alignment.bottomCenter,
-                    colors: [
-                      SplashColors.primaryDeep.withOpacity(0.3),
-                      Colors.transparent,
-                      SplashColors.primaryDeep.withOpacity(0.45),
-                    ],
-                  ),
-                ),
-              ),
-
+              const SleepwaveNightSky(),
               SafeArea(
                 child: Center(
                   child: SingleChildScrollView(
-                    padding: const EdgeInsets.symmetric(horizontal: 22, vertical: 0),
+                    padding: const EdgeInsets.symmetric(
+                        horizontal: 22, vertical: 16),
                     child: Column(
                       children: [
-                        // Container(
-                        //   width: 72,
-                        //   height: 72,
-                        //   decoration: BoxDecoration(
-                        //     color: Colors.white,
-                        //     borderRadius: BorderRadius.circular(16),
-                        //     boxShadow: [
-                        //       BoxShadow(
-                        //         color: Colors.black.withOpacity(0.15),
-                        //         blurRadius: 20,
-                        //         offset: const Offset(0, 8),
-                        //       ),
-                        //     ],
-                        //   ),
-                        //   child: ClipRRect(
-                        //     borderRadius: BorderRadius.circular(16),
-                        //     child: Image.asset(
-                        //       AppImages.appIcon_g,
-                        //       fit: BoxFit.cover,
-                        //     ),
-                        //   ),
-                        // ),
-                        // const Gap(5),
                         Container(
-                          width: 65,
-                          height: 65,
+                          width: 78,
+                          height: 78,
                           decoration: BoxDecoration(
                             color: Colors.white,
-                            borderRadius: BorderRadius.circular(10),
+                            borderRadius: BorderRadius.circular(20),
                             boxShadow: [
                               BoxShadow(
-                                color: Colors.black.withOpacity(0.2),
-                                blurRadius: 16,
-                                offset: const Offset(0, 6),
+                                color: SplashColors.accent.withOpacity(0.35),
+                                blurRadius: 24,
+                                offset: const Offset(0, 8),
                               ),
                             ],
+                            border: Border.all(
+                              color: SplashColors.accent.withOpacity(0.65),
+                              width: 2,
+                            ),
                           ),
                           child: ClipRRect(
-                            borderRadius: BorderRadius.circular(10),
+                            borderRadius: BorderRadius.circular(18),
                             child: Image.asset(
                               "assets/images/login_logo.jpeg",
                               fit: BoxFit.fill,
                             ),
                           ),
                         ),
+                        const Gap(14),
+                        Text(
+                          AppString.appName,
+                          style: TextStyle(
+                            fontFamily: FontFamily.PlayfairDisplayBold,
+                            fontSize: 26,
+                            color: SplashColors.text,
+                            letterSpacing: 0.4,
+                          ),
+                        ),
+                        const Gap(8),
+                        Container(
+                          width: 48,
+                          height: 3,
+                          decoration: BoxDecoration(
+                            color: SplashColors.accent,
+                            borderRadius: BorderRadius.circular(2),
+                          ),
+                        ),
                         const Gap(10),
                         Text(
-                          AppString.appName.toUpperCase(),
-                          style: TextStyle(
-                            fontFamily: FontFamily.bold,
-                            fontSize: 20,
-                            color: SplashColors.text,
-                            letterSpacing: 4,
-                          ),
-                        ),
-                        Text(
-                          'Premium Mattresses',
+                          'Premium Comfort. Better Sleep.',
                           style: TextStyle(
                             fontFamily: FontFamily.medium,
-                            fontSize: 11,
-                            color: SplashColors.subText.withOpacity(0.9),
-                            letterSpacing: 3,
+                            fontSize: 12,
+                            color: SplashColors.accentSoft.withOpacity(0.9),
+                            letterSpacing: 0.6,
                           ),
                         ),
-                        const Gap(24),
+                        const Gap(28),
 
                         Container(
                           width: double.infinity,
@@ -147,224 +100,253 @@ class LoginView extends GetView<LoginController> {
                             borderRadius: BorderRadius.circular(22),
                             boxShadow: [
                               BoxShadow(
-                                color: Colors.black.withOpacity(0.12),
+                                color: Colors.black.withOpacity(0.22),
                                 blurRadius: 30,
                                 offset: const Offset(0, 12),
                               ),
                             ],
+                            border: Border.all(
+                              color: SplashColors.accent.withOpacity(0.2),
+                            ),
                           ),
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Text(
-                                AppString.welcomeBack,
-                                style: TextStyle(
-                                  fontFamily: FontFamily.PlayfairDisplayBold,
-                                  fontSize: 26,
-                                  color: SplashColors.primaryDark,
-                                ),
-                              ),
-                              const Gap(4),
-                              Text(
-                                AppString.pleaseLoginToContinue,
-                                style: TextStyle(
-                                  fontFamily: FontFamily.regular,
-                                  fontSize: FontSize.s14,
-                                  color: Colors.black54,
-                                ),
-                              ),
-
-                              if (controller.isEmployee == true) const Gap(24),
-                              if (controller.isEmployee == true)
-                                CommonTextField(
-                                  isTitle: true,
-                                  controller: controller.userNameController,
-                                  borderRadius: 12,
-                                  hintText: AppString.enterUserName,
-                                  title: AppString.userName,
-                                  textInputAction: TextInputAction.next,
-                                ),
-                              if (controller.isEmployee == true) const Gap(14),
-                              if (controller.isEmployee == true)
-                                CommonTextField(
-                                  isTitle: true,
-                                  controller: controller.passwordController,
-                                  borderRadius: 12,
-                                  hintText: AppString.enterPassword,
-                                  title: AppString.password,
-                                  obscureText: true,
-                                  textInputAction: TextInputAction.done,
-                                ),
-                              if (controller.isEmployee == false) const Gap(20),
-                              if (controller.isEmployee == false)
-                                CommonTextField(
-                                  isTitle: true,
-                                  controller: controller.mobileNumberController,
-                                  borderRadius: 12,
-                                  hintText: AppString.entermobileNumber,
-                                  title: AppString.mobileNumber,
-                                  textInputType: TextInputType.number,
-                                  textInputAction: TextInputAction.done,
-                                ),
-
-                              const Gap(22),
-                              CommonButton(
-                                btnName: AppString.login,
-                                btnColor: SplashColors.primaryDark,
-                                textColor: Colors.white,
-                                onTap: () {
-                                  Utils().hideKeyboard();
-                                  controller.validation(context);
-                                },
-                              ),
-
-                              const Gap(18),
-                              GestureDetector(
-                                onTap: () {
-                                  if (controller.isEmployee) {
-                                    GetStorageData.saveBoolean(
-                                        GetStorageData.isCustomer, true);
-                                    controller.setCustomer();
-                                  } else {
-                                    GetStorageData.saveBoolean(
-                                        GetStorageData.isEmployee, true);
-                                    controller.setEmployee();
-                                  }
-                                },
-                                child: Center(
-                                  child: Text(
-                                    controller.isEmployee
-                                        ? "Are you a customer?"
-                                        : "Are you a employee?",
-                                    style: TextStyle(
-                                      fontSize: 15,
-                                      fontFamily: FontFamily.bold,
-                                      color: SplashColors.primary,
-                                    ),
-                                  ),
-                                ),
-                              ),
-
-                              if (Platform.isIOS || !kReleaseMode) ...[
-                                const Gap(10),
-                                GestureDetector(
-                                  onTap: () {
-                                    showModalBottomSheet(
-                                      context: context,
-                                      constraints: BoxConstraints(
-                                        maxHeight: MediaQuery.of(context).size.height,
-                                        minHeight: 380,
-                                      ),
-                                      useSafeArea: false,
-                                      isScrollControlled: true,
-                                      backgroundColor: Colors.transparent,
-                                      builder: (_) => tryDemoView(context),
-                                    );
-                                  },
-                                  child: Center(
-                                    child: Text(
-                                      "Try Demo",
-                                      style: TextStyle(
-                                        decoration: TextDecoration.underline,
-                                        color: SplashColors.primaryDark,
-                                        fontFamily: FontFamily.medium,
-                                        fontSize: 14,
-                                      ),
-                                    ),
-                                  ),
-                                ),
-                              ],
-
-                              // OTP section — card ke andar hi
-                              if (controller.isLogin.value) ...[
-                                const Gap(18),
-                                Text(
-                                  controller.otpMsg,
-                                  style: TextStyle(
-                                    fontFamily: FontFamily.medium,
-                                    fontSize: FontSize.s14,
-                                    color: SplashColors.primary,
-                                  ),
-                                ),
-                                const Gap(12),
-                                _buildOtpBox(context: context, controller:controller.otpController),
-                                // CommonTextField(
-                                //   isTitle: true,
-                                //   controller: controller.otpController,
-                                //   borderRadius: 12,
-                                //   hintText: "Enter OTP",
-                                //   title: "OTP",
-                                //   textInputAction: TextInputAction.done,
-                                //   onChanged: (value) => controller.otp = value,
-                                // ),
-                                const Gap(10),
-                                Row(
+                          child: controller.isLogin.value
+                              ? Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
-                                    Icon(
-                                      controller.isListeningForOtp.value
-                                          ? Icons.check_circle
-                                          : Icons.error_outline,
-                                      color: controller.isListeningForOtp.value
-                                          ? Colors.green
-                                          : Colors.grey,
-                                      size: 16,
+                                    Text(
+                                      'Enter OTP',
+                                      style: TextStyle(
+                                        fontFamily:
+                                            FontFamily.PlayfairDisplayBold,
+                                        fontSize: 26,
+                                        color: SplashColors.nightSky,
+                                      ),
                                     ),
-                                    const Gap(6),
-                                    Expanded(
-                                      child: Text(
-                                        controller.isListeningForOtp.value
-                                            ? "Listening for OTP messages..."
-                                            : "OTP auto-fill not available",
-                                        style: TextStyle(
-                                          fontSize: 12,
-                                          fontFamily: FontFamily.medium,
-                                          color: controller.isListeningForOtp.value
-                                              ? Colors.green
-                                              : Colors.grey,
+                                    const Gap(4),
+                                    Text(
+                                      controller.otpMsg.isNotEmpty
+                                          ? controller.otpMsg
+                                          : 'Enter the verification code to continue.',
+                                      style: TextStyle(
+                                        fontFamily: FontFamily.regular,
+                                        fontSize: FontSize.s14,
+                                        color: Colors.black54,
+                                      ),
+                                    ),
+                                    const Gap(24),
+                                    _buildOtpBox(
+                                      context: context,
+                                      controller: controller.otpController,
+                                    ),
+                                    const Gap(12),
+                                    Row(
+                                      children: [
+                                        Icon(
+                                          controller.isListeningForOtp.value
+                                              ? Icons.check_circle
+                                              : Icons.error_outline,
+                                          color:
+                                              controller.isListeningForOtp.value
+                                                  ? Colors.green
+                                                  : Colors.grey,
+                                          size: 16,
+                                        ),
+                                        const Gap(6),
+                                        Expanded(
+                                          child: Text(
+                                            controller.isListeningForOtp.value
+                                                ? "Listening for OTP messages..."
+                                                : "OTP auto-fill not available",
+                                            style: TextStyle(
+                                              fontSize: 12,
+                                              fontFamily: FontFamily.medium,
+                                              color: controller
+                                                      .isListeningForOtp.value
+                                                  ? Colors.green
+                                                  : Colors.grey,
+                                            ),
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                    const Gap(18),
+                                    CommonButton(
+                                      btnName: "Verify OTP",
+                                      btnColor: SplashColors.accent,
+                                      textColor: SplashColors.nightSkyDeep,
+                                      onTap: () {
+                                        if (controller.otpController.text
+                                            .trim()
+                                            .isNotEmpty) {
+                                          controller.verifyOtp(
+                                            controller.otpController.text.trim(),
+                                          );
+                                        } else {
+                                          Utils().showToast(
+                                            message: "Please enter OTP",
+                                            context: context,
+                                          );
+                                        }
+                                      },
+                                    ),
+                                  ],
+                                )
+                              : Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    Text(
+                                      AppString.welcomeBack,
+                                      style: TextStyle(
+                                        fontFamily:
+                                            FontFamily.PlayfairDisplayBold,
+                                        fontSize: 26,
+                                        color: SplashColors.nightSky,
+                                      ),
+                                    ),
+                                    const Gap(4),
+                                    Text(
+                                      AppString.pleaseLoginToContinue,
+                                      style: TextStyle(
+                                        fontFamily: FontFamily.regular,
+                                        fontSize: FontSize.s14,
+                                        color: Colors.black54,
+                                      ),
+                                    ),
+                                    if (controller.isEmployee == true)
+                                      const Gap(24),
+                                    if (controller.isEmployee == true)
+                                      CommonTextField(
+                                        isTitle: true,
+                                        controller:
+                                            controller.userNameController,
+                                        borderRadius: 12,
+                                        hintText: AppString.enterUserName,
+                                        title: AppString.userName,
+                                        textInputAction: TextInputAction.next,
+                                      ),
+                                    if (controller.isEmployee == true)
+                                      const Gap(14),
+                                    if (controller.isEmployee == true)
+                                      CommonTextField(
+                                        isTitle: true,
+                                        controller:
+                                            controller.passwordController,
+                                        borderRadius: 12,
+                                        hintText: AppString.enterPassword,
+                                        title: AppString.password,
+                                        obscureText: true,
+                                        textInputAction: TextInputAction.done,
+                                      ),
+                                    if (controller.isEmployee == false)
+                                      const Gap(20),
+                                    if (controller.isEmployee == false)
+                                      CommonTextField(
+                                        isTitle: true,
+                                        controller: controller
+                                            .mobileNumberController,
+                                        borderRadius: 12,
+                                        hintText:
+                                            AppString.entermobileNumber,
+                                        title: AppString.mobileNumber,
+                                        textInputType: TextInputType.number,
+                                        textInputAction: TextInputAction.done,
+                                      ),
+                                    const Gap(22),
+                                    CommonButton(
+                                      btnName: AppString.login,
+                                      btnColor: SplashColors.accent,
+                                      textColor:
+                                          SplashColors.nightSkyDeep,
+                                      onTap: () {
+                                        Utils().hideKeyboard();
+                                        controller.validation(context);
+                                      },
+                                    ),
+                                    const Gap(18),
+                                    GestureDetector(
+                                      onTap: () {
+                                        if (controller.isEmployee) {
+                                          GetStorageData.saveBoolean(
+                                              GetStorageData.isCustomer, true);
+                                          controller.setCustomer();
+                                        } else {
+                                          GetStorageData.saveBoolean(
+                                              GetStorageData.isEmployee, true);
+                                          controller.setEmployee();
+                                        }
+                                      },
+                                      child: Center(
+                                        child: Text(
+                                          controller.isEmployee
+                                              ? "Are you a customer?"
+                                              : "Are you a employee?",
+                                          style: TextStyle(
+                                            fontSize: 15,
+                                            fontFamily: FontFamily.bold,
+                                            color: SplashColors.nightSkyMid,
+                                          ),
                                         ),
                                       ),
                                     ),
+                                    if (Platform.isIOS || !kReleaseMode) ...[
+                                      const Gap(10),
+                                      GestureDetector(
+                                        onTap: () {
+                                          showModalBottomSheet(
+                                            context: context,
+                                            constraints: BoxConstraints(
+                                              maxHeight: MediaQuery.of(context)
+                                                  .size
+                                                  .height,
+                                              minHeight: 380,
+                                            ),
+                                            useSafeArea: false,
+                                            isScrollControlled: true,
+                                            backgroundColor:
+                                                Colors.transparent,
+                                            builder: (_) =>
+                                                tryDemoView(context),
+                                          );
+                                        },
+                                        child: Center(
+                                          child: Text(
+                                            "Try Demo",
+                                            style: TextStyle(
+                                              decoration:
+                                                  TextDecoration.underline,
+                                              color: SplashColors.nightSky,
+                                              fontFamily: FontFamily.medium,
+                                              fontSize: 14,
+                                            ),
+                                          ),
+                                        ),
+                                      ),
+                                    ],
+                                    if (controller.isEmployee == false) ...[
+                                      const Gap(8),
+                                      Center(
+                                        child: TextButton(
+                                          onPressed: () {
+                                            Get.toNamed(
+                                              Routes.SIGNUP,
+                                              arguments: controller.token,
+                                            );
+                                          },
+                                          child: Text(
+                                            "Don't have an account? Create one now.",
+                                            style: TextStyle(
+                                              color:
+                                                  SplashColors.nightSkyMid,
+                                              fontFamily:
+                                                  FontFamily.semiBold,
+                                              fontSize: FontSize.s14,
+                                            ),
+                                          ),
+                                        ),
+                                      ),
+                                    ],
                                   ],
                                 ),
-                                const Gap(16),
-                                CommonButton(
-                                  btnName: "Verify OTP",
-                                  btnColor: SplashColors.primaryDark,
-                                  textColor: Colors.white,
-                                  onTap: () {
-                                    if (controller.otpController.text.trim().isNotEmpty) {
-                                      controller.verifyOtp(
-                                          controller.otpController.text.trim());
-                                    } else {
-                                      Utils().showToast(
-                                          message: "Please enter OTP",
-                                          context: context);
-                                    }
-                                  },
-                                ),
-                              ],
-
-                              if (controller.isEmployee == false) ...[
-                                const Gap(8),
-                                Center(
-                                  child: TextButton(
-                                    onPressed: () {
-                                      Get.toNamed(Routes.SIGNUP,
-                                          arguments: controller.token);
-                                    },
-                                    child: Text(
-                                      "Don't have an account? Create one now.",
-                                      style: TextStyle(
-                                        color: SplashColors.primary,
-                                        fontFamily: FontFamily.semiBold,
-                                        fontSize: FontSize.s14,
-                                      ),
-                                    ),
-                                  ),
-                                ),
-                              ],
-                            ],
-                          ),
                         ),
                       ],
                     ),
@@ -901,11 +883,11 @@ class LoginView extends GetView<LoginController> {
       textStyle: TextStyle(
         fontSize: 20,
         fontFamily: FontFamily.bold,
-        color: Colors.black,
+        color: SplashColors.nightSky,
       ),
       decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(5),
-        border: Border.all(color: SplashColors.primary),
+        borderRadius: BorderRadius.circular(10),
+        border: Border.all(color: SplashColors.nightSkyMid.withOpacity(0.35)),
       ),
     );
 
@@ -915,8 +897,9 @@ class LoginView extends GetView<LoginController> {
       keyboardType: TextInputType.number,
       defaultPinTheme: defaultPinTheme,
       focusedPinTheme: defaultPinTheme.copyWith(
-        decoration: defaultPinTheme.decoration!
-            .copyWith(border: Border.all(color: SplashColors.primary, width: 2)),
+        decoration: defaultPinTheme.decoration!.copyWith(
+          border: Border.all(color: SplashColors.accent, width: 2),
+        ),
       ),
       errorPinTheme: defaultPinTheme.copyWith(
         decoration: defaultPinTheme.decoration!

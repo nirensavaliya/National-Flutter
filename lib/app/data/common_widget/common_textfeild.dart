@@ -22,6 +22,8 @@ class CommonTextField extends StatelessWidget {
   final TextInputType? textInputType;
   final void Function()? onTap;
   final void Function(String)? onChanged;
+  final void Function(String)? onFieldSubmitted;
+  final FocusNode? focusNode;
   final List<TextInputFormatter>? inputFormatters;
   TextInputAction? textInputAction;
   final BoxConstraints? prefixIconConstraints;
@@ -44,6 +46,8 @@ class CommonTextField extends StatelessWidget {
     this.obscureText = false,
     this.showCursor = true,
     this.inputFormatters, this.readOnly = false, this.onChanged, this.textInputType,
+    this.onFieldSubmitted,
+    this.focusNode,
     this.textInputAction,
     this.prefixIconConstraints,
     this.validator,
@@ -74,9 +78,16 @@ class CommonTextField extends StatelessWidget {
             padding: EdgeInsets.symmetric(horizontal: 10),
             child: TextFormField(
               controller: controller,
+              focusNode: focusNode,
               maxLines: maxLine ?? 1,
               textAlign: textAlign ?? TextAlign.start,
               textInputAction: textInputAction,
+              onFieldSubmitted: onFieldSubmitted ??
+                  (textInputAction == TextInputAction.next
+                      ? (_) => FocusScope.of(context).nextFocus()
+                      : textInputAction == TextInputAction.done
+                          ? (_) => FocusScope.of(context).unfocus()
+                          : null),
               style: TextStyle(
                 color: Colors.black,
                 fontSize: fontSize ?? FontSize.s16,

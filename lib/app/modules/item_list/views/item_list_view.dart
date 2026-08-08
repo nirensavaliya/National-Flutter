@@ -3,13 +3,9 @@ import 'package:gurukrupa/app/commons/all.dart';
 import 'package:gurukrupa/app/commons/app_colors.dart';
 import 'package:gurukrupa/app/data/common_widget/common_button.dart';
 import 'package:gurukrupa/app/modules/sales_order/views/sales_order_form_ui.dart';
-import 'package:gurukrupa/app/routes/app_pages.dart';
 import 'package:gap/gap.dart';
 
-import '../../../data/common_widget/common_textfeild.dart';
 import '../../customer/model/brand_list_model.dart';
-import '../../customer/model/get_catefory_brand_list_model.dart';
-import '../../quotation/controllers/quotation_controller.dart';
 import '../controllers/item_list_controller.dart';
 import '../model/get_item_list_model.dart';
 
@@ -33,7 +29,7 @@ class ItemListView extends GetView<ItemListController> {
               style: TextStyle(
                 fontSize: FontSize.s16,
                 fontFamily: FontFamily.medium,
-                color: SplashColors.primaryDark,
+                color: SplashColors.nightSky,
               ),
               decoration: salesOrderSearchDecoration().copyWith(
                 hintText: 'Search item...',
@@ -83,15 +79,11 @@ class ItemListView extends GetView<ItemListController> {
             padding: const EdgeInsets.symmetric(horizontal: 16),
             child: Column(
               children: [
-
               Gap(10),
-
-
               Padding(
                 padding: EdgeInsets.symmetric(horizontal: 0, vertical: 0),
                 child: GestureDetector(
                   onTap: () {
-                    // Open Category Selection Bottom Sheet
                     openCategorySelection(controller);
                   },
                   child: DecoratedBox(
@@ -101,7 +93,6 @@ class ItemListView extends GetView<ItemListController> {
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
-                          // Use Obx to listen for changes in selectedCategoryBrandData
                           Obx(() {
                             final selectedCategory =
                                 controller.selectedCategoryBrandData.value;
@@ -119,7 +110,7 @@ class ItemListView extends GetView<ItemListController> {
                                       style: TextStyle(
                                           fontFamily: FontFamily.semiBold,
                                           fontSize: FontSize.s16,
-                                          color: SplashColors.primaryDark),
+                                          color: SplashColors.nightSky),
                                     ),
                                   ],
                                 ),
@@ -127,7 +118,6 @@ class ItemListView extends GetView<ItemListController> {
                             );
                           }),
 
-                          // Show either dropdown or cancel button based on selection
                           Obx(() {
                             final hasCategory = controller
                                 .selectedCategoryBrandData
@@ -169,7 +159,6 @@ class ItemListView extends GetView<ItemListController> {
                 padding: EdgeInsets.fromLTRB(0, 10, 0, 5),
                 child: GestureDetector(
                   onTap: () {
-                    // Open Category Selection Bottom Sheet
                     openBrandSelection(controller);
                   },
                   child: DecoratedBox(
@@ -179,7 +168,6 @@ class ItemListView extends GetView<ItemListController> {
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
-                          // Use Obx to listen for changes in selectedCategoryBrandData
                           Obx(() {
                             final selectedCategory =
                                 controller.selectedBrandData.value;
@@ -189,14 +177,13 @@ class ItemListView extends GetView<ItemListController> {
                                 mainAxisAlignment:
                                 MainAxisAlignment.spaceBetween,
                                 children: [
-                                  // Display selected category name or the default text
                                   Text(
                                     selectedCategory.brandName ??
                                         "Select Brand",
                                     style: TextStyle(
                                         fontFamily: FontFamily.semiBold,
                                         fontSize: FontSize.s16,
-                                        color: SplashColors.primaryDark),
+                                        color: SplashColors.nightSky),
                                   ),
                                 ],
                               ),
@@ -209,7 +196,6 @@ class ItemListView extends GetView<ItemListController> {
                             return GestureDetector(
                               onTap: () {
                                 if (hasCategory) {
-                                  // Reset category selection
                                   controller.selectedBrandData.value =
                                       BranddData();
                                   // controller.validationForApiCall();
@@ -223,7 +209,7 @@ class ItemListView extends GetView<ItemListController> {
                                 hasCategory
                                     ? Icons.cancel
                                     : Icons
-                                    .arrow_drop_down, // Change icon dynamically
+                                    .arrow_drop_down,
                                 color: Colors.black54,
                               ),
                             );
@@ -256,8 +242,8 @@ class ItemListView extends GetView<ItemListController> {
                       if (controller.itemList.isNotEmpty)
                         CommonButton(
                           btnName: AppString.downloadPdf,
-                          btnColor: SplashColors.primary,
-                          textColor: Colors.white,
+                          btnColor: SplashColors.accent,
+                          textColor: SplashColors.nightSkyDeep,
                           onTap: () => controller.genaratePDFApi(),
                         ),
                       if (controller.itemList.isNotEmpty) Gap(20),
@@ -302,7 +288,7 @@ class ItemListView extends GetView<ItemListController> {
                                         style: TextStyle(
                                           fontFamily: FontFamily.semiBold,
                                           fontSize: FontSize.s18,
-                                          color: SplashColors.primaryDark,
+                                          color: SplashColors.nightSky,
                                         ),
                                       ),
                                       content: SizedBox(
@@ -312,7 +298,7 @@ class ItemListView extends GetView<ItemListController> {
                                       actions: [
                                         ElevatedButton(
                                           style: ElevatedButton.styleFrom(
-                                            backgroundColor: SplashColors.primary,
+                                            backgroundColor: SplashColors.accent,
                                             shape: RoundedRectangleBorder(
                                               borderRadius:
                                                   BorderRadius.circular(10),
@@ -333,12 +319,12 @@ class ItemListView extends GetView<ItemListController> {
                                   decoration: BoxDecoration(
                                     border: Border.all(
                                       color: isSelected
-                                          ? SplashColors.primary
-                                          : SplashColors.primary.withOpacity(0.12),
+                                          ? SplashColors.accent
+                                          : SplashColors.nightSky.withOpacity(0.12),
                                     ),
                                     borderRadius: BorderRadius.circular(14),
                                     color: isSelected
-                                        ? SplashColors.primary.withOpacity(0.08)
+                                        ? SplashColors.nightSky.withOpacity(0.08)
                                         : Colors.white,
                                     boxShadow: [
                                       BoxShadow(
@@ -373,7 +359,7 @@ class ItemListView extends GetView<ItemListController> {
                                               style: TextStyle(
                                                 fontSize: FontSize.s14,
                                                 fontFamily: FontFamily.semiBold,
-                                                color: SplashColors.primaryDark,
+                                                color: SplashColors.nightSky,
                                               ),
                                             ),
                                             Text(
@@ -381,7 +367,7 @@ class ItemListView extends GetView<ItemListController> {
                                               style: TextStyle(
                                                 fontSize: FontSize.s14,
                                                 fontFamily: FontFamily.semiBold,
-                                                color: SplashColors.primary,
+                                                color: SplashColors.nightSky,
                                               ),
                                             ),
                                           ],
@@ -534,7 +520,7 @@ class ItemListView extends GetView<ItemListController> {
                           decoration: BoxDecoration(
                             color: Colors.white,
                             border: Border.all(
-                              color: SplashColors.primary.withOpacity(0.12),
+                              color: SplashColors.nightSky.withOpacity(0.12),
                             ),
                             borderRadius: BorderRadius.circular(14),
                             boxShadow: [
@@ -578,7 +564,7 @@ class ItemListView extends GetView<ItemListController> {
                                 overflow: TextOverflow.ellipsis,
                                 style: TextStyle(
                                   fontSize: FontSize.s14,
-                                  color: SplashColors.primaryDark,
+                                  color: SplashColors.nightSky,
                                   fontFamily: FontFamily.semiBold,
                                 ),
                               ),
@@ -668,7 +654,7 @@ class ItemListView extends GetView<ItemListController> {
                           decoration: BoxDecoration(
                             color: Colors.white,
                             border: Border.all(
-                              color: SplashColors.primary.withOpacity(0.12),
+                              color: SplashColors.nightSky.withOpacity(0.12),
                             ),
                             borderRadius: BorderRadius.circular(14),
                             boxShadow: [
@@ -712,7 +698,7 @@ class ItemListView extends GetView<ItemListController> {
                                   overflow: TextOverflow.ellipsis,
                                   style: TextStyle(
                                     fontSize: FontSize.s14,
-                                    color: SplashColors.primaryDark,
+                                    color: SplashColors.nightSky,
                                     fontFamily: FontFamily.semiBold,
                                   ),
                                 ),
@@ -837,7 +823,7 @@ class ItemListView extends GetView<ItemListController> {
               style: TextStyle(
                 fontFamily: FontFamily.semiBold,
                 fontSize: FontSize.s14,
-                color: SplashColors.primaryDark,
+                color: SplashColors.nightSky,
               ),
             ),
           ),

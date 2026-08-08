@@ -5,6 +5,8 @@ class AppImages{
   static String appIcon = "${base}app_icon.png";
   static String appIcon_g = "${base}app_icon_gurukrupa.jpeg";
   static String appIconWithName = "${base}Fraxinus514.jpg";
+  static String customerHeroBed = "${base}customer_hero_bed.png";
+  static String adminHeroBed = "${base}admin_hero_bed.png";
   static String home = "${base}home.png";
   static String transaction = "${base}transaction.png";
   static String report = "${base}report.png";

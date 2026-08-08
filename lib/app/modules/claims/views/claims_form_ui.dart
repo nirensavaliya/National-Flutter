@@ -21,7 +21,7 @@ class ClaimsHeaderCard extends StatelessWidget {
       decoration: BoxDecoration(
         color: Colors.white,
         borderRadius: BorderRadius.circular(18),
-        border: Border.all(color: SplashColors.primary.withOpacity(0.1)),
+        border: Border.all(color: SplashColors.nightSky.withOpacity(0.1)),
         boxShadow: [
           BoxShadow(
             color: Colors.black.withOpacity(0.05),
@@ -38,7 +38,7 @@ class ClaimsHeaderCard extends StatelessWidget {
             style: TextStyle(
               fontFamily: FontFamily.PlayfairDisplayBold,
               fontSize: FontSize.s20,
-              color: SplashColors.primaryDark,
+              color: SplashColors.nightSky,
             ),
           ),
           const Gap(4),
@@ -71,7 +71,7 @@ class ClaimsToolbar extends GetView<ClaimsController> {
       decoration: BoxDecoration(
         color: Colors.white,
         borderRadius: BorderRadius.circular(18),
-        border: Border.all(color: SplashColors.primary.withOpacity(0.1)),
+        border: Border.all(color: SplashColors.nightSky.withOpacity(0.1)),
         boxShadow: [
           BoxShadow(
             color: Colors.black.withOpacity(0.04),
@@ -88,19 +88,19 @@ class ClaimsToolbar extends GetView<ClaimsController> {
                 child: ElevatedButton.icon(
                   onPressed: onNewClaim,
                   style: ElevatedButton.styleFrom(
-                    backgroundColor: SplashColors.primary,
+                    backgroundColor: SplashColors.accent,
                     padding: const EdgeInsets.symmetric(vertical: 12),
                     shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(12),
                     ),
                   ),
-                  icon: const Icon(Icons.add, color: Colors.white, size: 20),
+                  icon: const Icon(Icons.add, color: SplashColors.nightSkyDeep, size: 20),
                   label: Text(
                     'New Claim',
                     style: TextStyle(
                       fontFamily: FontFamily.semiBold,
                       fontSize: FontSize.s14,
-                      color: Colors.white,
+                      color: SplashColors.nightSkyDeep,
                     ),
                   ),
                 ),
@@ -123,14 +123,14 @@ class ClaimsToolbar extends GetView<ClaimsController> {
                       color: const Color(0xFF78829A),
                     ),
                     filled: true,
-                    fillColor: SplashColors.scaffoldBg,
+                    fillColor: const Color(0xFFF8FAFC),
                     contentPadding: const EdgeInsets.symmetric(
                       horizontal: 12,
                       vertical: 10,
                     ),
                     prefixIcon: const Icon(
                       Icons.search,
-                      color: SplashColors.primary,
+                      color: SplashColors.accent,
                       size: 22,
                     ),
                     border: OutlineInputBorder(
@@ -146,10 +146,10 @@ class ClaimsToolbar extends GetView<ClaimsController> {
                 child: Container(
                   padding: const EdgeInsets.symmetric(horizontal: 12),
                   decoration: BoxDecoration(
-                    color: SplashColors.scaffoldBg,
+                    color: const Color(0xFFF8FAFC),
                     borderRadius: BorderRadius.circular(12),
                     border: Border.all(
-                      color: SplashColors.primary.withOpacity(0.15),
+                      color: SplashColors.nightSky.withOpacity(0.15),
                     ),
                   ),
                   child: DropdownButtonHideUnderline(
@@ -159,7 +159,7 @@ class ClaimsToolbar extends GetView<ClaimsController> {
                       isExpanded: true,
                       icon: const Icon(
                         Icons.keyboard_arrow_down_rounded,
-                        color: SplashColors.primary,
+                        color: SplashColors.accent,
                       ),
                       items: controller.statusFilters
                           .map(
@@ -170,7 +170,7 @@ class ClaimsToolbar extends GetView<ClaimsController> {
                             style: TextStyle(
                               fontFamily: FontFamily.medium,
                               fontSize: FontSize.s12,
-                              color: SplashColors.primaryDark,
+                              color: SplashColors.nightSky,
                             ),
                           ),
                         ),
@@ -274,7 +274,7 @@ class ClaimListCard extends StatelessWidget {
         decoration: BoxDecoration(
           color: Colors.white,
           borderRadius: BorderRadius.circular(16),
-          border: Border.all(color: SplashColors.primary.withOpacity(0.1)),
+          border: Border.all(color: SplashColors.nightSky.withOpacity(0.1)),
           boxShadow: [
             BoxShadow(
               color: Colors.black.withOpacity(0.04),
@@ -310,7 +310,7 @@ class ClaimListCard extends StatelessWidget {
                     style: TextStyle(
                       fontFamily: FontFamily.semiBold,
                       fontSize: FontSize.s14,
-                      color: SplashColors.primaryDark,
+                      color: SplashColors.nightSky,
                     ),
                   ),
                   Gap(6),
@@ -361,10 +361,10 @@ class ClaimListCard extends StatelessWidget {
               child: Container(
                 padding: const EdgeInsets.all(6),
                 decoration: BoxDecoration(
-                  color: SplashColors.primary.withOpacity(0.10),
+                  color: SplashColors.nightSky.withOpacity(0.10),
                   borderRadius: BorderRadius.circular(8),
                   border: Border.all(
-                    color: SplashColors.primary.withOpacity(0.20),
+                    color: SplashColors.nightSky.withOpacity(0.20),
                   ),
                 ),
                 child: Icon(
@@ -405,7 +405,7 @@ class SelectDealerField extends StatelessWidget {
           borderRadius: 10,
           controller: controller.dealerSearchController,
           hintText: 'Search dealer by name or mobile...',
-          prefix: const Icon(Icons.search, color: SplashColors.primary),
+          prefix: const Icon(Icons.search, color: SplashColors.accent),
           onTap: controller.openDealerDropdown,
           onChanged: controller.onDealerSearchChanged,
         ),
@@ -445,7 +445,7 @@ class _DealerDropdownPanel extends StatelessWidget {
         constraints: const BoxConstraints(maxHeight: 220),
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(12),
-          border: Border.all(color: SplashColors.primary.withOpacity(0.12)),
+          border: Border.all(color: SplashColors.nightSky.withOpacity(0.12)),
         ),
         child: query.isEmpty
             ? _emptyHint('Type dealer name or mobile to search')
@@ -456,7 +456,7 @@ class _DealerDropdownPanel extends StatelessWidget {
           itemCount: dealers.length,
           separatorBuilder: (_, __) => Divider(
             height: 1,
-            color: SplashColors.primary.withOpacity(0.08),
+            color: SplashColors.nightSky.withOpacity(0.08),
           ),
           itemBuilder: (context, index) {
             final dealer = dealers[index];
@@ -508,12 +508,12 @@ class _DealerListTile extends StatelessWidget {
       color: Colors.white,
       child: InkWell(
         onTap: onTap,
-        splashColor: SplashColors.primary.withOpacity(0.12),
-        highlightColor: SplashColors.primary.withOpacity(0.08),
+        splashColor: SplashColors.nightSky.withOpacity(0.12),
+        highlightColor: SplashColors.nightSky.withOpacity(0.08),
         child: Ink(
           decoration: BoxDecoration(
             color: isSelected
-                ? SplashColors.primary.withOpacity(0.15)
+                ? SplashColors.nightSky.withOpacity(0.15)
                 : Colors.transparent,
           ),
           child: Padding(
@@ -525,7 +525,7 @@ class _DealerListTile extends StatelessWidget {
                     padding: EdgeInsets.only(right: 8),
                     child: Icon(
                       Icons.check_circle,
-                      color: SplashColors.primary,
+                      color: SplashColors.accent,
                       size: 18,
                     ),
                   ),
@@ -539,8 +539,8 @@ class _DealerListTile extends StatelessWidget {
                           fontFamily: FontFamily.semiBold,
                           fontSize: FontSize.s14,
                           color: isSelected
-                              ? SplashColors.primary
-                              : SplashColors.primaryDark,
+                              ? SplashColors.accent
+                              : SplashColors.nightSky,
                         ),
                       ),
                       if (mobile.isNotEmpty) ...[
@@ -571,8 +571,6 @@ class NewClaimDialog extends GetView<ClaimsController> {
 
   @override
   Widget build(BuildContext context) {
-    final maxScrollHeight = MediaQuery.of(context).size.height * 0.72;
-
     return Dialog(
       backgroundColor: Colors.transparent,
       insetPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 24),
@@ -582,7 +580,7 @@ class NewClaimDialog extends GetView<ClaimsController> {
           borderRadius: BorderRadius.circular(20),
           boxShadow: [
             BoxShadow(
-              color: SplashColors.primaryDeep.withOpacity(0.2),
+              color: SplashColors.nightSkyDeep.withOpacity(0.2),
               blurRadius: 24,
               offset: const Offset(0, 10),
             ),
@@ -600,7 +598,7 @@ class NewClaimDialog extends GetView<ClaimsController> {
                       style: TextStyle(
                         fontFamily: FontFamily.semiBold,
                         fontSize: FontSize.s18,
-                        color: SplashColors.primaryDark,
+                        color: SplashColors.nightSky,
                       ),
                     ),
                   ),
@@ -608,7 +606,7 @@ class NewClaimDialog extends GetView<ClaimsController> {
                     onPressed: () => Get.back(),
                     icon: const Icon(
                       Icons.close,
-                      color: SplashColors.primaryDark,
+                      color: SplashColors.nightSky,
                     ),
                   ),
                 ],
@@ -672,7 +670,7 @@ class NewClaimDialog extends GetView<ClaimsController> {
                         onTap: () => controller.selectBillDate(context),
                         child: const Icon(
                           Icons.calendar_month,
-                          color: SplashColors.primary,
+                          color: SplashColors.accent,
                         ),
                       ),
                     ),
@@ -750,7 +748,7 @@ class NewClaimDialog extends GetView<ClaimsController> {
                               style: OutlinedButton.styleFrom(
                                 padding: const EdgeInsets.symmetric(vertical: 12),
                                 side: BorderSide(
-                                  color: SplashColors.primary,
+                                  color: SplashColors.accent,
                                 ),
                                 shape: RoundedRectangleBorder(
                                   borderRadius: BorderRadius.circular(12),
@@ -759,7 +757,7 @@ class NewClaimDialog extends GetView<ClaimsController> {
                               icon: const Icon(
                                 Icons.add_circle_outline,
                                 size: 18,
-                                color: SplashColors.primary,
+                                color: SplashColors.accent,
                               ),
                               label: Text(
                                 controller.editingItemIndex != null
@@ -767,7 +765,7 @@ class NewClaimDialog extends GetView<ClaimsController> {
                                     : "Add Item",
                                 style: TextStyle(
                                   fontFamily: FontFamily.semiBold,
-                                  color: SplashColors.primary,
+                                  color: SplashColors.accent,
                                 ),
                               ),
                             ),
@@ -778,7 +776,7 @@ class NewClaimDialog extends GetView<ClaimsController> {
                               child: ElevatedButton.icon(
                                 onPressed: controller.saveSameItem,
                                 style: ElevatedButton.styleFrom(
-                                  backgroundColor: SplashColors.primary,
+                                  backgroundColor: SplashColors.accent,
                                   padding: const EdgeInsets.symmetric(vertical: 12),
                                   elevation: 0,
                                   shape: RoundedRectangleBorder(
@@ -814,7 +812,7 @@ class NewClaimDialog extends GetView<ClaimsController> {
                             color: Colors.white,
                             borderRadius: BorderRadius.circular(12),
                             border: Border.all(
-                              color: SplashColors.primary.withOpacity(.2),
+                              color: SplashColors.nightSky.withOpacity(.2),
                             ),
                           ),
                           child: Column(
@@ -825,7 +823,7 @@ class NewClaimDialog extends GetView<ClaimsController> {
                                 style: TextStyle(
                                   fontFamily: FontFamily.semiBold,
                                   fontSize: 16,
-                                  color: SplashColors.primary,
+                                  color: SplashColors.accent,
                                 ),
                               ),
 
@@ -854,7 +852,7 @@ class NewClaimDialog extends GetView<ClaimsController> {
                                               "Item ${index + 1}",
                                               style: TextStyle(
                                                 fontFamily: FontFamily.semiBold,
-                                                color: SplashColors.primary,
+                                                color: SplashColors.accent,
                                               ),
                                             ),
 
@@ -908,7 +906,7 @@ class NewClaimDialog extends GetView<ClaimsController> {
                        //    child: Text(
                        //      "Cancel",
                        //      style: TextStyle(
-                       //        color: SplashColors.primaryDark,
+                       //        color: SplashColors.nightSky,
                        //      ),
                        //    ),
                        //  ),
@@ -921,7 +919,7 @@ class NewClaimDialog extends GetView<ClaimsController> {
                            }
                          },
                           style: ElevatedButton.styleFrom(
-                            backgroundColor: SplashColors.primary,
+                            backgroundColor: SplashColors.accent,
                             padding: const EdgeInsets.symmetric(
                               horizontal: 24,
                               vertical: 12,
@@ -972,7 +970,7 @@ class NewClaimDialog extends GetView<ClaimsController> {
           style: TextStyle(
             fontFamily: FontFamily.semiBold,
             fontSize: FontSize.s16,
-            color: SplashColors.primaryDark,
+            color: SplashColors.nightSky,
           ),
         ),
       ],

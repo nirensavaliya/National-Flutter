@@ -40,10 +40,10 @@ class SalesOrderFormSection extends StatelessWidget {
               Container(
                 padding: const EdgeInsets.all(8),
                 decoration: BoxDecoration(
-                  color: SplashColors.primary.withOpacity(0.1),
+                  color: SplashColors.accent.withOpacity(0.18),
                   borderRadius: BorderRadius.circular(10),
                 ),
-                child: Icon(icon, color: SplashColors.primary, size: 18),
+                child: Icon(icon, color: SplashColors.nightSky, size: 18),
               ),
               const Gap(10),
               Text(
@@ -51,7 +51,7 @@ class SalesOrderFormSection extends StatelessWidget {
                 style: TextStyle(
                   fontFamily: FontFamily.semiBold,
                   fontSize: FontSize.s16,
-                  color: SplashColors.primaryDark,
+                  color: SplashColors.nightSky,
                 ),
               ),
             ],
@@ -84,9 +84,9 @@ class SalesOrderSheetHeader extends StatelessWidget {
           begin: Alignment.topLeft,
           end: Alignment.bottomRight,
           colors: [
-            SplashColors.primaryDeep,
-            SplashColors.primary,
-            SplashColors.primaryDark,
+            SplashColors.nightSkyMid,
+            SplashColors.nightSky,
+            SplashColors.nightSkyDeep,
           ],
         ),
         borderRadius: BorderRadius.vertical(top: Radius.circular(24)),
@@ -97,7 +97,7 @@ class SalesOrderSheetHeader extends StatelessWidget {
             width: 40,
             height: 4,
             decoration: BoxDecoration(
-              color: Colors.white.withOpacity(0.35),
+              color: SplashColors.accent.withOpacity(0.55),
               borderRadius: BorderRadius.circular(2),
             ),
           ),
@@ -117,7 +117,7 @@ class SalesOrderSheetHeader extends StatelessWidget {
               style: TextStyle(
                 fontFamily: FontFamily.regular,
                 fontSize: FontSize.s12,
-                color: SplashColors.subText.withOpacity(0.9),
+                color: SplashColors.accentSoft.withOpacity(0.9),
               ),
             ),
           ],
@@ -129,8 +129,8 @@ class SalesOrderSheetHeader extends StatelessWidget {
 
 Color salesOrderFieldBorder(bool isOpen) {
   return isOpen
-      ? SplashColors.primary
-      : SplashColors.primary.withOpacity(0.25);
+      ? SplashColors.accent
+      : SplashColors.nightSky.withOpacity(0.25);
 }
 
 InputDecoration salesOrderSearchDecoration() {
@@ -142,20 +142,20 @@ InputDecoration salesOrderSearchDecoration() {
     contentPadding: const EdgeInsets.symmetric(vertical: 10, horizontal: 10),
     prefixIcon: const Padding(
       padding: EdgeInsets.only(left: 10, right: 6),
-      child: Icon(Icons.search, size: 26, color: SplashColors.primaryDark),
+      child: Icon(Icons.search, size: 26, color: SplashColors.nightSky),
     ),
     prefixIconConstraints: const BoxConstraints(minWidth: 30, minHeight: 30),
     border: OutlineInputBorder(
       borderRadius: BorderRadius.circular(12),
-      borderSide: BorderSide(color: SplashColors.primary.withOpacity(0.25)),
+      borderSide: BorderSide(color: SplashColors.nightSky.withOpacity(0.25)),
     ),
     enabledBorder: OutlineInputBorder(
       borderRadius: BorderRadius.circular(12),
-      borderSide: BorderSide(color: SplashColors.primary.withOpacity(0.25)),
+      borderSide: BorderSide(color: SplashColors.nightSky.withOpacity(0.25)),
     ),
     focusedBorder: OutlineInputBorder(
       borderRadius: BorderRadius.circular(12),
-      borderSide: const BorderSide(color: SplashColors.primary, width: 1.5),
+      borderSide: const BorderSide(color: SplashColors.accent, width: 1.5),
     ),
   );
 }
@@ -163,7 +163,7 @@ InputDecoration salesOrderSearchDecoration() {
 BoxDecoration salesOrderDropdownDecoration() {
   return BoxDecoration(
     color: Colors.white,
-    border: Border.all(color: SplashColors.primary.withOpacity(0.25)),
+    border: Border.all(color: SplashColors.nightSky.withOpacity(0.25)),
     borderRadius: BorderRadius.circular(12),
   );
 }
@@ -200,7 +200,7 @@ class AddItemDialog extends StatelessWidget {
           borderRadius: BorderRadius.circular(22),
           boxShadow: [
             BoxShadow(
-              color: SplashColors.primaryDeep.withOpacity(0.2),
+              color: SplashColors.nightSkyDeep.withOpacity(0.2),
               blurRadius: 24,
               offset: const Offset(0, 10),
             ),
@@ -215,8 +215,8 @@ class AddItemDialog extends StatelessWidget {
               decoration: const BoxDecoration(
                 gradient: LinearGradient(
                   colors: [
-                    SplashColors.primaryDeep,
-                    SplashColors.primary,
+                    SplashColors.nightSkyDeep,
+                    SplashColors.nightSky,
                   ],
                 ),
                 borderRadius: BorderRadius.vertical(top: Radius.circular(22)),
@@ -238,7 +238,7 @@ class AddItemDialog extends StatelessWidget {
                   Container(
                     padding: const EdgeInsets.all(12),
                     decoration: BoxDecoration(
-                      color: SplashColors.primary.withOpacity(0.08),
+                      color: SplashColors.nightSky.withOpacity(0.08),
                       borderRadius: BorderRadius.circular(16),
                     ),
                     child: ClipRRect(
@@ -266,7 +266,7 @@ class AddItemDialog extends StatelessWidget {
                     style: TextStyle(
                       fontFamily: FontFamily.semiBold,
                       fontSize: FontSize.s16,
-                      color: SplashColors.primaryDark,
+                      color: SplashColors.nightSky,
                     ),
                   ),
                   const Gap(20),
@@ -325,7 +325,7 @@ class AddItemDialog extends StatelessWidget {
                       style: TextStyle(
                         fontFamily: FontFamily.bold,
                         fontSize: FontSize.s16,
-                        color: SplashColors.primary,
+                        color: SplashColors.accent,
                       ),
                     ),
                   ),
@@ -337,7 +337,7 @@ class AddItemDialog extends StatelessWidget {
                           onPressed: onCancel,
                           style: OutlinedButton.styleFrom(
                             side: BorderSide(
-                              color: SplashColors.primary.withOpacity(0.4),
+                              color: SplashColors.nightSky.withOpacity(0.4),
                             ),
                             padding: const EdgeInsets.symmetric(vertical: 12),
                             shape: RoundedRectangleBorder(
@@ -348,7 +348,7 @@ class AddItemDialog extends StatelessWidget {
                             'Cancel',
                             style: TextStyle(
                               fontFamily: FontFamily.medium,
-                              color: SplashColors.primaryDark,
+                              color: SplashColors.nightSky,
                             ),
                           ),
                         ),
@@ -358,7 +358,8 @@ class AddItemDialog extends StatelessWidget {
                         child: ElevatedButton(
                           onPressed: onAdd,
                           style: ElevatedButton.styleFrom(
-                            backgroundColor: SplashColors.primary,
+                            backgroundColor: SplashColors.accent,
+                            foregroundColor: SplashColors.nightSkyDeep,
                             padding: const EdgeInsets.symmetric(vertical: 12),
                             shape: RoundedRectangleBorder(
                               borderRadius: BorderRadius.circular(12),
@@ -368,7 +369,7 @@ class AddItemDialog extends StatelessWidget {
                             'Add',
                             style: TextStyle(
                               fontFamily: FontFamily.semiBold,
-                              color: Colors.white,
+                              color: SplashColors.nightSkyDeep,
                             ),
                           ),
                         ),
@@ -412,7 +413,7 @@ class AddQuantityDialog extends StatelessWidget {
           borderRadius: BorderRadius.circular(22),
           boxShadow: [
             BoxShadow(
-              color: SplashColors.primaryDeep.withOpacity(0.2),
+              color: SplashColors.nightSkyDeep.withOpacity(0.2),
               blurRadius: 24,
               offset: const Offset(0, 10),
             ),
@@ -427,8 +428,8 @@ class AddQuantityDialog extends StatelessWidget {
               decoration: const BoxDecoration(
                 gradient: LinearGradient(
                   colors: [
-                    SplashColors.primaryDeep,
-                    SplashColors.primary,
+                    SplashColors.nightSkyDeep,
+                    SplashColors.nightSky,
                   ],
                 ),
                 borderRadius: BorderRadius.vertical(top: Radius.circular(22)),
@@ -450,7 +451,7 @@ class AddQuantityDialog extends StatelessWidget {
                   Container(
                     padding: const EdgeInsets.all(12),
                     decoration: BoxDecoration(
-                      color: SplashColors.primary.withOpacity(0.08),
+                      color: SplashColors.nightSky.withOpacity(0.08),
                       borderRadius: BorderRadius.circular(16),
                     ),
                     child: ClipRRect(
@@ -478,7 +479,7 @@ class AddQuantityDialog extends StatelessWidget {
                     style: TextStyle(
                       fontFamily: FontFamily.semiBold,
                       fontSize: FontSize.s16,
-                      color: SplashColors.primaryDark,
+                      color: SplashColors.nightSky,
                     ),
                   ),
                   const Gap(20),
@@ -504,7 +505,7 @@ class AddQuantityDialog extends StatelessWidget {
                               style: TextStyle(
                                 fontFamily: FontFamily.bold,
                                 fontSize: FontSize.s16,
-                                color: SplashColors.primaryDark,
+                                color: SplashColors.nightSky,
                               ),
                               decoration: InputDecoration(
                                 hintText: 'Qty',
@@ -520,7 +521,7 @@ class AddQuantityDialog extends StatelessWidget {
                                 focusedBorder: OutlineInputBorder(
                                   borderRadius: BorderRadius.circular(12),
                                   borderSide: const BorderSide(
-                                    color: SplashColors.primary,
+                                    color: SplashColors.nightSky,
                                     width: 1.5,
                                   ),
                                 ),
@@ -556,7 +557,7 @@ class AddQuantityDialog extends StatelessWidget {
                                 style: TextStyle(
                                   fontFamily: FontFamily.bold,
                                   fontSize: FontSize.s16,
-                                  color: SplashColors.primary,
+                                  color: SplashColors.nightSky,
                                 ),
                               ),
                             ),
@@ -573,7 +574,7 @@ class AddQuantityDialog extends StatelessWidget {
                           onPressed: () => Navigator.pop(context),
                           style: OutlinedButton.styleFrom(
                             side: BorderSide(
-                              color: SplashColors.primary.withOpacity(0.4),
+                              color: SplashColors.nightSky.withOpacity(0.4),
                             ),
                             padding: const EdgeInsets.symmetric(vertical: 12),
                             shape: RoundedRectangleBorder(
@@ -584,7 +585,7 @@ class AddQuantityDialog extends StatelessWidget {
                             'Cancel',
                             style: TextStyle(
                               fontFamily: FontFamily.medium,
-                              color: SplashColors.primaryDark,
+                              color: SplashColors.nightSky,
                             ),
                           ),
                         ),
@@ -594,7 +595,8 @@ class AddQuantityDialog extends StatelessWidget {
                         child: ElevatedButton(
                           onPressed: onConfirm,
                           style: ElevatedButton.styleFrom(
-                            backgroundColor: SplashColors.primary,
+                            backgroundColor: SplashColors.accent,
+                            foregroundColor: SplashColors.nightSkyDeep,
                             padding: const EdgeInsets.symmetric(vertical: 12),
                             shape: RoundedRectangleBorder(
                               borderRadius: BorderRadius.circular(12),
@@ -604,7 +606,7 @@ class AddQuantityDialog extends StatelessWidget {
                             'OK',
                             style: TextStyle(
                               fontFamily: FontFamily.semiBold,
-                              color: Colors.white,
+                              color: SplashColors.nightSkyDeep,
                             ),
                           ),
                         ),
@@ -621,32 +623,75 @@ class AddQuantityDialog extends StatelessWidget {
   }
 }
 
-class CustomSizeDialog extends StatelessWidget {
+class CustomSizeDialog extends StatefulWidget {
   const CustomSizeDialog({
     super.key,
-    required this.sizeController,
-    required this.pcsController,
+    required this.itemName,
+    required this.lengthController,
+    required this.widthController,
+    required this.pieceController,
+    required this.remarksController,
     required this.onCancel,
-    required this.onAdd,
+    required this.onSave,
+    this.imageUrl,
   });
 
-  final TextEditingController sizeController;
-  final TextEditingController pcsController;
+  final String itemName;
+  final TextEditingController lengthController;
+  final TextEditingController widthController;
+  final TextEditingController pieceController;
+  final TextEditingController remarksController;
   final VoidCallback onCancel;
-  final VoidCallback onAdd;
+  final VoidCallback onSave;
+  final String? imageUrl;
+
+  @override
+  State<CustomSizeDialog> createState() => _CustomSizeDialogState();
+}
+
+class _CustomSizeDialogState extends State<CustomSizeDialog> {
+  final _lengthFocus = FocusNode();
+  final _widthFocus = FocusNode();
+  final _pieceFocus = FocusNode();
+  final _remarksFocus = FocusNode();
+
+  @override
+  void dispose() {
+    _lengthFocus.dispose();
+    _widthFocus.dispose();
+    _pieceFocus.dispose();
+    _remarksFocus.dispose();
+    super.dispose();
+  }
+
+  String get _sqFtLabel {
+    final length = double.tryParse(widget.lengthController.text.trim());
+    final width = double.tryParse(widget.widthController.text.trim());
+    if (length == null || width == null || length <= 0 || width <= 0) {
+      return '0';
+    }
+    final sqFt = length * width;
+    return sqFt % 1 == 0 ? sqFt.toInt().toString() : sqFt.toStringAsFixed(2);
+  }
+
+  void _recalculate() => setState(() {});
 
   @override
   Widget build(BuildContext context) {
-    return Dialog(
+    return AlertDialog(
       backgroundColor: Colors.transparent,
-      insetPadding: const EdgeInsets.symmetric(horizontal: 24),
-      child: Container(
+      elevation: 0,
+      scrollable: true,
+      insetPadding: const EdgeInsets.symmetric(horizontal: 24, vertical: 24),
+      contentPadding: EdgeInsets.zero,
+      content: Container(
+        width: double.maxFinite,
         decoration: BoxDecoration(
           color: Colors.white,
           borderRadius: BorderRadius.circular(22),
           boxShadow: [
             BoxShadow(
-              color: SplashColors.primaryDeep.withOpacity(0.2),
+              color: SplashColors.nightSkyDeep.withOpacity(0.2),
               blurRadius: 24,
               offset: const Offset(0, 10),
             ),
@@ -655,18 +700,20 @@ class CustomSizeDialog extends StatelessWidget {
         child: Column(
           mainAxisSize: MainAxisSize.min,
           children: [
-            // Header
             Container(
               width: double.infinity,
               padding: const EdgeInsets.symmetric(vertical: 16),
               decoration: const BoxDecoration(
                 gradient: LinearGradient(
-                  colors: [SplashColors.primaryDeep, SplashColors.primary],
+                  colors: [
+                    SplashColors.nightSkyDeep,
+                    SplashColors.nightSky,
+                  ],
                 ),
                 borderRadius: BorderRadius.vertical(top: Radius.circular(22)),
               ),
               child: Text(
-                'Custom Size',
+                'Customize',
                 textAlign: TextAlign.center,
                 style: TextStyle(
                   fontFamily: FontFamily.semiBold,
@@ -678,47 +725,182 @@ class CustomSizeDialog extends StatelessWidget {
             Padding(
               padding: const EdgeInsets.all(20),
               child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  // Size + PCS — bas yahi
+                  Center(
+                    child: Container(
+                      padding: const EdgeInsets.all(12),
+                      decoration: BoxDecoration(
+                        color: SplashColors.nightSky.withOpacity(0.08),
+                        borderRadius: BorderRadius.circular(16),
+                      ),
+                      child: ClipRRect(
+                        borderRadius: BorderRadius.circular(12),
+                        child: widget.imageUrl != null &&
+                                widget.imageUrl!.trim().isNotEmpty
+                            ? Image.network(
+                                widget.imageUrl!,
+                                width: 100,
+                                height: 100,
+                                fit: BoxFit.cover,
+                                errorBuilder: (context, error, stackTrace) {
+                                  return Image.asset(
+                                    AppImages.appIcon_g,
+                                    width: 80,
+                                    height: 80,
+                                    fit: BoxFit.cover,
+                                  );
+                                },
+                              )
+                            : Image.asset(
+                                AppImages.appIcon_g,
+                                width: 80,
+                                height: 80,
+                                fit: BoxFit.cover,
+                              ),
+                      ),
+                    ),
+                  ),
+                  const Gap(14),
+                  Text(
+                    widget.itemName,
+                    textAlign: TextAlign.center,
+                    style: TextStyle(
+                      fontFamily: FontFamily.semiBold,
+                      fontSize: FontSize.s16,
+                      color: SplashColors.nightSky,
+                    ),
+                  ),
+                  const Gap(16),
+                  Text(
+                    'Details',
+                    style: TextStyle(
+                      fontFamily: FontFamily.semiBold,
+                      fontSize: FontSize.s16,
+                      color: SplashColors.nightSky,
+                    ),
+                  ),
+                  const Gap(12),
                   Row(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Expanded(
                         child: CommonTextField(
                           borderRadius: 12,
-                          controller: sizeController,
-                          title: 'Size',
+                          controller: widget.lengthController,
+                          focusNode: _lengthFocus,
+                          title: 'Length',
                           isTitle: true,
-                          hintText: 'e.g. 6x6',
+                          hintText: 'L',
+                          textInputAction: TextInputAction.next,
+                          // iOS number pad has no Next key; text + filter keeps digits only.
+                          textInputType: TextInputType.text,
+                          inputFormatters: [
+                       FilteringTextInputFormatter.allow(RegExp(r'^\d*\.?\d*$')),
+                          ],
+                          onFieldSubmitted: (_) =>
+                              FocusScope.of(context).requestFocus(_widthFocus),
+                          onChanged: (_) => _recalculate(),
                         ),
                       ),
-                      const Gap(12),
+                      const Gap(8),
                       Expanded(
                         child: CommonTextField(
                           borderRadius: 12,
-                          controller: pcsController,
-                          title: 'PCS',
+                          controller: widget.widthController,
+                          focusNode: _widthFocus,
+                          title: 'Width',
                           isTitle: true,
-                          hintText: 'Qty',
+                          hintText: 'W',
+                          textInputAction: TextInputAction.next,
+                          textInputType: TextInputType.text,
+                          inputFormatters: [
+                            FilteringTextInputFormatter.allow(RegExp(r'^\d*\.?\d*$')),
+                          ],
+                          onFieldSubmitted: (_) =>
+                              FocusScope.of(context).requestFocus(_pieceFocus),
+                          onChanged: (_) => _recalculate(),
+                        ),
+                      ),
+                      const Gap(8),
+                      Expanded(
+                        child: CommonTextField(
+                          borderRadius: 12,
+                          controller: widget.pieceController,
+                          focusNode: _pieceFocus,
+                          title: 'Piece',
+                          isTitle: true,
+                          hintText: 'P',
+                          textInputAction: TextInputAction.next,
                           maxLength: 4,
-                          textInputType: TextInputType.number,
+                          textInputType: TextInputType.text,
                           inputFormatters: [
                             FilteringTextInputFormatter.digitsOnly,
                           ],
+                          onFieldSubmitted: (_) =>
+                              FocusScope.of(context).requestFocus(_remarksFocus),
+                          onChanged: (_) => _recalculate(),
                         ),
                       ),
                     ],
                   ),
+                  const Gap(12),
+                  Container(
+                    width: double.infinity,
+                    padding: const EdgeInsets.symmetric(
+                      horizontal: 14,
+                      vertical: 12,
+                    ),
+                    decoration: BoxDecoration(
+                      color: SplashColors.accent.withOpacity(0.12),
+                      borderRadius: BorderRadius.circular(12),
+                      border: Border.all(
+                        color: SplashColors.accent.withOpacity(0.35),
+                      ),
+                    ),
+                    child: Row(
+                      children: [
+                        Text(
+                          '= Sq.ft',
+                          style: TextStyle(
+                            fontFamily: FontFamily.medium,
+                            fontSize: FontSize.s14,
+                            color: SplashColors.nightSky,
+                          ),
+                        ),
+                        const Spacer(),
+                        Text(
+                          _sqFtLabel,
+                          style: TextStyle(
+                            fontFamily: FontFamily.bold,
+                            fontSize: FontSize.s16,
+                            color: SplashColors.nightSkyDeep,
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                  const Gap(16),
+                  CommonTextField(
+                    borderRadius: 12,
+                    controller: widget.remarksController,
+                    focusNode: _remarksFocus,
+                    title: 'Remarks',
+                    isTitle: true,
+                    hintText: 'Enter remarks',
+                    maxLine: 2,
+                    textInputAction: TextInputAction.done,
+                    onFieldSubmitted: (_) => FocusScope.of(context).unfocus(),
+                  ),
                   const Gap(22),
-                  // Cancel + Add
                   Row(
                     children: [
                       Expanded(
                         child: OutlinedButton(
-                          onPressed: onCancel,
+                          onPressed: widget.onCancel,
                           style: OutlinedButton.styleFrom(
                             side: BorderSide(
-                              color: SplashColors.primary.withOpacity(0.4),
+                              color: SplashColors.nightSky.withOpacity(0.4),
                             ),
                             padding: const EdgeInsets.symmetric(vertical: 12),
                             shape: RoundedRectangleBorder(
@@ -729,7 +911,7 @@ class CustomSizeDialog extends StatelessWidget {
                             'Cancel',
                             style: TextStyle(
                               fontFamily: FontFamily.medium,
-                              color: SplashColors.primaryDark,
+                              color: SplashColors.nightSky,
                             ),
                           ),
                         ),
@@ -737,19 +919,20 @@ class CustomSizeDialog extends StatelessWidget {
                       const Gap(12),
                       Expanded(
                         child: ElevatedButton(
-                          onPressed: onAdd,
+                          onPressed: widget.onSave,
                           style: ElevatedButton.styleFrom(
-                            backgroundColor: SplashColors.primary,
+                            backgroundColor: SplashColors.accent,
+                            foregroundColor: SplashColors.nightSkyDeep,
                             padding: const EdgeInsets.symmetric(vertical: 12),
                             shape: RoundedRectangleBorder(
                               borderRadius: BorderRadius.circular(12),
                             ),
                           ),
                           child: Text(
-                            'Add',
+                            'Save',
                             style: TextStyle(
                               fontFamily: FontFamily.semiBold,
-                              color: Colors.white,
+                              color: SplashColors.nightSkyDeep,
                             ),
                           ),
                         ),
@@ -804,7 +987,7 @@ class SalesOrderDetailRow extends StatelessWidget {
               style: TextStyle(
                 fontFamily: highlight ? FontFamily.bold : FontFamily.semiBold,
                 fontSize: highlight ? FontSize.s16 : FontSize.s14,
-                color: highlight ? SplashColors.primary : SplashColors.primaryDark,
+                color: highlight ? SplashColors.accent : SplashColors.nightSky,
               ),
             ),
           ),
@@ -901,7 +1084,7 @@ class _ActionButton extends StatelessWidget {
             style: TextStyle(
               fontFamily: FontFamily.medium,
               fontSize: FontSize.s10,
-              color: SplashColors.primaryDark,
+              color: SplashColors.nightSky,
             ),
           ),
         ],
@@ -929,7 +1112,7 @@ class SalesOrderDeleteDialog extends StatelessWidget {
           borderRadius: BorderRadius.circular(22),
           boxShadow: [
             BoxShadow(
-              color: SplashColors.primaryDeep.withOpacity(0.2),
+              color: SplashColors.nightSkyDeep.withOpacity(0.2),
               blurRadius: 24,
               offset: const Offset(0, 10),
             ),
@@ -944,8 +1127,8 @@ class SalesOrderDeleteDialog extends StatelessWidget {
               decoration: const BoxDecoration(
                 gradient: LinearGradient(
                   colors: [
-                    SplashColors.primaryDeep,
-                    SplashColors.primary,
+                    SplashColors.nightSkyDeep,
+                    SplashColors.nightSky,
                   ],
                 ),
                 borderRadius: BorderRadius.vertical(top: Radius.circular(22)),
@@ -970,7 +1153,7 @@ class SalesOrderDeleteDialog extends StatelessWidget {
                     style: TextStyle(
                       fontFamily: FontFamily.medium,
                       fontSize: FontSize.s16,
-                      color: SplashColors.primaryDark,
+                      color: SplashColors.nightSky,
                     ),
                   ),
                   const Gap(22),
@@ -981,7 +1164,7 @@ class SalesOrderDeleteDialog extends StatelessWidget {
                           onPressed: () => Get.back(),
                           style: OutlinedButton.styleFrom(
                             side: BorderSide(
-                              color: SplashColors.primary.withOpacity(0.4),
+                              color: SplashColors.nightSky.withOpacity(0.4),
                             ),
                             padding: const EdgeInsets.symmetric(vertical: 12),
                             shape: RoundedRectangleBorder(
@@ -992,7 +1175,7 @@ class SalesOrderDeleteDialog extends StatelessWidget {
                             'No',
                             style: TextStyle(
                               fontFamily: FontFamily.medium,
-                              color: SplashColors.primaryDark,
+                              color: SplashColors.nightSky,
                             ),
                           ),
                         ),
@@ -1080,14 +1263,14 @@ class SalesOrderListCard extends StatelessWidget {
         color: Colors.white,
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(18),
-          side: BorderSide(color: SplashColors.primary.withOpacity(0.1)),
+          side: BorderSide(color: SplashColors.nightSky.withOpacity(0.1)),
         ),
         clipBehavior: Clip.antiAlias,
         child: Theme(
           data: ThemeData(
             dividerColor: Colors.transparent,
-            splashColor: SplashColors.primary.withOpacity(0.08),
-            highlightColor: SplashColors.primary.withOpacity(0.05),
+            splashColor: SplashColors.nightSky.withOpacity(0.08),
+            highlightColor: SplashColors.nightSky.withOpacity(0.05),
           ),
           child: ExpansionTile(
             backgroundColor: Colors.white,
@@ -1096,19 +1279,19 @@ class SalesOrderListCard extends StatelessWidget {
           onExpansionChanged: onExpansionChanged,
           tilePadding: const EdgeInsets.symmetric(horizontal: 14, vertical: 4),
           childrenPadding: EdgeInsets.zero,
-          iconColor: SplashColors.primary,
-          collapsedIconColor: SplashColors.primary,
+          iconColor: SplashColors.accent,
+          collapsedIconColor: SplashColors.accent,
           title: Row(
             children: [
               Container(
                 padding: const EdgeInsets.all(10),
                 decoration: BoxDecoration(
-                  color: SplashColors.primary.withOpacity(0.1),
+                  color: SplashColors.accent.withOpacity(0.18),
                   borderRadius: BorderRadius.circular(12),
                 ),
                 child: const Icon(
                   Icons.store_outlined,
-                  color: SplashColors.primary,
+                  color: SplashColors.nightSky,
                   size: 22,
                 ),
               ),
@@ -1124,7 +1307,7 @@ class SalesOrderListCard extends StatelessWidget {
                       style: TextStyle(
                         fontFamily: FontFamily.semiBold,
                         fontSize: FontSize.s14,
-                        color: SplashColors.primaryDark,
+                        color: SplashColors.nightSky,
                       ),
                     ),
                     if (date != null && date!.isNotEmpty) ...[
@@ -1153,7 +1336,7 @@ class SalesOrderListCard extends StatelessWidget {
                         vertical: 3,
                       ),
                       decoration: BoxDecoration(
-                        color: SplashColors.primary.withOpacity(0.1),
+                        color: SplashColors.nightSky.withOpacity(0.1),
                         borderRadius: BorderRadius.circular(8),
                       ),
                       child: Text(
@@ -1161,7 +1344,7 @@ class SalesOrderListCard extends StatelessWidget {
                         style: TextStyle(
                           fontFamily: FontFamily.semiBold,
                           fontSize: FontSize.s10,
-                          color: SplashColors.primary,
+                          color: SplashColors.nightSky,
                         ),
                       ),
                     ),
@@ -1170,7 +1353,7 @@ class SalesOrderListCard extends StatelessWidget {
                     style: TextStyle(
                       fontFamily: FontFamily.bold,
                       fontSize: FontSize.s16,
-                      color: SplashColors.primary,
+                      color: SplashColors.nightSky,
                     ),
                   ),
                 ],
@@ -1179,7 +1362,7 @@ class SalesOrderListCard extends StatelessWidget {
           ),
           children: [
             Divider(
-              color: SplashColors.primary.withOpacity(0.1),
+              color: SplashColors.nightSky.withOpacity(0.1),
               height: 1,
             ),
             SalesOrderDetailRow(

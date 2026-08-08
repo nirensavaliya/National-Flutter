@@ -20,7 +20,7 @@ class LedgerStatementFilterCard extends StatelessWidget {
       decoration: BoxDecoration(
         color: Colors.white,
         borderRadius: BorderRadius.circular(18),
-        border: Border.all(color: SplashColors.primary.withOpacity(0.1)),
+        border: Border.all(color: SplashColors.nightSky.withOpacity(0.1)),
         boxShadow: [
           BoxShadow(
             color: Colors.black.withOpacity(0.05),
@@ -37,12 +37,12 @@ class LedgerStatementFilterCard extends StatelessWidget {
               Container(
                 padding: const EdgeInsets.all(8),
                 decoration: BoxDecoration(
-                  color: SplashColors.primary.withOpacity(0.1),
+                  color: SplashColors.nightSky.withOpacity(0.1),
                   borderRadius: BorderRadius.circular(10),
                 ),
                 child: const Icon(
                   Icons.filter_list_rounded,
-                  color: SplashColors.primary,
+                  color: SplashColors.nightSky,
                   size: 18,
                 ),
               ),
@@ -52,7 +52,7 @@ class LedgerStatementFilterCard extends StatelessWidget {
                 style: TextStyle(
                   fontFamily: FontFamily.semiBold,
                   fontSize: FontSize.s16,
-                  color: SplashColors.primaryDark,
+                  color: SplashColors.nightSky,
                 ),
               ),
             ],
@@ -70,7 +70,7 @@ Widget ledgerCalendarSuffix(VoidCallback onTap) {
     onTap: onTap,
     child: const Icon(
       Icons.calendar_month,
-      color: SplashColors.primary,
+      color: SplashColors.nightSky,
     ),
   );
 }
@@ -81,7 +81,7 @@ Widget ledgerDropdownSuffix() {
     child: Icon(
       Icons.arrow_forward_ios,
       size: 18,
-      color: SplashColors.primary,
+      color: SplashColors.nightSky,
     ),
   );
 }
@@ -108,7 +108,7 @@ class LedgerStatementTable extends StatelessWidget {
       decoration: BoxDecoration(
         color: Colors.white,
         borderRadius: BorderRadius.circular(18),
-        border: Border.all(color: SplashColors.primary.withOpacity(0.1)),
+        border: Border.all(color: SplashColors.nightSky.withOpacity(0.1)),
         boxShadow: [
           BoxShadow(
             color: Colors.black.withOpacity(0.05),
@@ -124,16 +124,16 @@ class LedgerStatementTable extends StatelessWidget {
         child: DataTable(
           showCheckboxColumn: false,
           headingRowColor: MaterialStateProperty.all(
-            SplashColors.primary.withOpacity(0.1),
+            SplashColors.nightSky.withOpacity(0.1),
           ),
           dataRowMinHeight: 44,
           dataRowMaxHeight: 56,
           border: TableBorder(
             horizontalInside: BorderSide(
-              color: SplashColors.primary.withOpacity(0.08),
+              color: SplashColors.nightSky.withOpacity(0.08),
             ),
             verticalInside: BorderSide(
-              color: SplashColors.primary.withOpacity(0.08),
+              color: SplashColors.nightSky.withOpacity(0.08),
             ),
           ),
           columns: [
@@ -155,7 +155,7 @@ class LedgerStatementTable extends StatelessWidget {
             return DataRow(
               color: MaterialStateProperty.resolveWith<Color?>((states) {
                 if (isSelected) {
-                  return SplashColors.primary.withOpacity(0.12);
+                  return SplashColors.nightSky.withOpacity(0.12);
                 }
                 if (index.isOdd) {
                   return SplashColors.scaffoldBg;
@@ -178,7 +178,7 @@ class LedgerStatementTable extends StatelessWidget {
                         decoration: TextDecoration.underline,
                         fontSize: FontSize.s14,
                         fontFamily: FontFamily.medium,
-                        color: SplashColors.primary,
+                        color: SplashColors.nightSky,
                       ),
                     ),
                   ),
@@ -211,7 +211,7 @@ class LedgerStatementTable extends StatelessWidget {
         style: TextStyle(
           fontFamily: FontFamily.semiBold,
           fontSize: FontSize.s12,
-          color: SplashColors.primaryDark,
+          color: SplashColors.nightSky,
         ),
       ),
     );
@@ -224,7 +224,7 @@ class LedgerStatementTable extends StatelessWidget {
         style: TextStyle(
           fontFamily: FontFamily.medium,
           fontSize: FontSize.s14,
-          color: SplashColors.primaryDark,
+          color: SplashColors.nightSky,
         ),
       ),
     );
@@ -244,9 +244,9 @@ class LedgerSelectSheetHeader extends StatelessWidget {
           begin: Alignment.topLeft,
           end: Alignment.bottomRight,
           colors: [
-            SplashColors.primaryDeep,
-            SplashColors.primary,
-            SplashColors.primaryDark,
+            SplashColors.nightSkyDeep,
+            SplashColors.nightSky,
+            SplashColors.nightSky,
           ],
         ),
         borderRadius: BorderRadius.vertical(top: Radius.circular(24)),
@@ -285,20 +285,20 @@ InputDecoration ledgerSearchDecoration() {
     contentPadding: const EdgeInsets.symmetric(vertical: 10, horizontal: 10),
     prefixIcon: const Padding(
       padding: EdgeInsets.only(left: 10, right: 6),
-      child: Icon(Icons.search, size: 24, color: SplashColors.primary),
+      child: Icon(Icons.search, size: 24, color: SplashColors.nightSky),
     ),
     prefixIconConstraints: const BoxConstraints(minWidth: 30, minHeight: 30),
     border: OutlineInputBorder(
       borderRadius: BorderRadius.circular(12),
-      borderSide: BorderSide(color: SplashColors.primary.withOpacity(0.25)),
+      borderSide: BorderSide(color: SplashColors.nightSky.withOpacity(0.25)),
     ),
     enabledBorder: OutlineInputBorder(
       borderRadius: BorderRadius.circular(12),
-      borderSide: BorderSide(color: SplashColors.primary.withOpacity(0.25)),
+      borderSide: BorderSide(color: SplashColors.nightSky.withOpacity(0.25)),
     ),
     focusedBorder: OutlineInputBorder(
       borderRadius: BorderRadius.circular(12),
-      borderSide: const BorderSide(color: SplashColors.primary, width: 1.5),
+      borderSide: const BorderSide(color: SplashColors.nightSky, width: 1.5),
     ),
   );
 }
@@ -325,7 +325,7 @@ class LedgerSelectListTile extends StatelessWidget {
           decoration: BoxDecoration(
             color: Colors.white,
             borderRadius: BorderRadius.circular(12),
-            border: Border.all(color: SplashColors.primary.withOpacity(0.15)),
+            border: Border.all(color: SplashColors.nightSky.withOpacity(0.15)),
             boxShadow: [
               BoxShadow(
                 color: Colors.black.withOpacity(0.03),
@@ -339,7 +339,7 @@ class LedgerSelectListTile extends StatelessWidget {
             style: TextStyle(
               fontFamily: FontFamily.medium,
               fontSize: FontSize.s14,
-              color: SplashColors.primaryDark,
+              color: SplashColors.nightSky,
             ),
           ),
         ),

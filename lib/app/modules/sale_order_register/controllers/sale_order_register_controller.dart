@@ -182,9 +182,9 @@ class SaleOrderRegisterController extends GetxController{
                           begin: Alignment.topLeft,
                           end: Alignment.bottomRight,
                           colors: [
-                            SplashColors.primaryDeep,
-                            SplashColors.primary,
-                            SplashColors.primaryDark,
+                            SplashColors.nightSkyDeep,
+                            SplashColors.nightSky,
+                            SplashColors.nightSky,
                           ],
                         ),
                       ),
@@ -268,8 +268,8 @@ class SaleOrderRegisterController extends GetxController{
                                 child: CommonButton(
                                   btnName: "Cancel",
                                   btnColor: Colors.transparent,
-                                  textColor: SplashColors.primary,
-                                  borderColor: SplashColors.primary,
+                                  textColor: SplashColors.nightSky,
+                                  borderColor: SplashColors.nightSky,
                                   onTap: () => Get.back(),
                                 ),
                               ),
@@ -277,7 +277,7 @@ class SaleOrderRegisterController extends GetxController{
                               Expanded(
                                 child: CommonButton(
                                   btnName: "Apply",
-                                  btnColor: SplashColors.primary,
+                                  btnColor: SplashColors.accent,
                                   onTap: () async {
                                     if (salesPersonId == 0) {
                                       Utils().showToast(

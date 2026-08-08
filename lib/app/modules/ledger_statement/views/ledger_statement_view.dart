@@ -84,7 +84,8 @@ class LedgerStatementView extends GetView<LedgerStatementController> {
               if (controller.ledgerList.isNotEmpty) ...[
                 CommonButton(
                   btnName: AppString.downloadPdf,
-                  btnColor: SplashColors.primary,
+                  btnColor: SplashColors.accent,
+                  textColor: SplashColors.nightSkyDeep,
                   onTap: () {
                     controller.genaratePDFApi();
                   },

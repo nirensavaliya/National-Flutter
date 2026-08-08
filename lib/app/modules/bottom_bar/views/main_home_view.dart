@@ -1,4 +1,3 @@
-import 'package:cached_network_image/cached_network_image.dart';
 import 'package:gap/gap.dart';
 import 'package:gurukrupa/app/commons/app_colors.dart';
 import 'package:gurukrupa/app/commons/get_storage_data.dart';
@@ -7,6 +6,7 @@ import 'package:gurukrupa/app/routes/app_pages.dart';
 import 'package:shimmer/shimmer.dart';
 
 import '../../../commons/all.dart';
+import '../../../data/common_widget/sleepwave_night_sky.dart';
 
 class MainHomeView extends GetView<BottomBarController> {
   const MainHomeView({super.key});
@@ -15,196 +15,65 @@ class MainHomeView extends GetView<BottomBarController> {
   Widget build(BuildContext context) {
     return GetBuilder<BottomBarController>(
       builder: (controller) {
-        return ColoredBox(
-          color: SplashColors.scaffoldBg,
-          child: Column(
-            children: [
-              _DashboardAppBar(onLogout: () => showLogoutDialog(context)),
-              Expanded(
-                child: ListView(
-                  padding: const EdgeInsets.fromLTRB(20, 16, 20, 20),
-                  children: [
-                    Container(
-                      width: double.infinity,
-                      padding: const EdgeInsets.all(18),
-                      decoration: BoxDecoration(
-                        color: Colors.white,
-                        borderRadius: BorderRadius.circular(16),
-                        boxShadow: [
-                          BoxShadow(
-                            color: Colors.black.withOpacity(0.05),
-                            blurRadius: 12,
-                            offset: const Offset(0, 4),
-                          ),
-                        ],
+        return Stack(
+          fit: StackFit.expand,
+          children: [
+            const SleepwaveNightSky(showClouds: false, starCount: 36),
+            Column(
+              children: [
+                _DashboardAppBar(onLogout: () => showLogoutDialog(context)),
+                Expanded(
+                  child: ListView(
+                    padding: const EdgeInsets.fromLTRB(20, 16, 20, 24),
+                    children: [
+                      _AdminHeroCard(
+                        onTap: () => Get.toNamed(Routes.SALES_ORDER),
                       ),
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
+                      const Gap(10),
+                      GridView.count(
+                        crossAxisCount: 2,
+                        shrinkWrap: true,
+                        physics: const NeverScrollableScrollPhysics(),
+                        mainAxisSpacing: 14,
+                        crossAxisSpacing: 14,
+                        childAspectRatio: 1.05,
                         children: [
-                          Text(
-                            AppString.hiWelcomeBack,
-                            style: TextStyle(
-                              fontFamily: FontFamily.PlayfairDisplayBold,
-                              fontSize: FontSize.s20,
-                              color: SplashColors.primaryDark,
-                            ),
+                          DashboardStatCard(
+                            title: "Today's Sales",
+                            value: controller.todaySale,
+                            icon: Icons.trending_up_rounded,
+                            isLoading: controller.isLoading,
+                            accentColor: SplashColors.accent,
                           ),
-                          const Gap(6),
-                          Text(
-                            AppString.salesAndPurchase,
-                            style: TextStyle(
-                              fontFamily: FontFamily.regular,
-                              fontSize: FontSize.s14,
-                              color: const Color(0xFF78829A),
-                            ),
+                          DashboardStatCard(
+                            title: "Monthly Sales",
+                            value: controller.monthSale,
+                            icon: Icons.bar_chart_rounded,
+                            isLoading: controller.isLoading,
+                            accentColor: SplashColors.accentSoft,
+                          ),
+                          DashboardStatCard(
+                            title: "Today's Purchase",
+                            value: controller.todayPurchase,
+                            icon: Icons.shopping_cart_outlined,
+                            isLoading: controller.isLoading,
+                            accentColor: SplashColors.accent,
+                          ),
+                          DashboardStatCard(
+                            title: "Monthly Purchase",
+                            value: controller.monthPurchase,
+                            icon: Icons.inventory_2_outlined,
+                            isLoading: controller.isLoading,
+                            accentColor: SplashColors.accentSoft,
                           ),
                         ],
                       ),
-                    ),
-                    // const Gap(10),
-                    GridView.count(
-                      crossAxisCount: 2,
-                      shrinkWrap: true,
-                      physics: const NeverScrollableScrollPhysics(),
-                      mainAxisSpacing: 14,
-                      crossAxisSpacing: 14,
-                      childAspectRatio: 1.12,
-                      children: [
-                        DashboardStatCard(
-                          title: "Today's Sales",
-                          value: controller.todaySale,
-                          icon: Icons.trending_up_rounded,
-                          isLoading: controller.isLoading,
-                          accentColor: SplashColors.primary,
-                          // onTap: () => Get.toNamed(
-                          //   Routes.SHOW_REPORT,
-                          //   arguments: AppString.todayTotal,
-                          // ),
-                        ),
-                        DashboardStatCard(
-                          title: "Monthly Sales",
-                          value: controller.monthSale,
-                          icon: Icons.bar_chart_rounded,
-                          isLoading: controller.isLoading,
-
-                          accentColor: SplashColors.primaryLight,
-                          // onTap: () => Get.toNamed(
-                          //   Routes.SHOW_REPORT,
-                          //   arguments: AppString.monthlyTotal,
-                          // ),
-                        ),
-                        DashboardStatCard(
-                          title: "Today's Purchase",
-                          value: controller.todayPurchase,
-                          icon: Icons.shopping_cart_outlined,
-                          isLoading: controller.isLoading,
-                          accentColor: SplashColors.primaryDark,
-                          // onTap: () => Get.toNamed(
-                          //   Routes.SHOW_REPORT,
-                          //   arguments: AppString.todayPurchase,
-                          // ),
-                        ),
-                        DashboardStatCard(
-                          title: "Monthly Purchase",
-                          value: controller.monthPurchase,
-                          icon: Icons.inventory_2_outlined,
-                          isLoading: controller.isLoading,
-                          accentColor: SplashColors.primaryDeep,
-                          // onTap: () => Get.toNamed(
-                          //   Routes.SHOW_REPORT,
-                          //   arguments: AppString.monthlyPurchase,
-                          // ),
-                        ),
-                      ],
-                    ),
-                    // if (controller.isAdmin) ...[
-                    //   const Gap(24),
-                    //   Text(
-                    //     'Admin Actions',
-                    //     style: TextStyle(
-                    //       fontFamily: FontFamily.semiBold,
-                    //       fontSize: FontSize.s16,
-                    //       color: SplashColors.primaryDark,
-                    //     ),
-                    //   ),
-                    //   const Gap(12),
-                    //   DashboardActionTile(
-                    //     title: 'Customer Feedback',
-                    //     subtitle:
-                    //         'Check Pending Customers and Read Customers Feedback.',
-                    //     icon: Icons.people_outline_rounded,
-                    //     onTap: () => Get.toNamed(Routes.CUSTOMER_VIEW),
-                    //   ),
-                    //   DashboardActionTile(
-                    //     title: 'Promotional Message',
-                    //     subtitle: 'Change Promotional Message.',
-                    //     icon: Icons.campaign_outlined,
-                    //     onTap: () async {
-                    //       final result =
-                    //           await Get.toNamed(Routes.ADD_PROMO_MESSAGE);
-                    //       if (result != null && result is String) {
-                    //         controller.promoMessage.value = result;
-                    //         controller.update();
-                    //       }
-                    //     },
-                    //   ),
-                    //   DashboardActionTile(
-                    //     title: 'Offer Image',
-                    //     subtitle: 'Change Offer Image.',
-                    //     icon: Icons.image_outlined,
-                    //     onTap: () async {
-                    //       final result =
-                    //           await Get.toNamed(Routes.ADD_OFFER_IMAGE);
-                    //       if (result != null && result is String) {
-                    //         controller.apiOfferImageMessage();
-                    //         controller.update();
-                    //       }
-                    //     },
-                    //   ),
-                    // ],
-                    // const Gap(8),
-                    // Obx(() {
-                    //   print("Image URL: ${controller.offerImage.value}");
-                    //   if (controller.offerImage.value.isEmpty) {
-                    //     return const SizedBox();
-                    //   }
-                    //   return Container(
-                    //     margin: const EdgeInsets.only(top: 12, bottom: 8),
-                    //     decoration: BoxDecoration(
-                    //       borderRadius: BorderRadius.circular(16),
-                    //       boxShadow: [
-                    //         BoxShadow(
-                    //           color: Colors.black.withOpacity(0.06),
-                    //           blurRadius: 12,
-                    //           offset: const Offset(0, 4),
-                    //         ),
-                    //       ],
-                    //     ),
-                    //     child: ClipRRect(
-                    //       borderRadius: BorderRadius.circular(16),
-                    //       child: CachedNetworkImage(
-                    //         imageUrl: controller.offerImage.value,
-                    //         placeholder: (context, url) => const Center(
-                    //           child: CircularProgressIndicator(
-                    //             color: SplashColors.primary,
-                    //           ),
-                    //         ),
-                    //         errorWidget: (context, url, error) =>
-                    //             const Icon(Icons.error, color: Colors.red),
-                    //         fadeInDuration: Duration.zero,
-                    //         fadeOutDuration: Duration.zero,
-                    //         fit: BoxFit.cover,
-                    //         width: double.infinity,
-                    //         height: 200,
-                    //       ),
-                    //     ),
-                    //   );
-                    // }),
-                  ],
+                    ],
+                  ),
                 ),
-              ),
-            ],
-          ),
+              ],
+            ),
+          ],
         );
       },
     );
@@ -223,7 +92,7 @@ class MainHomeView extends GetView<BottomBarController> {
             "Logout",
             style: TextStyle(
               fontFamily: FontFamily.bold,
-              color: SplashColors.primaryDark,
+              color: SplashColors.nightSky,
             ),
           ),
           content: Text(
@@ -245,7 +114,8 @@ class MainHomeView extends GetView<BottomBarController> {
             ),
             ElevatedButton(
               style: ElevatedButton.styleFrom(
-                backgroundColor: SplashColors.primary,
+                backgroundColor: SplashColors.accent,
+                foregroundColor: SplashColors.nightSkyDeep,
                 shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(8),
                 ),
@@ -264,7 +134,7 @@ class MainHomeView extends GetView<BottomBarController> {
               child: Text(
                 "Logout",
                 style: TextStyle(
-                  color: Colors.white,
+                  color: SplashColors.nightSkyDeep,
                   fontFamily: FontFamily.medium,
                 ),
               ),
@@ -272,6 +142,147 @@ class MainHomeView extends GetView<BottomBarController> {
           ],
         );
       },
+    );
+  }
+}
+
+class _AdminHeroCard extends StatelessWidget {
+  const _AdminHeroCard({required this.onTap});
+
+  final VoidCallback onTap;
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      width: double.infinity,
+      decoration: BoxDecoration(
+        borderRadius: BorderRadius.circular(15),
+        border: Border.all(
+          color: Colors.white.withOpacity(0.12),
+        ),
+        boxShadow: [
+          BoxShadow(
+            color: Colors.black.withOpacity(0.18),
+            blurRadius: 22,
+            offset: const Offset(0, 12),
+          ),
+        ],
+      ),
+      child: ClipRRect(
+        borderRadius: BorderRadius.circular(15),
+        child: Stack(
+          children: [
+            // Soft navy base so left text area stays clean
+            const Positioned.fill(
+              child: ColoredBox(color: Color(0xFF0B1D46)),
+            ),
+            // Bed image only — aligned to the right as background
+            Positioned.fill(
+              child: Image.asset(
+                AppImages.adminHeroBed,
+                fit: BoxFit.cover,
+                alignment: Alignment.centerRight,
+              ),
+            ),
+            Positioned.fill(
+              child: DecoratedBox(
+                decoration: BoxDecoration(
+                  gradient: LinearGradient(
+                    begin: Alignment.centerLeft,
+                    end: Alignment.centerRight,
+                    colors: [
+                      const Color(0xFF0B1D46),
+                      const Color(0xFF0B1D46).withOpacity(0.88),
+                      const Color(0xFF0B1D46).withOpacity(0.35),
+                      Colors.transparent,
+                    ],
+                    stops: const [0.0, 0.36, 0.62, 1.0],
+                  ),
+                ),
+              ),
+            ),
+            Padding(
+              padding: const EdgeInsets.fromLTRB(20, 22, 20, 22),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    'Premium Comfort',
+                    style: TextStyle(
+                      fontFamily: FontFamily.PlayfairDisplayBold,
+                      fontSize: FontSize.s22,
+                      color: Colors.white,
+                      height: 1.15,
+                    ),
+                  ),
+                  Text(
+                    'for Trade Partners',
+                    style: TextStyle(
+                      fontFamily: FontFamily.bold,
+                      fontSize: FontSize.s20,
+                      color: SplashColors.accent,
+                      height: 1.2,
+                    ),
+                  ),
+                  const Gap(10),
+                  SizedBox(
+                    width: MediaQuery.of(context).size.width * 0.55,
+                    child: Text(
+                      'Quality mattresses. Reliable service. Stronger partnerships.',
+                      style: TextStyle(
+                        fontFamily: FontFamily.regular,
+                        fontSize: FontSize.s12,
+                        height: 1.35,
+                        color: Colors.white.withOpacity(0.88),
+                      ),
+                    ),
+                  ),
+                  const Gap(18),
+                  // InkWell(
+                  //   onTap: onTap,
+                  //   borderRadius: BorderRadius.circular(14),
+                  //   child: Container(
+                  //     padding: const EdgeInsets.symmetric(
+                  //       horizontal: 16,
+                  //       vertical: 12,
+                  //     ),
+                  //     decoration: BoxDecoration(
+                  //       color: SplashColors.accent,
+                  //       borderRadius: BorderRadius.circular(14),
+                  //     ),
+                  //     child: Row(
+                  //       mainAxisSize: MainAxisSize.min,
+                  //       children: [
+                  //         const Icon(
+                  //           Icons.description_outlined,
+                  //           color: SplashColors.nightSkyDeep,
+                  //           size: 18,
+                  //         ),
+                  //         const Gap(8),
+                  //         Text(
+                  //           'Open Sales Order',
+                  //           style: TextStyle(
+                  //             fontFamily: FontFamily.semiBold,
+                  //             fontSize: FontSize.s14,
+                  //             color: SplashColors.nightSkyDeep,
+                  //           ),
+                  //         ),
+                  //         const Gap(6),
+                  //         const Icon(
+                  //           Icons.chevron_right_rounded,
+                  //           color: SplashColors.nightSkyDeep,
+                  //           size: 20,
+                  //         ),
+                  //       ],
+                  //     ),
+                  //   ),
+                  // ),
+                ],
+              ),
+            ),
+          ],
+        ),
+      ),
     );
   }
 }
@@ -293,29 +304,22 @@ class _DashboardAppBar extends StatelessWidget {
           begin: Alignment.topLeft,
           end: Alignment.bottomRight,
           colors: [
-            SplashColors.primaryDeep,
-            SplashColors.primary,
-            SplashColors.primaryDark,
+            SplashColors.nightSkyMid,
+            SplashColors.nightSky,
+            SplashColors.nightSkyDeep,
           ],
         ),
         boxShadow: [
           BoxShadow(
-            color: SplashColors.primaryDeep.withOpacity(0.45),
-            blurRadius: 20,
+            color: Colors.black.withOpacity(0.3),
+            blurRadius: 18,
             offset: const Offset(0, 8),
-            spreadRadius: 1,
-          ),
-          BoxShadow(
-            color: Colors.black.withOpacity(0.12),
-            blurRadius: 10,
-            offset: const Offset(0, 4),
           ),
         ],
       ),
       child: Stack(
         clipBehavior: Clip.none,
         children: [
-          // Decorative soft circles
           Positioned(
             top: -20,
             right: -10,
@@ -324,7 +328,7 @@ class _DashboardAppBar extends StatelessWidget {
               height: 90,
               decoration: BoxDecoration(
                 shape: BoxShape.circle,
-                color: Colors.white.withOpacity(0.06),
+                color: SplashColors.accent.withOpacity(0.08),
               ),
             ),
           ),
@@ -336,41 +340,16 @@ class _DashboardAppBar extends StatelessWidget {
               height: 70,
               decoration: BoxDecoration(
                 shape: BoxShape.circle,
-                color: Colors.white.withOpacity(0.05),
+                color: Colors.white.withOpacity(0.04),
               ),
             ),
           ),
-
           SafeArea(
             bottom: false,
             child: Padding(
               padding: const EdgeInsets.fromLTRB(18, 18, 18, 20),
               child: Row(
                 children: [
-                  // Logo with shadow
-                  // Container(
-                  //   width: 48,
-                  //   height: 48,
-                  //   decoration: BoxDecoration(
-                  //     color: Colors.white,
-                  //     borderRadius: BorderRadius.circular(14),
-                  //     boxShadow: [
-                  //       BoxShadow(
-                  //         color: Colors.black.withOpacity(0.18),
-                  //         blurRadius: 12,
-                  //         offset: const Offset(0, 4),
-                  //       ),
-                  //     ],
-                  //   ),
-                  //   child: ClipRRect(
-                  //     borderRadius: BorderRadius.circular(14),
-                  //     child: Image.asset(
-                  //       AppImages.appIcon_g,
-                  //       fit: BoxFit.cover,
-                  //     ),
-                  //   ),
-                  // ),
-                  const Gap(14),
                   Expanded(
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
@@ -378,26 +357,33 @@ class _DashboardAppBar extends StatelessWidget {
                         Text(
                           AppString.appName,
                           style: TextStyle(
-                            fontFamily: FontFamily.bold,
+                            fontFamily: FontFamily.PlayfairDisplayBold,
                             fontSize: FontSize.s20,
                             color: SplashColors.text,
-                            letterSpacing: 0.5,
+                            letterSpacing: 0.3,
                           ),
                         ),
-                        const Gap(2),
+                        const Gap(6),
+                        Container(
+                          width: 40,
+                          height: 3,
+                          decoration: BoxDecoration(
+                            color: SplashColors.accent,
+                            borderRadius: BorderRadius.circular(2),
+                          ),
+                        ),
+                        const Gap(6),
                         Text(
-                          'Dashboard',
+                          'Admin Dashboard',
                           style: TextStyle(
                             fontFamily: FontFamily.medium,
                             fontSize: FontSize.s12,
-                            color: SplashColors.subText.withOpacity(0.95),
+                            color: SplashColors.accentSoft.withOpacity(0.9),
                           ),
                         ),
                       ],
                     ),
                   ),
-
-                  // Logout button
                   GestureDetector(
                     onTap: onLogout,
                     child: Container(
@@ -406,26 +392,28 @@ class _DashboardAppBar extends StatelessWidget {
                         vertical: 8,
                       ),
                       decoration: BoxDecoration(
-                        color: Colors.white.withOpacity(0.14),
+                        color: SplashColors.accent.withOpacity(0.12),
                         borderRadius: BorderRadius.circular(12),
                         border: Border.all(
-                          color: Colors.white.withOpacity(0.25),
+                          color: SplashColors.accent.withOpacity(0.45),
                         ),
-                        boxShadow: [
-                          BoxShadow(
-                            color: Colors.black.withOpacity(0.1),
-                            blurRadius: 6,
-                            offset: const Offset(0, 2),
-                          ),
-                        ],
                       ),
                       child: Row(
                         mainAxisSize: MainAxisSize.min,
                         children: [
-                          Icon(
+                          const Icon(
                             Icons.logout_rounded,
-                            color: Colors.white,
+                            color: SplashColors.accent,
                             size: 18,
+                          ),
+                          const SizedBox(width: 6),
+                          Text(
+                            'Logout',
+                            style: TextStyle(
+                              fontFamily: FontFamily.medium,
+                              fontSize: 12,
+                              color: Colors.white,
+                            ),
                           ),
                         ],
                       ),
@@ -435,31 +423,11 @@ class _DashboardAppBar extends StatelessWidget {
               ),
             ),
           ),
-
-          // Bottom shine line
-          Positioned(
-            left: 24,
-            right: 24,
-            bottom: 0,
-            child: Container(
-              height: 1,
-              decoration: BoxDecoration(
-                gradient: LinearGradient(
-                  colors: [
-                    Colors.transparent,
-                    Colors.white.withOpacity(0.35),
-                    Colors.transparent,
-                  ],
-                ),
-              ),
-            ),
-          ),
         ],
       ),
     );
   }
 }
-
 
 class DashboardStatCard extends StatelessWidget {
   const DashboardStatCard({
@@ -468,8 +436,7 @@ class DashboardStatCard extends StatelessWidget {
     required this.value,
     required this.icon,
     required this.isLoading,
-
-    this.accentColor = SplashColors.primary,
+    this.accentColor = SplashColors.accent,
   });
 
   final String title;
@@ -487,7 +454,7 @@ class DashboardStatCard extends StatelessWidget {
         borderRadius: BorderRadius.circular(18),
         boxShadow: [
           BoxShadow(
-            color: Colors.black.withOpacity(0.06),
+            color: Colors.black.withOpacity(0.12),
             blurRadius: 16,
             offset: const Offset(0, 6),
           ),
@@ -499,10 +466,10 @@ class DashboardStatCard extends StatelessWidget {
           Container(
             padding: const EdgeInsets.all(8),
             decoration: BoxDecoration(
-              color: accentColor.withOpacity(0.12),
+              color: accentColor.withOpacity(0.16),
               borderRadius: BorderRadius.circular(10),
             ),
-            child: Icon(icon, color: accentColor, size: 20),
+            child: Icon(icon, color: SplashColors.nightSky, size: 20),
           ),
           const Gap(12),
           Text(
@@ -516,25 +483,34 @@ class DashboardStatCard extends StatelessWidget {
           const Gap(6),
           isLoading
               ? Shimmer.fromColors(
-            baseColor: Colors.grey.shade300,
-            highlightColor: Colors.grey.shade100,
-            child: Container(
-              height: 22,
-              width: 70,
-              decoration: BoxDecoration(
-                color: Colors.white,
-                borderRadius: BorderRadius.circular(4),
-              ),
-            ),
-          )
+                  baseColor: Colors.grey.shade300,
+                  highlightColor: Colors.grey.shade100,
+                  child: Container(
+                    height: 22,
+                    width: 70,
+                    decoration: BoxDecoration(
+                      color: Colors.white,
+                      borderRadius: BorderRadius.circular(4),
+                    ),
+                  ),
+                )
               : Text(
-            value,
-            maxLines: 1,
-            overflow: TextOverflow.ellipsis,
-            style: TextStyle(
-              fontFamily: FontFamily.bold,
-              fontSize: FontSize.s18,
-              color: SplashColors.primaryDark,
+                  value,
+                  maxLines: 1,
+                  overflow: TextOverflow.ellipsis,
+                  style: TextStyle(
+                    fontFamily: FontFamily.bold,
+                    fontSize: FontSize.s18,
+                    color: SplashColors.nightSky,
+                  ),
+                ),
+          const Spacer(),
+          Container(
+            height: 3,
+            width: double.infinity,
+            decoration: BoxDecoration(
+              color: SplashColors.accent.withOpacity(0.85),
+              borderRadius: BorderRadius.circular(2),
             ),
           ),
         ],
@@ -567,7 +543,7 @@ class DashboardActionTile extends StatelessWidget {
         decoration: BoxDecoration(
           color: Colors.white,
           borderRadius: BorderRadius.circular(16),
-          border: Border.all(color: SplashColors.primary.withOpacity(0.12)),
+          border: Border.all(color: SplashColors.accent.withOpacity(0.18)),
           boxShadow: [
             BoxShadow(
               color: Colors.black.withOpacity(0.04),
@@ -581,10 +557,10 @@ class DashboardActionTile extends StatelessWidget {
             Container(
               padding: const EdgeInsets.all(10),
               decoration: BoxDecoration(
-                color: SplashColors.primary.withOpacity(0.1),
+                color: SplashColors.accent.withOpacity(0.15),
                 borderRadius: BorderRadius.circular(12),
               ),
-              child: Icon(icon, color: SplashColors.primary, size: 22),
+              child: Icon(icon, color: SplashColors.nightSky, size: 22),
             ),
             const Gap(14),
             Expanded(
@@ -596,7 +572,7 @@ class DashboardActionTile extends StatelessWidget {
                     style: TextStyle(
                       fontFamily: FontFamily.semiBold,
                       fontSize: FontSize.s14,
-                      color: SplashColors.primaryDark,
+                      color: SplashColors.nightSky,
                     ),
                   ),
                   const Gap(2),
@@ -614,7 +590,7 @@ class DashboardActionTile extends StatelessWidget {
             Icon(
               Icons.arrow_forward_ios_rounded,
               size: 14,
-              color: SplashColors.primary,
+              color: SplashColors.accent,
             ),
           ],
         ),

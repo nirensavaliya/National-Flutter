@@ -16,7 +16,7 @@ class ClaimsView extends GetView<ClaimsController> {
         return CommonScreen(
           title: 'Claims',
           brandAppBar: true,
-          scaffoldColor: SplashColors.scaffoldBg,
+          scaffoldColor: const Color(0xFFF3F5FA),
           body: ListView(
             padding: const EdgeInsets.fromLTRB(16, 8, 16, 24),
             children: [
@@ -50,14 +50,14 @@ class ClaimsView extends GetView<ClaimsController> {
       decoration: BoxDecoration(
         color: Colors.white,
         borderRadius: BorderRadius.circular(18),
-        border: Border.all(color: SplashColors.primary.withOpacity(0.1)),
+        border: Border.all(color: SplashColors.accent.withOpacity(0.18)),
       ),
       child: Column(
         children: [
           Icon(
             Icons.assignment_outlined,
             size: 48,
-            color: SplashColors.primary.withOpacity(0.5),
+            color: SplashColors.accent.withOpacity(0.8),
           ),
           const Gap(12),
           Text(
@@ -65,7 +65,7 @@ class ClaimsView extends GetView<ClaimsController> {
             style: TextStyle(
               fontFamily: FontFamily.semiBold,
               fontSize: FontSize.s16,
-              color: SplashColors.primaryDark,
+              color: SplashColors.nightSky,
             ),
           ),
           const Gap(6),
