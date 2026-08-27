@@ -844,42 +844,42 @@ class _CustomSizeDialogState extends State<CustomSizeDialog> {
                       ),
                     ],
                   ),
-                  const Gap(12),
-                  Container(
-                    width: double.infinity,
-                    padding: const EdgeInsets.symmetric(
-                      horizontal: 14,
-                      vertical: 12,
-                    ),
-                    decoration: BoxDecoration(
-                      color: SplashColors.accent.withOpacity(0.12),
-                      borderRadius: BorderRadius.circular(12),
-                      border: Border.all(
-                        color: SplashColors.accent.withOpacity(0.35),
-                      ),
-                    ),
-                    child: Row(
-                      children: [
-                        Text(
-                          '= Sq.ft',
-                          style: TextStyle(
-                            fontFamily: FontFamily.medium,
-                            fontSize: FontSize.s14,
-                            color: SplashColors.nightSky,
-                          ),
-                        ),
-                        const Spacer(),
-                        Text(
-                          _sqFtLabel,
-                          style: TextStyle(
-                            fontFamily: FontFamily.bold,
-                            fontSize: FontSize.s16,
-                            color: SplashColors.nightSkyDeep,
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
+                  // const Gap(12),
+                  // Container(
+                  //   width: double.infinity,
+                  //   padding: const EdgeInsets.symmetric(
+                  //     horizontal: 14,
+                  //     vertical: 12,
+                  //   ),
+                  //   decoration: BoxDecoration(
+                  //     color: SplashColors.accent.withOpacity(0.12),
+                  //     borderRadius: BorderRadius.circular(12),
+                  //     border: Border.all(
+                  //       color: SplashColors.accent.withOpacity(0.35),
+                  //     ),
+                  //   ),
+                  //   child: Row(
+                  //     children: [
+                  //       Text(
+                  //         '= Sq.ft',
+                  //         style: TextStyle(
+                  //           fontFamily: FontFamily.medium,
+                  //           fontSize: FontSize.s14,
+                  //           color: SplashColors.nightSky,
+                  //         ),
+                  //       ),
+                  //       const Spacer(),
+                  //       Text(
+                  //         _sqFtLabel,
+                  //         style: TextStyle(
+                  //           fontFamily: FontFamily.bold,
+                  //           fontSize: FontSize.s16,
+                  //           color: SplashColors.nightSkyDeep,
+                  //         ),
+                  //       ),
+                  //     ],
+                  //   ),
+                  // ),
                   const Gap(16),
                   CommonTextField(
                     borderRadius: 12,
